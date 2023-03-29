@@ -1,0 +1,97 @@
+Compartment ID:0Number of devices:0
+Compartment ID:1Number of devices:0
+Compartment ID:2Number of devices:0
+Compartment ID:3Number of devices:0
+Compartment ID:4
+Number of devices:1
+Compartment ID:5Number of devices:0
+Compartment ID:6Number of devices:0
+Compartment ID:7Number of devices:0
+Compartment ID:8Number of devices:0
+Compartment ID:9Number of devices:0
+Compartment ID:10Number of devices:0
+Compartment ID:11Number of devices:0
+Compartment ID:12RCC:0x40023800:0x400
+PWR:0x40007000:0x400
+Number of devices:2
+Compartment ID:13
+RCC:0x40023800:0x400
+Number of devices:2
+Compartment ID:14Ethernet_MAC:0x40028000:0xff
+RCC:0x40023800:0x400
+GPIOA:0x40020000:0x400
+GPIOB:0x40020400:0x400
+GPIOE:0x40021000:0x400
+GPIOC:0x40020800:0x400
+GPIOG:0x40021800:0x400
+GPIOH:0x40021c00:0x400
+Number of devices:8
+Compartment ID:15Number of devices:0
+Compartment ID:16Number of devices:0
+Compartment ID:17Number of devices:0
+Compartment ID:18Number of devices:0
+Compartment ID:19
+Number of devices:1
+Compartment ID:20FLASH:0x40023c00:0x400
+RCC:0x40023800:0x400
+
+SYSCFG:0x40013800:0x400
+Number of devices:4
+Compartment ID:21RCC:0x40023800:0x400
+GPIOF:0x40021400:0x400
+ADC3:0x40012200:0x50
+I2C1:0x40005400:0x400
+GPIOB:0x40020400:0x400
+Number of devices:5
+Compartment ID:22RCC:0x40023800:0x400
+PWR:0x40007000:0x400
+FLASH:0x40023c00:0x400
+GPIOA:0x40020000:0x400
+GPIOC:0x40020800:0x400
+Number of devices:5
+Compartment ID:23RCC:0x40023800:0x400
+SYSCFG:0x40013800:0x400
+EXTI:0x40013c00:0x400
+Number of devices:3
+Compartment ID:24Number of devices:0
+Compartment ID:25RCC:0x40023800:0x400
+SYSCFG:0x40013800:0x400
+GPIOA:0x40020000:0x400
+GPIOB:0x40020400:0x400
+GPIOC:0x40020800:0x400
+GPIOD:0x40020c00:0x400
+GPIOE:0x40021000:0x400
+GPIOF:0x40021400:0x400
+GPIOG:0x40021800:0x400
+GPIOH:0x40021c00:0x400
+GPIOI:0x40022000:0x400
+GPIOJ:0x40022400:0x400
+EXTI:0x40013c00:0x400
+Number of devices:13
+Compartment ID:26USART1:0x40011000:0x400
+RCC:0x40023800:0x400
+USART2:0x40004400:0x400
+USART3:0x40004800:0x400
+UART4:0x40004c00:0x400
+UART5:0x40005000:0x400
+USART6:0x40011400:0x400
+UART7:0x40007800:0x400
+UART8:0x40007c00:0x400
+Number of devices:9
+Compartment ID:27
+Number of devices:1
+Compartment ID:28
+Number of devices:1
+Compartment ID:29Number of devices:0
+Compartment ID:30PWR:0x40007000:0x400
+RCC:0x40023800:0x400
+
+Number of devices:3
+Compartment ID:31Number of devices:0
+Compartment ID:32C_ADC:0x40012300:0x400
+ADC1:0x40012000:0x50
+ADC3:0x40012200:0x50
+Number of devices:3
+Compartment ID:33C_ADC:0x40012300:0x400
+ADC1:0x40012000:0x50
+Number of devices:2
