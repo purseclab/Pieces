@@ -1,0 +1,37 @@
+{
+    "firmware": {
+			"bc" : "/home/arslan/projects/LBC/FreeRTOS/FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/build/RTOSDemo.axf.bc",
+			"symex_bc": "/home/arslan/projects/LBC/FreeRTOS/FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK/symex_build/RTOSDemo.axf.bc",
+			"background_policy" : "file",
+			"os": "FreeRTOS",
+			"platform": "STMicro",
+			"svd": "STM32F46_79x.svd",
+			"relaxed_pins": "True",
+			"cliques": {
+					"LwIP" :{
+					  "name": "IP Stack",
+                      "policy": "blob",
+                      "dir": "Middlewares/Third_Party/LwIP/",
+					  "isolation": "monitor",
+					  "pins" : {
+							  "pinned:memp_memory_UDP_PCB_base":["./Middlewares/Third_Party/LwIP/src/core/udp.c"],
+							  "pinned:memp_memory_PBUF_base":["Middlewares/Third_Party/LwIP/src/core/pbuf.c"],
+							  "pinned:memp_memory_RX_POOL_base":["LwIP_HTTP_Server_Raw/Src/ethernetif.c"],
+							  "pinned:memp_memory_TCP_SEG_base":["Middlewares/Third_Party/LwIP/src/core/tcp.c", "Middlewares/Third_Party/LwIP/src/core/tcp_out.c"],
+							  "pinned:memp_memory_FRAG_PBUF_base":["Middlewares/Third_Party/LwIP/src/core/ipv4/ip4_frag.c", "Middlewares/Third_Party/LwIP/src/core/ipv6/ip6_frag.c"],
+							  "pinned:memp_memory_REASSDATA_base":["Middlewares/Third_Party/LwIP/src/core/ipv4/ip4_frag.c"],
+							  "pinned:memp_memory_SYS_TIMEOUT_base":["Middlewares/Third_Party/LwIP/src/core/timeouts.c"],
+							  "pinned:memp_memory_TCP_PCB_LISTEN_base": ["Middlewares/Third_Party/LwIP/src/core/tcp.c"],
+							  "pinned:memp_memory_TCP_PCB_base":["Middlewares/Third_Party/LwIP/src/core/tcp.c", "Middlewares/Third_Party/LwIP/src/core/tcp_in.c"]
+
+					  }
+                    },
+                    "App":{
+						"name": "Net App",
+                        "policy": "blob",
+						"isolation": "crt",
+                        "dir": "LwIP_HTTP_Server_Raw/Src/"
+                    }
+			}
+	}
+}

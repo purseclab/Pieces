@@ -1,0 +1,4 @@
+env = Environment()
+env.Import('*')
+objs = env.Object('bridge.o', [env.Glob("*.c")])
+Return("objs")

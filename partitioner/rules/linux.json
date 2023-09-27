@@ -1,0 +1,19 @@
+{
+    "firmware": {
+			"bc" : "/home/arslan/projects/linux/linux.bc",
+			"symex_bc": "/home/arslan/projects/linux/linux.bc",
+			"background_policy" : "blob",
+			"os": "Linux",
+			"platform": "x64",
+			"svd": "STM32F46_79x.svd",
+			"relaxed_pins": "True",
+			"cliques": {
+                    "ip4":{
+						"name": "Net App",
+                        "policy": "blob",
+						"isolation": "crt",
+                        "dir": "net/ipv4/"
+                    }
+			}
+	}
+}

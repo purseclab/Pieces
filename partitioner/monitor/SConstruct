@@ -1,0 +1,24 @@
+clang = "/home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin//clang"
+ar = "/home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin//llvm-ar" 
+ld = "/home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin//llvm-link"
+include = Dir('include')
+include2 = Dir('/home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/')
+env = Environment(CC=clang, AR=ar, LD=ld, CPPPATH=[include, include2], CCFLAGS="-flto=thin")
+debug = ARGUMENTS.get('debug', 0)
+platform = ARGUMENTS.get('platform', "x64")
+
+Export('env')
+
+armv7m = ["stm32"]
+if platform in armv7m:
+	arch = "armv7m"
+else:
+	arch = "x64"
+deps = []
+
+deps.append("./arch/"+arch+"/SConscript")
+deps.append("./bridge/SConscript")
+deps.append("./lib/SConscript")
+
+SConscript(deps)
+

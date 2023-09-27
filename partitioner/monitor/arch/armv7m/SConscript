@@ -1,0 +1,5 @@
+cflags = "-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -g -DSTM32F769xx -DCONFIG_CPU_CORTEX_M7 -DBAREMTL"
+env = Environment()
+env.Import('*')
+env.Append(CCFLAGS = cflags)
+env.Library('monitor', [env.Glob("*.c")])

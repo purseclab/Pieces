@@ -1,0 +1,13 @@
+{
+    "firmware": {
+			"bc" : "/home/arslan/projects/linux/net/ipv4/ip.bc",
+			"symex_bc": "/home/arslan/projects/linux/net/ipv4/ip.bc",
+			"background_policy" : "file",
+			"os": "Linux",
+			"platform": "x64",
+			"svd": "STM32F46_79x.svd",
+			"relaxed_pins": "True",
+			"cliques": {
+			}
+	}
+}
