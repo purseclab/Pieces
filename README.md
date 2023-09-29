@@ -1,5 +1,5 @@
 # Pieces
-**Pieces** is a highly programmable language-agnostic automatic program compartmentalization framework. Pieces can be programmed to partition programs based on various criteria, including method of isolation between compartments. For queries, either use GitHub issues (preferred method), or email the authors ([Arslan Khan](mailto:khan253@purdue.edu?subject=[GitHub]%20Source%20Han%20Sans).
+**Pieces** is a highly programmable language-agnostic automatic program compartmentalization framework. Pieces can be programmed to partition programs based on various criteria, including method of isolation between compartments. For queries, either use GitHub issues (preferred method), or email the authors ([Arslan Khan](mailto:khan253@purdue.edu?subject=[GitHub]%20Source%20Han%20Sans)).
 
 
 ## FuzzSGX dependencies:
