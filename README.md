@@ -1,15 +1,15 @@
 # Pieces
-**Pieces** is a highly programmable language-agnostic automatic program compartmentalization framework. Pieces can be programmed to partition programs based on various criteria, including method of isolation between compartments. For queries, either use GitHub issues (preferred method), or email the authors ([Arslan Khan](mailto:khan253@purdue.edu?subject=[GitHub]%20Source%20Han%20Sans)).
+**Pieces** is a highly programmable language-agnostic automatic program compartmentalization framework. Pieces can be programmed to partition programs based on various criteria, including methods of isolation between compartments. For queries, either use GitHub issues (preferred method) or email the authors ([Arslan Khan](mailto:khan253@purdue.edu?subject=[GitHub]%20Source%20Han%20Sans)).
 
 
-## Dependencies:
+## Dependencies
 Pieces is written on top of the following tools:
 1. SVF v2.2+
 1. Checked-C 12 (Also provided as builtin binary)
 
 Please see the corresponding projects for installation details. Feel free to ask any questions about the installation of any of the projects.
 
-## Source Code Details.
+## Source Code Details
 The source code is organized into three big submodules:
 
 1. Partitioner: The main static analyzer that converts a monolithic firmware to a partitioned firmware.
@@ -17,8 +17,8 @@ The source code is organized into three big submodules:
 3. Monitors: Runtime to support isolation during compartments. 
 4. Compiler: Example compiler with frontend changes required for Pieces.
 
-## How to run:
-1. First install the listed dependencies. The installation is standard except for SVF, which will require adding a new SVF tool, which is provided at  ```./partitioner/llvm/SVF/Example/```. Either create a new tool, or simply replace the base example tool.
+## How to run
+1. First install the listed dependencies. The installation is standard except for SVF, which will require adding a new SVF tool, which is provided at  ```./partitioner/llvm/SVF/Example/```. Either create a new tool or simply replace the base example tool.
 2. After installation you should tell the partitioner about the path of SVF in ```./partitioner/.env```
 3. Build your project to bitcode. (Please ping the authors if you require any help on this). Alternatively, we provide bitcode for FreeRTOS for running purposes.
 4. Invoke the run utility.
@@ -56,7 +56,7 @@ Number of compartments: 17
 Instrumenting firmware.
 Dissassembling ./out/temp.bc
 ```
-run.py can give you an overview of how to use pieces programmatically as well. Pieces provides program analyses, including symbolic execution, which can be used for analyzing firmware, compartmentalization, and much more. A simple python script is shown below:
+run.py can give you an overview of how to use pieces programmatically as well. Pieces provide various program analyses, including symbolic execution, which can be used for analyzing firmware, compartmentalization, and much more. A simple Python script is shown below:
 ```python 
 from llvm import Compiler
 import ec_loader
@@ -69,7 +69,7 @@ firmware = ec_loader.Firmware(input["firmware"])
 TODO: Will add this soon too. 
 
 ## Citing this work.
-Pieces is built using a bunch of works and many more are on the way..
+Pieces is built using a bunch of existing work and many more are on the way...
 
 If you like or use our work. Please cite us using:
 1. [EC](https://ieeexplore.ieee.org/document/10179285)
