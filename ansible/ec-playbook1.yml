@@ -1,0 +1,88 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    static: ~/projects/LBC/SVF
+    target: ~/projects/LBC/FreeRTOS/FreeRTOS/Demo/CORTEX_M4F_STM32F407ZG-SK
+    llvm_build_dir: /home/arslan/projects/LBC/llvm-project/llvm-pkg/bin/
+    clang_build_dir: /home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin/
+    codeql_dir: /home/arslan/projects/codeql/
+    clang_include_dir: /home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/
+    klee_build_dir: ~/projects/KLEE/klee/build/bin/
+    llvm_pkg: ~/projects/LBC/checkedC-12/src/package/bin/
+    curr_dir: ./
+    
+  environment:
+    PATH: '{{ clang_build_dir }}: {{clang_include_dir}} :{{llvm_pkg}}:{{ klee_build_dir }}: {{ llvm_build_dir }}: {{ codeql_dir }}:{{ ansible_env.PATH }}'
+  tasks:
+    - name: Print message
+      debug:
+        msg: ECC ;)
+
+    - name: Patching Allocator
+      shell:
+        cmd: cp ../../compartHeap/heap_1.c ./../../Source/portable/MemMang/heap_1.c
+        chdir: '{{ target }}'
+
+    - name: Clean Cached Policy
+      ignore_errors: true
+      shell:
+        cmd: test -f ./.policy && rm ./.policy
+        chdir: '{{ static }}'
+
+    - name: Generate SymEx Harness
+      shell:
+        cmd: make clean && PROJECT=KLEE make bc3 && mkdir -p symex_build/ && cp ./build/RTOSDemo.axf.bc ./symex_build/
+        chdir: '{{ target }}'
+
+    - name: Generate Vanilla Firmware
+      shell:
+        cmd: PROEJCT=EC make clean && mkdir build && make build/reg.o
+        chdir: '{{ target }}'
+
+
+    - name: Initial Link Setup
+      shell:
+        cmd: make ldF
+        chdir: '{{ static }}'
+
+    - name: Unpartitioned Build
+      ignore_errors: true 
+      shell:
+        cmd: echo $PATH && which clang && PROJECT=EC make clean && mkdir build && make build/reg.o && make bc
+        chdir: '{{ target }}'
+      register: command_output
+
+#    - debug: 
+#        var: command_output.stdout_lines
+
+    - name: Partitioning Firmware and blind relocations
+      shell:
+        cmd: make runfs && make ldFp
+        chdir: '{{ static }}'
+
+    - name: Partitioned Build
+      shell:
+        cmd: make exec
+        chdir: '{{ target }}'
+
+    - name: Binary relocations harness
+      shell:
+        cmd: make verifF
+        chdir: '{{ static }}'
+
+    - name: Binary relocations
+      shell:
+        cmd: make clean && mkdir build && make build/reg.o && make bc 
+        chdir: '{{ target }}'
+
+    - name: Static Binary patching
+      shell:
+        cmd: make runfs
+        chdir: '{{ static }}'
+
+    - name: EC-Compatible Build
+      shell:
+        cmd: make exec
+        chdir: '{{ target }}'
+
