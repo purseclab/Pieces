@@ -2,8 +2,8 @@
 **Pieces** is a highly programmable language-agnostic automatic program compartmentalization framework. Pieces can be programmed to partition programs based on various criteria, including method of isolation between compartments. For queries, either use GitHub issues (preferred method), or email the authors ([Arslan Khan](mailto:khan253@purdue.edu?subject=[GitHub]%20Source%20Han%20Sans)).
 
 
-## FuzzSGX dependencies:
-FuzzSGX is written on top of the following tools:
+## Dependencies:
+Pieces is written on top of the following tools:
 1. SVF v2.2+
 1. Checked-C 12 (Also provided as builtin binary)
 
@@ -18,16 +18,52 @@ The source code is organized into three big submodules:
 4. Compiler: Example compiler with frontend changes required for Pieces.
 
 ## How to run:
-Once the dependencies are built, you can invoke the framework using a simple python script as follows:
+1. First install the listed dependencies. The installation is standard except for SVF, which will require adding a new SVF tool, which is provided at  ```./partitioner/llvm/SVF/Example/```. Either create a new tool, or simply replace the base example tool.
+2. After installation you should tell the partitioner about the path of SVF in ```./partitioner/.env```
+3. Build your project to bitcode. (Please ping the authors if you require any help on this). Alternatively, we provide bitcode for FreeRTOS for running purposes.
+4. Invoke the run utility.
+```
+cd partitioner
+./run.py ./rules/lwip.json
+```
+The output should look like:
+```bash
+WARN:Merging for shared data:pxCurrentTCB
+WARN:Users:
+WARN:	Clique: background_clique
+WARN:	test_etsan
+WARN:	Clique: background_clique
+WARN:	vTaskSwitchContext
+WARN:Merging for shared data:xSchedulerRunning
+WARN:Users:
+WARN:	Clique: background_clique
+WARN:	vTaskEndScheduler
+WARN:	Clique: background_clique
+WARN:	prvAddNewTaskToReadyList
+WARN:Merging for shared data:uxCriticalNesting
+WARN:Users:
+WARN:	Clique: background_clique
+WARN:	vPortEnterCritical
+WARN:	Clique: background_clique
+WARN:	prvTaskExitError
+WARN:Merging for shared data:SystemCoreClock
+WARN:Users:
+WARN:	Clique: background_clique
+WARN:	SystemCoreClockUpdate
+WARN:	Clique: background_clique
+WARN:	vPortSetupTimerInterrupt
+Number of compartments: 17
+Instrumenting firmware.
+Dissassembling ./out/temp.bc
+```
+run.py can give you an overview of how to use pieces programmatically as well. Pieces provides program analyses, including symbolic execution, which can be used for analyzing firmware, compartmentalization, and much more. A simple python script is shown below:
 ```python 
 from llvm import Compiler
 import ec_loader
 compiler = Compiler()
-compiler.analyze("./test.bc")
+compiler.analyze(input["firmware"])
 firmware = ec_loader.Firmware(input["firmware"])
 ```
-
-We also provide a front-end application that can be used as a command line tool.
 
 ## Supporting a new project:
 TODO: Will add this soon too. 
