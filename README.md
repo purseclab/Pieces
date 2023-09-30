@@ -20,8 +20,9 @@ The source code is organized into three big submodules:
 ## How to run
 1. First install the listed dependencies. The installation is standard except for SVF, which will require adding a new SVF tool, which is provided at  ```./partitioner/llvm/SVF/Example/```. Either create a new tool or simply replace the base example tool.
 2. After installation you should tell the partitioner about the path of SVF in ```./partitioner/.env```
-3. Build your project to bitcode. (Please ping the authors if you require any help on this). Alternatively, we provide bitcode for FreeRTOS for running purposes.
-4. Invoke the run utility.
+3. Set environment if you plan to use Pieces frontend keywords, as described in CRT-C and EC papers. ```source set_environment.sh```
+4. Build your project to bitcode. (Please ping the authors if you require any help on this). Alternatively, we provide bitcode for FreeRTOS for running purposes.
+5. Invoke the run utility.
 ```
 cd partitioner
 ./run.py ./rules/lwip.json
