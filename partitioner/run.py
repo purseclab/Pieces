@@ -7,6 +7,7 @@ import sys
 from utils import debug, print_help_msg
 from dotenv import load_dotenv
 from llvm import Compiler
+import os 
 
 load_dotenv()
 try:
@@ -18,6 +19,9 @@ except Exception as e:
 	utils.print_help_msg(utils.load_config)
 	exit()
 
+
+os.makedirs(os.environ["P_OUT_DIR"], exist_ok=True)
+input["firmware"]["bc"] =  os.path.abspath(input["firmware"]["bc"])
 debug("Loading input firmware.")
 compiler = Compiler()
 compiler.analyze(input["firmware"])
