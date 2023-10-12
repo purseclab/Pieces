@@ -1,0 +1,6 @@
+build/*
+autogen/*
+out*
+*.map
+sizeinfo
+linker.stat
