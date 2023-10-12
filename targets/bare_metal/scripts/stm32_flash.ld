@@ -91,163 +91,67 @@ SECTIONS
   }
   .csection0 : 
   {
+  . = 134225920;
 _scsection0 = .;
-	  . = ALIGN(4);
-	  *(.csection0)
-	  . = ALIGN(4);
+	*(.csection0)
+	. = 134234112;
 _ecsection0 = .;
   } > FLASH 
   .csection1 : 
   {
+  . = 134234112;
 _scsection1 = .;
-	  . = ALIGN(4);
-	  *(.csection1)
-	  . = ALIGN(4);
+	*(.csection1)
+	. = 134234368;
 _ecsection1 = .;
   } > FLASH 
   .csection2 : 
   {
+  . = 134234368;
 _scsection2 = .;
-	  . = ALIGN(4);
-	  *(.csection2)
-	  . = ALIGN(4);
+	*(.csection2)
+	. = 134234432;
 _ecsection2 = .;
   } > FLASH 
   .csection3 : 
   {
+  . = 134235136;
 _scsection3 = .;
-	  . = ALIGN(4);
-	  *(.csection3)
-	  . = ALIGN(4);
+	*(.csection3)
+	. = 134236160;
 _ecsection3 = .;
   } > FLASH 
   .csection4 : 
   {
+  . = 134242304;
 _scsection4 = .;
-	  . = ALIGN(4);
-	  *(.csection4)
-	  . = ALIGN(4);
+	*(.csection4)
+	. = 134250496;
 _ecsection4 = .;
   } > FLASH 
   .csection5 : 
   {
+  . = 134250496;
 _scsection5 = .;
-	  . = ALIGN(4);
-	  *(.csection5)
-	  . = ALIGN(4);
+	*(.csection5)
+	. = 134251008;
 _ecsection5 = .;
   } > FLASH 
   .csection6 : 
   {
+  . = 134254592;
 _scsection6 = .;
-	  . = ALIGN(4);
-	  *(.csection6)
-	  . = ALIGN(4);
+	*(.csection6)
+	. = 134258688;
 _ecsection6 = .;
   } > FLASH 
   .csection7 : 
   {
+  . = 134258688;
 _scsection7 = .;
-	  . = ALIGN(4);
-	  *(.csection7)
-	  . = ALIGN(4);
+	*(.csection7)
+	. = 134258944;
 _ecsection7 = .;
-  } > FLASH 
-  .csection8 : 
-  {
-_scsection8 = .;
-	  . = ALIGN(4);
-	  *(.csection8)
-	  . = ALIGN(4);
-_ecsection8 = .;
-  } > FLASH 
-  .csection9 : 
-  {
-_scsection9 = .;
-	  . = ALIGN(4);
-	  *(.csection9)
-	  . = ALIGN(4);
-_ecsection9 = .;
-  } > FLASH 
-  .csection10 : 
-  {
-_scsection10 = .;
-	  . = ALIGN(4);
-	  *(.csection10)
-	  . = ALIGN(4);
-_ecsection10 = .;
-  } > FLASH 
-  .csection11 : 
-  {
-_scsection11 = .;
-	  . = ALIGN(4);
-	  *(.csection11)
-	  . = ALIGN(4);
-_ecsection11 = .;
-  } > FLASH 
-  .csection12 : 
-  {
-_scsection12 = .;
-	  . = ALIGN(4);
-	  *(.csection12)
-	  . = ALIGN(4);
-_ecsection12 = .;
-  } > FLASH 
-  .csection13 : 
-  {
-_scsection13 = .;
-	  . = ALIGN(4);
-	  *(.csection13)
-	  . = ALIGN(4);
-_ecsection13 = .;
-  } > FLASH 
-  .csection14 : 
-  {
-_scsection14 = .;
-	  . = ALIGN(4);
-	  *(.csection14)
-	  . = ALIGN(4);
-_ecsection14 = .;
-  } > FLASH 
-  .csection15 : 
-  {
-_scsection15 = .;
-	  . = ALIGN(4);
-	  *(.csection15)
-	  . = ALIGN(4);
-_ecsection15 = .;
-  } > FLASH 
-  .csection16 : 
-  {
-_scsection16 = .;
-	  . = ALIGN(4);
-	  *(.csection16)
-	  . = ALIGN(4);
-_ecsection16 = .;
-  } > FLASH 
-  .csection17 : 
-  {
-_scsection17 = .;
-	  . = ALIGN(4);
-	  *(.csection17)
-	  . = ALIGN(4);
-_ecsection17 = .;
-  } > FLASH 
-  .csection18 : 
-  {
-_scsection18 = .;
-	  . = ALIGN(4);
-	  *(.csection18)
-	  . = ALIGN(4);
-_ecsection18 = .;
-  } > FLASH 
-  .csection19 : 
-  {
-_scsection19 = .;
-	  . = ALIGN(4);
-	  *(.csection19)
-	  . = ALIGN(4);
-_ecsection19 = .;
   } > FLASH 
 
    .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
@@ -327,184 +231,14 @@ _ecsection19 = .;
   }  > RAM
   .osection0 : AT ( _sidata  + compartLMA)
   {
-	  . = ALIGN(4);
-	  _sosection0 = .;
-	  *(.osection0)
-	  . = ALIGN(4);
-	  _eosection0 = .;
+	. = 536879104;
+	_sosection0 = .;
+	*(.osection0)
+	. = 536887296;
+	_eosection0 = .;
   }  > RAM 
 compartLMA = compartLMA + SIZEOF(.osection0); 
-  .osection1 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection1 = .;
-	  *(.osection1)
-	  . = ALIGN(4);
-	  _eosection1 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection1); 
-  .osection2 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection2 = .;
-	  *(.osection2)
-	  . = ALIGN(4);
-	  _eosection2 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection2); 
-  .osection3 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection3 = .;
-	  *(.osection3)
-	  . = ALIGN(4);
-	  _eosection3 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection3); 
-  .osection4 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection4 = .;
-	  *(.osection4)
-	  . = ALIGN(4);
-	  _eosection4 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection4); 
-  .osection5 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection5 = .;
-	  *(.osection5)
-	  . = ALIGN(4);
-	  _eosection5 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection5); 
-  .osection6 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection6 = .;
-	  *(.osection6)
-	  . = ALIGN(4);
-	  _eosection6 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection6); 
-  .osection7 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection7 = .;
-	  *(.osection7)
-	  . = ALIGN(4);
-	  _eosection7 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection7); 
-  .osection8 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection8 = .;
-	  *(.osection8)
-	  . = ALIGN(4);
-	  _eosection8 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection8); 
-  .osection9 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection9 = .;
-	  *(.osection9)
-	  . = ALIGN(4);
-	  _eosection9 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection9); 
-  .osection10 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection10 = .;
-	  *(.osection10)
-	  . = ALIGN(4);
-	  _eosection10 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection10); 
-  .osection11 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection11 = .;
-	  *(.osection11)
-	  . = ALIGN(4);
-	  _eosection11 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection11); 
-  .osection12 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection12 = .;
-	  *(.osection12)
-	  . = ALIGN(4);
-	  _eosection12 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection12); 
-  .osection13 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection13 = .;
-	  *(.osection13)
-	  . = ALIGN(4);
-	  _eosection13 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection13); 
-  .osection14 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection14 = .;
-	  *(.osection14)
-	  . = ALIGN(4);
-	  _eosection14 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection14); 
-  .osection15 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection15 = .;
-	  *(.osection15)
-	  . = ALIGN(4);
-	  _eosection15 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection15); 
-  .osection16 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection16 = .;
-	  *(.osection16)
-	  . = ALIGN(4);
-	  _eosection16 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection16); 
-  .osection17 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection17 = .;
-	  *(.osection17)
-	  . = ALIGN(4);
-	  _eosection17 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection17); 
-  .osection18 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection18 = .;
-	  *(.osection18)
-	  . = ALIGN(4);
-	  _eosection18 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection18); 
-  .osection19 : AT ( _sidata  + compartLMA)
-  {
-	  . = ALIGN(4);
-	  _sosection19 = .;
-	  *(.osection19)
-	  . = ALIGN(4);
-	  _eosection19 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection19); 
+_edata = .; 
   _edata = .;
   /* Uninitialized data section */
   . = ALIGN(4);

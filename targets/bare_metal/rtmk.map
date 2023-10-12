@@ -8,326 +8,277 @@
  8000000  8000000      188     1         build/reg.o:(.isr_vector)
  8000000  8000000        0     1                 g_pfnVectors
  8000188  8000188        0     1         . = ALIGN ( 4 )
- 8000188  8000188     16a4     4 .text
+ 8000188  8000188      14c     4 .text
  8000188  8000188        0     1         . = ALIGN ( 4 )
- 8000188  8000188     1526     4         /tmp/firmware-d99fd8.o:(.text)
+ 8000188  8000188        0     4         /tmp/firmware-12dcf7.o:(.text)
+ 8000188  8000188       c2     4         build/reg.o:(.text)
  8000188  8000188        0     1                 $t.0
- 8000189  8000189       28     1                 foo
- 80001b1  80001b1       16     1                 main
- 80001c7  80001c7       56     1                 jail
- 800021d  800021d       2c     1                 SystemInit
- 8000249  8000249       1c     1                 NVIC_PriorityGroupConfig
- 8000265  8000265       ce     1                 NVIC_Init
- 8000333  8000333       24     1                 NVIC_SetVectorTable
- 8000357  8000357       3a     1                 NVIC_SystemLPConfig
- 8000391  8000391       34     1                 SysTick_CLKSourceConfig
- 80003c5  80003c5       50     1                 RCC_DeInit
- 8000415  8000415       1c     1                 RCC_HSEConfig
- 8000431  8000431       60     1                 RCC_WaitForHSEStartUp
- 8000491  8000491       7a     1                 RCC_GetFlagStatus
- 800050b  800050b       32     1                 RCC_AdjustHSICalibrationValue
- 800053d  800053d       12     1                 RCC_HSICmd
- 800054f  800054f       4c     1                 RCC_LSEConfig
- 800059b  800059b       14     1                 RCC_LSICmd
- 80005af  80005af       3e     1                 RCC_PLLConfig
- 80005ed  80005ed       12     1                 RCC_PLLCmd
- 80005ff  80005ff       1e     1                 RCC_PLLI2SConfig
- 800061d  800061d       12     1                 RCC_PLLI2SCmd
- 800062f  800062f       12     1                 RCC_ClockSecuritySystemCmd
- 8000641  8000641       32     1                 RCC_MCO1Config
- 8000673  8000673       32     1                 RCC_MCO2Config
- 80006a5  80006a5       2c     1                 RCC_SYSCLKConfig
- 80006d1  80006d1       10     1                 RCC_GetSYSCLKSource
- 80006e1  80006e1       2c     1                 RCC_HCLKConfig
- 800070d  800070d       2c     1                 RCC_PCLK1Config
- 8000739  8000739       2e     1                 RCC_PCLK2Config
- 8000767  8000767      162     1                 RCC_GetClocksFreq
- 80008c9  80008c9       5a     1                 RCC_RTCCLKConfig
- 8000923  8000923       14     1                 RCC_RTCCLKCmd
- 8000937  8000937       14     1                 RCC_BackupResetCmd
- 800094b  800094b       14     1                 RCC_I2SCLKConfig
- 800095f  800095f       34     1                 RCC_AHB1PeriphClockCmd
- 8000993  8000993       34     1                 RCC_AHB2PeriphClockCmd
- 80009c7  80009c7       34     1                 RCC_AHB3PeriphClockCmd
- 80009fb  80009fb       34     1                 RCC_APB1PeriphClockCmd
- 8000a2f  8000a2f       34     1                 RCC_APB2PeriphClockCmd
- 8000a63  8000a63       34     1                 RCC_AHB1PeriphResetCmd
- 8000a97  8000a97       34     1                 RCC_AHB2PeriphResetCmd
- 8000acb  8000acb       34     1                 RCC_AHB3PeriphResetCmd
- 8000aff  8000aff       34     1                 RCC_APB1PeriphResetCmd
- 8000b33  8000b33       34     1                 RCC_APB2PeriphResetCmd
- 8000b67  8000b67       34     1                 RCC_AHB1PeriphClockLPModeCmd
- 8000b9b  8000b9b       34     1                 RCC_AHB2PeriphClockLPModeCmd
- 8000bcf  8000bcf       34     1                 RCC_AHB3PeriphClockLPModeCmd
- 8000c03  8000c03       34     1                 RCC_APB1PeriphClockLPModeCmd
- 8000c37  8000c37       34     1                 RCC_APB2PeriphClockLPModeCmd
- 8000c6b  8000c6b       3a     1                 RCC_ITConfig
- 8000ca5  8000ca5       12     1                 RCC_ClearFlag
- 8000cb7  8000cb7       30     1                 RCC_GetITStatus
- 8000ce7  8000ce7       18     1                 RCC_ClearITPendingBit
- 8000cff  8000cff       50     1                 RCC_Sysinit
- 8000d4f  8000d4f      136     1                 SystemCoreClockUpdate
- 8000e85  8000e85      134     1                 SetSysClock
- 8000fb9  8000fb9       3e     1                 EXTI_DeInit
- 8000ff7  8000ff7       ea     1                 EXTI_Init
- 80010e1  80010e1       1c     1                 EXTI_StructInit
- 80010fd  80010fd       18     1                 EXTI_GenerateSWInterrupt
- 8001115  8001115       2c     1                 EXTI_GetFlagStatus
- 8001141  8001141       14     1                 EXTI_ClearFlag
- 8001155  8001155       44     1                 EXTI_GetITStatus
- 8001199  8001199       14     1                 EXTI_ClearITPendingBit
- 80011ad  80011ad      160     1                 GPIO_DeInit
- 800130d  800130d       f6     1                 GPIO_Init
- 8001403  8001403       22     1                 GPIO_StructInit
- 8001425  8001425       3c     1                 GPIO_PinLockConfig
- 8001461  8001461       34     1                 GPIO_ReadInputDataBit
- 8001495  8001495        e     1                 GPIO_ReadInputData
- 80014a3  80014a3       34     1                 GPIO_ReadOutputDataBit
- 80014d7  80014d7        e     1                 GPIO_ReadOutputData
- 80014e5  80014e5       14     1                 GPIO_SetBits
- 80014f9  80014f9       14     1                 GPIO_ResetBits
- 800150d  800150d       28     1                 GPIO_WriteBit
- 8001535  8001535       14     1                 GPIO_Write
- 8001549  8001549       18     1                 GPIO_ToggleBits
- 8001561  8001561       72     1                 GPIO_PinAFConfig
- 80015d3  80015d3       1e     1                 SYSCFG_DeInit
- 80015f1  80015f1       18     1                 SYSCFG_MemoryRemapConfig
- 8001609  8001609       56     1                 SYSCFG_EXTILineConfig
- 800165f  800165f       12     1                 SYSCFG_ETH_MediaInterfaceConfig
- 8001671  8001671       14     1                 SYSCFG_CompensationCellCmd
- 8001685  8001685       2a     1                 SYSCFG_GetCompensationCellStatus
- 80016b0  80016b0       c2     4         build/reg.o:(.text)
- 80016b0  80016b0        0     1                 $t.0
- 80016b1  80016b1        0     1                 vRegTestClearFlopRegistersToParameterValue
- 80016d3  80016d3        0     1                 ulRegTestCheckFlopRegistersContainParameterValue
- 8001752  8001752        0     1                 return_pass
- 8001758  8001758        0     1                 return_error
- 800175e  800175e        0     1                 $d.1
- 8001774  8001774       7c     4         build/reg.o:(.text.Reset_Handler)
- 8001774  8001774        0     1                 $t.2
- 8001775  8001775       56     1                 Reset_Handler
- 8001778  8001778        0     1                 CopyDataInit
- 8001788  8001788        0     1                 LoopCopyDataInit
- 8001798  8001798        0     1                 CopySharedDataInit
- 80017a6  80017a6        0     1                 LoopSharedCopyDataInit
- 80017b4  80017b4        0     1                 FillZerobss
- 80017ba  80017ba        0     1                 LoopFillZerobss
- 80017c0  80017c0        0     1                 Init
- 80017cc  80017cc        0     1                 $d.4
- 80017f0  80017f0        c     1         build/reg.o:(.text.Default_Handler)
- 80017f0  80017f0        0     1                 $t.3
- 80017f0  80017f0        0     1                 Infinite_Loop
- 80017f0  80017f0        a     1                 Default_Handler
- 80017f1  80017f1        a     1                 ADC_IRQHandler
- 80017f1  80017f1        a     1                 BusFault_Handler
- 80017f1  80017f1        a     1                 CAN1_RX0_IRQHandler
- 80017f1  80017f1        a     1                 CAN1_RX1_IRQHandler
- 80017f1  80017f1        a     1                 CAN1_SCE_IRQHandler
- 80017f1  80017f1        a     1                 CAN1_TX_IRQHandler
- 80017f1  80017f1        a     1                 CAN2_RX0_IRQHandler
- 80017f1  80017f1        a     1                 CAN2_RX1_IRQHandler
- 80017f1  80017f1        a     1                 CAN2_SCE_IRQHandler
- 80017f1  80017f1        a     1                 CAN2_TX_IRQHandler
- 80017f1  80017f1        a     1                 CRYP_IRQHandler
- 80017f1  80017f1        a     1                 DCMI_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream0_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream1_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream2_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream3_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream4_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream5_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream6_IRQHandler
- 80017f1  80017f1        a     1                 DMA1_Stream7_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream0_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream1_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream2_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream3_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream4_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream5_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream6_IRQHandler
- 80017f1  80017f1        a     1                 DMA2_Stream7_IRQHandler
- 80017f1  80017f1        a     1                 DebugMon_Handler
- 80017f1  80017f1        a     1                 ETH_IRQHandler
- 80017f1  80017f1        a     1                 ETH_WKUP_IRQHandler
- 80017f1  80017f1        a     1                 EXTI0_IRQHandler
- 80017f1  80017f1        a     1                 EXTI15_10_IRQHandler
- 80017f1  80017f1        a     1                 EXTI1_IRQHandler
- 80017f1  80017f1        a     1                 EXTI2_IRQHandler
- 80017f1  80017f1        a     1                 EXTI3_IRQHandler
- 80017f1  80017f1        a     1                 EXTI4_IRQHandler
- 80017f1  80017f1        a     1                 EXTI9_5_IRQHandler
- 80017f1  80017f1        a     1                 FLASH_IRQHandler
- 80017f1  80017f1        a     1                 FPU_IRQHandler
- 80017f1  80017f1        a     1                 FSMC_IRQHandler
- 80017f1  80017f1        a     1                 HASH_RNG_IRQHandler
- 80017f1  80017f1        a     1                 I2C1_ER_IRQHandler
- 80017f1  80017f1        a     1                 I2C1_EV_IRQHandler
- 80017f1  80017f1        a     1                 I2C2_ER_IRQHandler
- 80017f1  80017f1        a     1                 I2C2_EV_IRQHandler
- 80017f1  80017f1        a     1                 I2C3_ER_IRQHandler
- 80017f1  80017f1        a     1                 I2C3_EV_IRQHandler
- 80017f1  80017f1        a     1                 MemManage_Handler
- 80017f1  80017f1        a     1                 NMI_Handler
- 80017f1  80017f1        a     1                 OTG_FS_IRQHandler
- 80017f1  80017f1        a     1                 OTG_FS_WKUP_IRQHandler
- 80017f1  80017f1        a     1                 OTG_HS_EP1_IN_IRQHandler
- 80017f1  80017f1        a     1                 OTG_HS_EP1_OUT_IRQHandler
- 80017f1  80017f1        a     1                 OTG_HS_IRQHandler
- 80017f1  80017f1        a     1                 OTG_HS_WKUP_IRQHandler
- 80017f1  80017f1        a     1                 PVD_IRQHandler
- 80017f1  80017f1        a     1                 PendSV_Handler
- 80017f1  80017f1        a     1                 RCC_IRQHandler
- 80017f1  80017f1        a     1                 RTC_Alarm_IRQHandler
- 80017f1  80017f1        a     1                 RTC_WKUP_IRQHandler
- 80017f1  80017f1        a     1                 SDIO_IRQHandler
- 80017f1  80017f1        a     1                 SPI1_IRQHandler
- 80017f1  80017f1        a     1                 SPI2_IRQHandler
- 80017f1  80017f1        a     1                 SPI3_IRQHandler
- 80017f1  80017f1        a     1                 SVC_Handler
- 80017f1  80017f1        a     1                 SysTick_Handler
- 80017f1  80017f1        a     1                 TAMP_STAMP_IRQHandler
- 80017f1  80017f1        a     1                 TIM1_BRK_TIM9_IRQHandler
- 80017f1  80017f1        a     1                 TIM1_CC_IRQHandler
- 80017f1  80017f1        a     1                 TIM1_TRG_COM_TIM11_IRQHandler
- 80017f1  80017f1        a     1                 TIM1_UP_TIM10_IRQHandler
- 80017f1  80017f1        a     1                 TIM2_IRQHandler
- 80017f1  80017f1        a     1                 TIM3_IRQHandler
- 80017f1  80017f1        a     1                 TIM4_IRQHandler
- 80017f1  80017f1        a     1                 TIM5_IRQHandler
- 80017f1  80017f1        a     1                 TIM6_DAC_IRQHandler
- 80017f1  80017f1        a     1                 TIM7_IRQHandler
- 80017f1  80017f1        a     1                 TIM8_BRK_TIM12_IRQHandler
- 80017f1  80017f1        a     1                 TIM8_CC_IRQHandler
- 80017f1  80017f1        a     1                 TIM8_TRG_COM_TIM14_IRQHandler
- 80017f1  80017f1        a     1                 TIM8_UP_TIM13_IRQHandler
- 80017f1  80017f1        a     1                 UART4_IRQHandler
- 80017f1  80017f1        a     1                 UART5_IRQHandler
- 80017f1  80017f1        a     1                 USART1_IRQHandler
- 80017f1  80017f1        a     1                 USART2_IRQHandler
- 80017f1  80017f1        a     1                 USART3_IRQHandler
- 80017f1  80017f1        a     1                 USART6_IRQHandler
- 80017f1  80017f1        a     1                 UsageFault_Handler
- 80017f1  80017f1        a     1                 WWDG_IRQHandler
- 80017fa  80017fa        2     1                 Default_Handler1
- 80017fa  80017fa        0     1                 Infinite_Loop1
- 80017fb  80017fb        2     1                 HardFault_Handler
- 80017fc  80017fc       30     1         /tmp/firmware-d99fd8.o:(.rodata)
- 80017fc  80017fc       10     1                 AHBPrescTable
- 800180c  800180c       10     1                 APBAHBPrescTable
- 800181c  800181c       10     1                 AHBPrescTable.5
- 800182c  800182c        0     1         . = ALIGN ( 4 )
- 800182c  800182c        0     1         _etext = .
- 800182c  800182c        0     1         _exit = .
- 800182c  800182c       14     1 .rtmkcode
- 800182c  800182c       14     1         . = ALIGN ( 32 )
- 8001840  8001840        0     1         _srtmkcode = .
- 8001840  8001840        0     1         . = ALIGN ( 32 )
- 8001840  8001840        0     1         _ertmkcode = .
- 8001840  8001840        0     1 .csection0
- 8001840  8001840        0     1         _scsection0 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection0 = .
- 8001840  8001840        0     1 .csection1
- 8001840  8001840        0     1         _scsection1 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection1 = .
- 8001840  8001840        0     1 .csection2
- 8001840  8001840        0     1         _scsection2 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection2 = .
- 8001840  8001840        0     1 .csection3
- 8001840  8001840        0     1         _scsection3 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection3 = .
- 8001840  8001840        0     1 .csection4
- 8001840  8001840        0     1         _scsection4 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection4 = .
- 8001840  8001840        0     1 .csection5
- 8001840  8001840        0     1         _scsection5 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection5 = .
- 8001840  8001840        0     1 .csection6
- 8001840  8001840        0     1         _scsection6 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection6 = .
- 8001840  8001840        0     1 .csection7
- 8001840  8001840        0     1         _scsection7 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection7 = .
- 8001840  8001840        0     1 .csection8
- 8001840  8001840        0     1         _scsection8 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection8 = .
- 8001840  8001840        0     1 .csection9
- 8001840  8001840        0     1         _scsection9 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection9 = .
- 8001840  8001840        0     1 .csection10
- 8001840  8001840        0     1         _scsection10 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection10 = .
- 8001840  8001840        0     1 .csection11
- 8001840  8001840        0     1         _scsection11 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection11 = .
- 8001840  8001840        0     1 .csection12
- 8001840  8001840        0     1         _scsection12 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection12 = .
- 8001840  8001840        0     1 .csection13
- 8001840  8001840        0     1         _scsection13 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection13 = .
- 8001840  8001840        0     1 .csection14
- 8001840  8001840        0     1         _scsection14 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection14 = .
- 8001840  8001840        0     1 .csection15
- 8001840  8001840        0     1         _scsection15 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection15 = .
- 8001840  8001840        0     1 .csection16
- 8001840  8001840        0     1         _scsection16 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection16 = .
- 8001840  8001840        0     1 .csection17
- 8001840  8001840        0     1         _scsection17 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection17 = .
- 8001840  8001840        0     1 .csection18
- 8001840  8001840        0     1         _scsection18 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection18 = .
- 8001840  8001840        0     1 .csection19
- 8001840  8001840        0     1         _scsection19 = .
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         . = ALIGN ( 4 )
- 8001840  8001840        0     1         _ecsection19 = .
- 8001840  8001840      2a8     4 .ARM
- 8001840  8001840        0     1         __exidx_start = .
- 8001840  8001840      2a8     4         <internal>:(.ARM.exidx)
- 8001ae8  8001ae8        0     1         __exidx_end = .
- 8001ae8  8001ae8        0     1 _sisdata = .
+ 8000189  8000189        0     1                 vRegTestClearFlopRegistersToParameterValue
+ 80001ab  80001ab        0     1                 ulRegTestCheckFlopRegistersContainParameterValue
+ 800022a  800022a        0     1                 return_pass
+ 8000230  8000230        0     1                 return_error
+ 8000236  8000236        0     1                 $d.1
+ 800024c  800024c       7c     4         build/reg.o:(.text.Reset_Handler)
+ 800024c  800024c        0     1                 $t.2
+ 800024d  800024d       56     1                 Reset_Handler
+ 8000250  8000250        0     1                 CopyDataInit
+ 8000260  8000260        0     1                 LoopCopyDataInit
+ 8000270  8000270        0     1                 CopySharedDataInit
+ 800027e  800027e        0     1                 LoopSharedCopyDataInit
+ 800028c  800028c        0     1                 FillZerobss
+ 8000292  8000292        0     1                 LoopFillZerobss
+ 8000298  8000298        0     1                 Init
+ 80002a4  80002a4        0     1                 $d.4
+ 80002c8  80002c8        c     1         build/reg.o:(.text.Default_Handler)
+ 80002c8  80002c8        0     1                 $t.3
+ 80002c8  80002c8        0     1                 Infinite_Loop
+ 80002c8  80002c8        a     1                 Default_Handler
+ 80002c9  80002c9        a     1                 ADC_IRQHandler
+ 80002c9  80002c9        a     1                 BusFault_Handler
+ 80002c9  80002c9        a     1                 CAN1_RX0_IRQHandler
+ 80002c9  80002c9        a     1                 CAN1_RX1_IRQHandler
+ 80002c9  80002c9        a     1                 CAN1_SCE_IRQHandler
+ 80002c9  80002c9        a     1                 CAN1_TX_IRQHandler
+ 80002c9  80002c9        a     1                 CAN2_RX0_IRQHandler
+ 80002c9  80002c9        a     1                 CAN2_RX1_IRQHandler
+ 80002c9  80002c9        a     1                 CAN2_SCE_IRQHandler
+ 80002c9  80002c9        a     1                 CAN2_TX_IRQHandler
+ 80002c9  80002c9        a     1                 CRYP_IRQHandler
+ 80002c9  80002c9        a     1                 DCMI_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream0_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream1_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream2_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream3_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream4_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream5_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream6_IRQHandler
+ 80002c9  80002c9        a     1                 DMA1_Stream7_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream0_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream1_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream2_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream3_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream4_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream5_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream6_IRQHandler
+ 80002c9  80002c9        a     1                 DMA2_Stream7_IRQHandler
+ 80002c9  80002c9        a     1                 DebugMon_Handler
+ 80002c9  80002c9        a     1                 ETH_IRQHandler
+ 80002c9  80002c9        a     1                 ETH_WKUP_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI0_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI15_10_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI1_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI2_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI3_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI4_IRQHandler
+ 80002c9  80002c9        a     1                 EXTI9_5_IRQHandler
+ 80002c9  80002c9        a     1                 FLASH_IRQHandler
+ 80002c9  80002c9        a     1                 FPU_IRQHandler
+ 80002c9  80002c9        a     1                 FSMC_IRQHandler
+ 80002c9  80002c9        a     1                 HASH_RNG_IRQHandler
+ 80002c9  80002c9        a     1                 I2C1_ER_IRQHandler
+ 80002c9  80002c9        a     1                 I2C1_EV_IRQHandler
+ 80002c9  80002c9        a     1                 I2C2_ER_IRQHandler
+ 80002c9  80002c9        a     1                 I2C2_EV_IRQHandler
+ 80002c9  80002c9        a     1                 I2C3_ER_IRQHandler
+ 80002c9  80002c9        a     1                 I2C3_EV_IRQHandler
+ 80002c9  80002c9        a     1                 MemManage_Handler
+ 80002c9  80002c9        a     1                 NMI_Handler
+ 80002c9  80002c9        a     1                 OTG_FS_IRQHandler
+ 80002c9  80002c9        a     1                 OTG_FS_WKUP_IRQHandler
+ 80002c9  80002c9        a     1                 OTG_HS_EP1_IN_IRQHandler
+ 80002c9  80002c9        a     1                 OTG_HS_EP1_OUT_IRQHandler
+ 80002c9  80002c9        a     1                 OTG_HS_IRQHandler
+ 80002c9  80002c9        a     1                 OTG_HS_WKUP_IRQHandler
+ 80002c9  80002c9        a     1                 PVD_IRQHandler
+ 80002c9  80002c9        a     1                 PendSV_Handler
+ 80002c9  80002c9        a     1                 RCC_IRQHandler
+ 80002c9  80002c9        a     1                 RTC_Alarm_IRQHandler
+ 80002c9  80002c9        a     1                 RTC_WKUP_IRQHandler
+ 80002c9  80002c9        a     1                 SDIO_IRQHandler
+ 80002c9  80002c9        a     1                 SPI1_IRQHandler
+ 80002c9  80002c9        a     1                 SPI2_IRQHandler
+ 80002c9  80002c9        a     1                 SPI3_IRQHandler
+ 80002c9  80002c9        a     1                 SVC_Handler
+ 80002c9  80002c9        a     1                 SysTick_Handler
+ 80002c9  80002c9        a     1                 TAMP_STAMP_IRQHandler
+ 80002c9  80002c9        a     1                 TIM1_BRK_TIM9_IRQHandler
+ 80002c9  80002c9        a     1                 TIM1_CC_IRQHandler
+ 80002c9  80002c9        a     1                 TIM1_TRG_COM_TIM11_IRQHandler
+ 80002c9  80002c9        a     1                 TIM1_UP_TIM10_IRQHandler
+ 80002c9  80002c9        a     1                 TIM2_IRQHandler
+ 80002c9  80002c9        a     1                 TIM3_IRQHandler
+ 80002c9  80002c9        a     1                 TIM4_IRQHandler
+ 80002c9  80002c9        a     1                 TIM5_IRQHandler
+ 80002c9  80002c9        a     1                 TIM6_DAC_IRQHandler
+ 80002c9  80002c9        a     1                 TIM7_IRQHandler
+ 80002c9  80002c9        a     1                 TIM8_BRK_TIM12_IRQHandler
+ 80002c9  80002c9        a     1                 TIM8_CC_IRQHandler
+ 80002c9  80002c9        a     1                 TIM8_TRG_COM_TIM14_IRQHandler
+ 80002c9  80002c9        a     1                 TIM8_UP_TIM13_IRQHandler
+ 80002c9  80002c9        a     1                 UART4_IRQHandler
+ 80002c9  80002c9        a     1                 UART5_IRQHandler
+ 80002c9  80002c9        a     1                 USART1_IRQHandler
+ 80002c9  80002c9        a     1                 USART2_IRQHandler
+ 80002c9  80002c9        a     1                 USART3_IRQHandler
+ 80002c9  80002c9        a     1                 USART6_IRQHandler
+ 80002c9  80002c9        a     1                 UsageFault_Handler
+ 80002c9  80002c9        a     1                 WWDG_IRQHandler
+ 80002d2  80002d2        2     1                 Default_Handler1
+ 80002d2  80002d2        0     1                 Infinite_Loop1
+ 80002d3  80002d3        2     1                 HardFault_Handler
+ 80002d4  80002d4        0     1         . = ALIGN ( 4 )
+ 80002d4  80002d4        0     1         _etext = .
+ 80002d4  80002d4        0     1         _exit = .
+ 80002d4  80002d4        c     1 .rtmkcode
+ 80002d4  80002d4        c     1         . = ALIGN ( 32 )
+ 80002e0  80002e0        0     1         _srtmkcode = .
+ 80002e0  80002e0        0     1         . = ALIGN ( 32 )
+ 80002e0  80002e0        0     1         _ertmkcode = .
+ 80002e0  80002e0     1d60     2 .csection0
+ 80002e0  80002e0     1d20     1         . = 134225920
+ 8002000  8002000        0     1         _scsection0 = .
+ 8002000  8002000       3e     2         /tmp/firmware-12dcf7.o:(.csection0)
+ 8002000  8002000        0     1                 $t.0
+ 8002001  8002001       28     1                 foo
+ 8002029  8002029       16     1                 main
+ 800203e  800203e        2     1         . = 134225984
+ 8002040  8002040        0     1         _ecsection0 = .
+ 8002040  8002040       c0     2 .csection1
+ 8002040  8002040       40     1         . = 134226048
+ 8002080  8002080        0     1         _scsection1 = .
+ 8002080  8002080       56     2         /tmp/firmware-12dcf7.o:(.csection1)
+ 8002080  8002080        0     1                 $t.1
+ 8002081  8002081       56     1                 jail
+ 80020d6  80020d6       2a     1         . = 134226176
+ 8002100  8002100        0     1         _ecsection1 = .
+ 8002100  8002100       40     2 .csection2
+ 8002100  8002100        0     1         . = 134226176
+ 8002100  8002100        0     1         _scsection2 = .
+ 8002100  8002100       2c     2         /tmp/firmware-12dcf7.o:(.csection2)
+ 8002100  8002100        0     1                 $t.2
+ 8002101  8002101       2c     1                 SystemInit
+ 800212c  800212c       14     1         . = 134226240
+ 8002140  8002140        0     1         _ecsection2 = .
+ 8002140  8002140      2c0     2 .csection3
+ 8002140  8002140       c0     1         . = 134226432
+ 8002200  8002200        0     1         _scsection3 = .
+ 8002200  8002200      17c     2         /tmp/firmware-12dcf7.o:(.csection3)
+ 8002200  8002200        0     1                 $t.3
+ 8002201  8002201       1c     1                 NVIC_PriorityGroupConfig
+ 800221d  800221d       ce     1                 NVIC_Init
+ 80022eb  80022eb       24     1                 NVIC_SetVectorTable
+ 800230f  800230f       3a     1                 NVIC_SystemLPConfig
+ 8002349  8002349       34     1                 SysTick_CLKSourceConfig
+ 800237c  800237c       84     1         . = 134226944
+ 8002400  8002400        0     1         _ecsection3 = .
+ 8002400  8002400     1c00     2 .csection4
+ 8002400  8002400      c00     1         . = 134230016
+ 8003000  8003000        0     1         _scsection4 = .
+ 8003000  8003000      bf4     2         /tmp/firmware-12dcf7.o:(.csection4)
+ 8003000  8003000        0     1                 $t.4
+ 8003001  8003001       50     1                 RCC_DeInit
+ 8003051  8003051       1c     1                 RCC_HSEConfig
+ 800306d  800306d       60     1                 RCC_WaitForHSEStartUp
+ 80030cd  80030cd       7a     1                 RCC_GetFlagStatus
+ 8003147  8003147       32     1                 RCC_AdjustHSICalibrationValue
+ 8003179  8003179       12     1                 RCC_HSICmd
+ 800318b  800318b       4c     1                 RCC_LSEConfig
+ 80031d7  80031d7       14     1                 RCC_LSICmd
+ 80031eb  80031eb       3e     1                 RCC_PLLConfig
+ 8003229  8003229       12     1                 RCC_PLLCmd
+ 800323b  800323b       1e     1                 RCC_PLLI2SConfig
+ 8003259  8003259       12     1                 RCC_PLLI2SCmd
+ 800326b  800326b       12     1                 RCC_ClockSecuritySystemCmd
+ 800327d  800327d       32     1                 RCC_MCO1Config
+ 80032af  80032af       32     1                 RCC_MCO2Config
+ 80032e1  80032e1       2c     1                 RCC_SYSCLKConfig
+ 800330d  800330d       10     1                 RCC_GetSYSCLKSource
+ 800331d  800331d       2c     1                 RCC_HCLKConfig
+ 8003349  8003349       2c     1                 RCC_PCLK1Config
+ 8003375  8003375       2e     1                 RCC_PCLK2Config
+ 80033a3  80033a3      162     1                 RCC_GetClocksFreq
+ 8003505  8003505       5a     1                 RCC_RTCCLKConfig
+ 800355f  800355f       14     1                 RCC_RTCCLKCmd
+ 8003573  8003573       14     1                 RCC_BackupResetCmd
+ 8003587  8003587       14     1                 RCC_I2SCLKConfig
+ 800359b  800359b       34     1                 RCC_AHB1PeriphClockCmd
+ 80035cf  80035cf       34     1                 RCC_AHB2PeriphClockCmd
+ 8003603  8003603       34     1                 RCC_AHB3PeriphClockCmd
+ 8003637  8003637       34     1                 RCC_APB1PeriphClockCmd
+ 800366b  800366b       34     1                 RCC_APB2PeriphClockCmd
+ 800369f  800369f       34     1                 RCC_AHB1PeriphResetCmd
+ 80036d3  80036d3       34     1                 RCC_AHB2PeriphResetCmd
+ 8003707  8003707       34     1                 RCC_AHB3PeriphResetCmd
+ 800373b  800373b       34     1                 RCC_APB1PeriphResetCmd
+ 800376f  800376f       34     1                 RCC_APB2PeriphResetCmd
+ 80037a3  80037a3       34     1                 RCC_AHB1PeriphClockLPModeCmd
+ 80037d7  80037d7       34     1                 RCC_AHB2PeriphClockLPModeCmd
+ 800380b  800380b       34     1                 RCC_AHB3PeriphClockLPModeCmd
+ 800383f  800383f       34     1                 RCC_APB1PeriphClockLPModeCmd
+ 8003873  8003873       34     1                 RCC_APB2PeriphClockLPModeCmd
+ 80038a7  80038a7       3a     1                 RCC_ITConfig
+ 80038e1  80038e1       12     1                 RCC_ClearFlag
+ 80038f3  80038f3       30     1                 RCC_GetITStatus
+ 8003923  8003923       18     1                 RCC_ClearITPendingBit
+ 800393b  800393b       50     1                 RCC_Sysinit
+ 800398b  800398b      136     1                 SystemCoreClockUpdate
+ 8003ac1  8003ac1      134     1                 SetSysClock
+ 8003bf4  8003bf4      40c     1         . = 134234112
+ 8004000  8004000        0     1         _ecsection4 = .
+ 8004000  8004000      200     2 .csection5
+ 8004000  8004000        0     1         . = 134234112
+ 8004000  8004000        0     1         _scsection5 = .
+ 8004000  8004000      1f4     2         /tmp/firmware-12dcf7.o:(.csection5)
+ 8004000  8004000        0     1                 $t.5
+ 8004001  8004001       3e     1                 EXTI_DeInit
+ 800403f  800403f       ea     1                 EXTI_Init
+ 8004129  8004129       1c     1                 EXTI_StructInit
+ 8004145  8004145       18     1                 EXTI_GenerateSWInterrupt
+ 800415d  800415d       2c     1                 EXTI_GetFlagStatus
+ 8004189  8004189       14     1                 EXTI_ClearFlag
+ 800419d  800419d       44     1                 EXTI_GetITStatus
+ 80041e1  80041e1       14     1                 EXTI_ClearITPendingBit
+ 80041f4  80041f4        c     1         . = 134234624
+ 8004200  8004200        0     1         _ecsection5 = .
+ 8004200  8004200      e00     2 .csection6
+ 8004200  8004200      600     1         . = 134236160
+ 8004800  8004800        0     1         _scsection6 = .
+ 8004800  8004800      426     2         /tmp/firmware-12dcf7.o:(.csection6)
+ 8004800  8004800        0     1                 $t.6
+ 8004801  8004801      160     1                 GPIO_DeInit
+ 8004961  8004961       f6     1                 GPIO_Init
+ 8004a57  8004a57       22     1                 GPIO_StructInit
+ 8004a79  8004a79       3c     1                 GPIO_PinLockConfig
+ 8004ab5  8004ab5       34     1                 GPIO_ReadInputDataBit
+ 8004ae9  8004ae9        e     1                 GPIO_ReadInputData
+ 8004af7  8004af7       34     1                 GPIO_ReadOutputDataBit
+ 8004b2b  8004b2b        e     1                 GPIO_ReadOutputData
+ 8004b39  8004b39       14     1                 GPIO_SetBits
+ 8004b4d  8004b4d       14     1                 GPIO_ResetBits
+ 8004b61  8004b61       28     1                 GPIO_WriteBit
+ 8004b89  8004b89       14     1                 GPIO_Write
+ 8004b9d  8004b9d       18     1                 GPIO_ToggleBits
+ 8004bb5  8004bb5       72     1                 GPIO_PinAFConfig
+ 8004c26  8004c26      3da     1         . = 134238208
+ 8005000  8005000        0     1         _ecsection6 = .
+ 8005000  8005000      100     2 .csection7
+ 8005000  8005000        0     1         . = 134238208
+ 8005000  8005000        0     1         _scsection7 = .
+ 8005000  8005000       dc     2         /tmp/firmware-12dcf7.o:(.csection7)
+ 8005000  8005000        0     1                 $t.7
+ 8005001  8005001       1e     1                 SYSCFG_DeInit
+ 800501f  800501f       18     1                 SYSCFG_MemoryRemapConfig
+ 8005037  8005037       56     1                 SYSCFG_EXTILineConfig
+ 800508d  800508d       12     1                 SYSCFG_ETH_MediaInterfaceConfig
+ 800509f  800509f       14     1                 SYSCFG_CompensationCellCmd
+ 80050b3  80050b3       2a     1                 SYSCFG_GetCompensationCellStatus
+ 80050dc  80050dc       24     1         . = 134238464
+ 8005100  8005100        0     1         _ecsection7 = .
+ 8005100  8005100       10     4 .ARM
+ 8005100  8005100        0     1         __exidx_start = .
+ 8005100  8005100       10     4         <internal>:(.ARM.exidx)
+ 8005110  8005110        0     1         __exidx_end = .
+ 8005110  8005110        0     1 _sisdata = .
 20000000 20000000        0     1 .shared
 20000000 20000000        0     1         . = ALIGN ( 4 )
 20000000 20000000        0     1         _ssdata = .
@@ -335,182 +286,71 @@
 20000000 20000000        0     1         _eshared = .
 20000000 20000000        0     1 _shared_region = _eshared
 20000000 20000000        0     1 _sidata = _sisdata + SIZEOF ( .shared )
-20001400  8001ae8       20     4 .data
-20001400  8001ae8        0     1         . = ALIGN ( 32 )
-20001400  8001ae8        0     1         _sdata = .
-20001400  8001ae8        4     4         /tmp/firmware-d99fd8.o:(.data)
-20001400  8001ae8        4     1                 SystemCoreClock
-20001404  8001aec       1c     1         . = ALIGN ( 32 )
-20001420  8001b08        0     1         _edata = .
-20001420  8001b08        0     1 compartLMA = SIZEOF ( .data )
-20001420 20001420        0     1 .rtmkdata
-20001420 20001420        0     1         . = ALIGN ( 32 )
-20001420 20001420        0     1         _srtmkdata = .
-20001420 20001420        0     1         sstart = .
-20001420 20001420        0     1         . = ALIGN ( 32 )
-20001420 20001420        0     1         _ertmkdata = .
-20001420 20001420        0     1         _edata = .
-20001420 20001420        0     1         send = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .rtmkdata )
-20001420 20001420        0     1 .kernsyms
-20001420 20001420        0     1         . = ALIGN ( 32 )
-20001420 20001420        0     1         _skernsyms = .
-20001420 20001420        0     1         . = ALIGN ( 32 )
-20001420 20001420        0     1         _ekernsyms = .
-20001420 20001420        0     1 .osection0
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection0 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection0 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection0 )
-20001420 20001420        0     1 .osection1
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection1 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection1 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection1 )
-20001420 20001420        0     1 .osection2
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection2 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection2 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection2 )
-20001420 20001420        0     1 .osection3
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection3 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection3 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection3 )
-20001420 20001420        0     1 .osection4
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection4 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection4 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection4 )
-20001420 20001420        0     1 .osection5
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection5 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection5 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection5 )
-20001420 20001420        0     1 .osection6
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection6 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection6 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection6 )
-20001420 20001420        0     1 .osection7
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection7 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection7 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection7 )
-20001420 20001420        0     1 .osection8
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection8 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection8 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection8 )
-20001420 20001420        0     1 .osection9
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection9 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection9 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection9 )
-20001420 20001420        0     1 .osection10
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection10 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection10 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection10 )
-20001420 20001420        0     1 .osection11
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection11 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection11 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection11 )
-20001420 20001420        0     1 .osection12
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection12 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection12 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection12 )
-20001420 20001420        0     1 .osection13
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection13 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection13 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection13 )
-20001420 20001420        0     1 .osection14
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection14 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection14 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection14 )
-20001420 20001420        0     1 .osection15
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection15 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection15 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection15 )
-20001420 20001420        0     1 .osection16
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection16 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection16 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection16 )
-20001420 20001420        0     1 .osection17
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection17 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection17 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection17 )
-20001420 20001420        0     1 .osection18
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _sosection18 = .
-20001420 20001420        0     1         . = ALIGN ( 4 )
-20001420 20001420        0     1         _eosection18 = .
-20001420 20001420        0     1 compartLMA = compartLMA + SIZEOF ( .osection18 )
-20001420  8001b08        0     1 .osection19
-20001420  8001b08        0     1         . = ALIGN ( 4 )
-20001420  8001b08        0     1         _sosection19 = .
-20001420  8001b08        0     1         . = ALIGN ( 4 )
-20001420  8001b08        0     1         _eosection19 = .
-20001420  8001b08        0     1 compartLMA = compartLMA + SIZEOF ( .osection19 )
-20001420  8001b08        0     1 _edata = .
-20001420  8001b08        0     1 . = ALIGN ( 4 )
-20001420  8001b08      fa0     4 .bss
-20001420  8001b08        0     1         _sbss = .
-20001420  8001b08        0     1         __bss_start__ = _sbss
-20001420  8001b08      fa0     4         /tmp/firmware-d99fd8.o:(.bss)
-20001420  8001b08      fa0     1                 array_local
-200023c0  8002aa8        0     1         . = ALIGN ( 4 )
-200023c0  8002aa8        0     1         _ebss = .
-200023c0  8002aa8        0     1         __bss_end__ = _ebss
+20001400 20001400        0     1 .data
+20001400 20001400        0     1         . = ALIGN ( 32 )
+20001400 20001400        0     1         _sdata = .
+20001400 20001400        0     1         . = ALIGN ( 32 )
+20001400 20001400        0     1         _edata = .
+20001400 20001400        0     1 compartLMA = SIZEOF ( .data )
+20001400 20001400        0     1 .rtmkdata
+20001400 20001400        0     1         . = ALIGN ( 32 )
+20001400 20001400        0     1         _srtmkdata = .
+20001400 20001400        0     1         sstart = .
+20001400 20001400        0     1         . = ALIGN ( 32 )
+20001400 20001400        0     1         _ertmkdata = .
+20001400 20001400        0     1         _edata = .
+20001400 20001400        0     1         send = .
+20001400 20001400        0     1 compartLMA = compartLMA + SIZEOF ( .rtmkdata )
+20001400 20001400        0     1 .kernsyms
+20001400 20001400        0     1         . = ALIGN ( 32 )
+20001400 20001400        0     1         _skernsyms = .
+20001400 20001400        0     1         . = ALIGN ( 32 )
+20001400 20001400        0     1         _ekernsyms = .
+20001400  8005110     1c00     4 .osection0
+20001400  8005110      c00     1         . = 536879104
+20002000  8005d10        0     1         _sosection0 = .
+20002000  8005d10      fd4     4         /tmp/firmware-12dcf7.o:(.osection0)
+20002000  8005d10      fa0     1                 array_local
+20002fa0  8006cb0       10     1                 AHBPrescTable
+20002fb0  8006cc0       10     1                 APBAHBPrescTable
+20002fc0  8006cd0        4     1                 SystemCoreClock
+20002fc4  8006cd4       10     1                 AHBPrescTable.5
+20002fd4  8006ce4       2c     1         . = 536883200
+20003000  8006d10        0     1         _eosection0 = .
+20003000  8006d10        0     1 compartLMA = compartLMA + SIZEOF ( .osection0 )
+20003000  8006d10        0     1 _edata = .
+20003000  8006d10        0     1 _edata = .
+20003000  8006d10        0     1 . = ALIGN ( 4 )
+20003000  8006d10        0     1 .bss
+20003000  8006d10        0     1         _sbss = .
+20003000  8006d10        0     1         __bss_start__ = _sbss
+20003000  8006d10        0     1         . = ALIGN ( 4 )
+20003000  8006d10        0     1         _ebss = .
+20003000  8006d10        0     1         __bss_end__ = _ebss
        0        0       47     1 .ARM.attributes
-       0        0       47     1         /tmp/firmware-d99fd8.o:(.ARM.attributes)
+       0        0       47     1         /tmp/firmware-12dcf7.o:(.ARM.attributes)
        0        0      2f5     1 .debug_abbrev
-       0        0      2d6     1         /tmp/firmware-d99fd8.o:(.debug_abbrev)
+       0        0      2d6     1         /tmp/firmware-12dcf7.o:(.debug_abbrev)
      2d6      2d6       1f     1         build/reg.o:(.debug_abbrev)
        0        0     1e67     1 .debug_info
-       0        0     1c0b     1         /tmp/firmware-d99fd8.o:(.debug_info)
+       0        0     1c0b     1         /tmp/firmware-12dcf7.o:(.debug_info)
     1c0b     1c0b      25c     1         build/reg.o:(.debug_info)
        0        0     1104     1 .debug_str
        0        0     1104     1         <internal>:(.debug_str)
        0        0       29     1 .comment
        0        0       29     1         <internal>:(.comment)
        0        0      6c0     4 .debug_frame
-       0        0      6c0     4         /tmp/firmware-d99fd8.o:(.debug_frame)
-       0        0     1736     1 .debug_line
-       0        0     167b     1         /tmp/firmware-d99fd8.o:(.debug_line)
-    167b     167b       bb     1         build/reg.o:(.debug_line)
+       0        0      6c0     4         /tmp/firmware-12dcf7.o:(.debug_frame)
+       0        0     172f     1 .debug_line
+       0        0     1674     1         /tmp/firmware-12dcf7.o:(.debug_line)
+    1674     1674       bb     1         build/reg.o:(.debug_line)
        0        0       30     1 .debug_aranges
        0        0       30     1         build/reg.o:(.debug_aranges)
        0        0       38     1 .debug_ranges
        0        0       38     1         build/reg.o:(.debug_ranges)
-       0        0     1380     4 .symtab
-       0        0     1380     4         <internal>:(.symtab)
-       0        0      2a3     1 .shstrtab
-       0        0      2a3     1         <internal>:(.shstrtab)
-       0        0     1398     1 .strtab
-       0        0     1398     1         <internal>:(.strtab)
+       0        0     1010     4 .symtab
+       0        0     1010     4         <internal>:(.symtab)
+       0        0      13a     1 .shstrtab
+       0        0      13a     1         <internal>:(.shstrtab)
+       0        0     10a1     1 .strtab
+       0        0     10a1     1         <internal>:(.strtab)

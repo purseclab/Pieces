@@ -10,7 +10,7 @@ int foo() {
 }
 int main(int argc, char *argv[])
 {
-
+//	rtmk_init();
 	for( ;; ) {
 			foo();
 	}

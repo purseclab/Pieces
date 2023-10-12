@@ -10,6 +10,7 @@ class Firmware:
 		self.bitcode = config["bc"]
 		self.platform = config["platform"]
 		self.svd = config["svd"]
+		print(llvm_data_dir)
 		#Load function-file and data-file maps.
 		self.funcfilemap = read_key_value_file(llvm_data_dir + os.environ["FILE_MAP_FILE"], os.environ["EC_DELIM"])
 		self.datafilemap = read_key_value_file(llvm_data_dir + os.environ["DATA_MAP_FILE"], os.environ["EC_DELIM"])

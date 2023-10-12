@@ -119,7 +119,7 @@ def run_cmd(cmd, out=subprocess.DEVNULL, cwd_arg=None):
 	else:			
 		p = subprocess.Popen(cmd, stdout=out, stderr=out, cwd=cwd_arg)
 	p.wait()
-
+	debug("Ran" + str(cmd) + " in " + str(cwd_arg))
 	if p.returncode != 0:  
 		debug("Command didn't succeed:")
 		debug(cmd)

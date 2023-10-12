@@ -19,7 +19,7 @@ except Exception as e:
 	utils.print_help_msg(utils.load_config)
 	exit()
 
-
+os.environ["P_OUT_DIR"] = os.path.abspath(os.environ["P_OUT_DIR"]) +"/"
 os.makedirs(os.environ["P_OUT_DIR"], exist_ok=True)
 input["firmware"]["bc"] =  os.path.abspath(input["firmware"]["bc"])
 debug("Loading input firmware.")
