@@ -13,6 +13,7 @@ SOURCE_FILES_EC_BM += jail.c
 
 
 #Startup/boot related code, no need to look into it.
+SOURCE_FILES_EC_BM += ./autogen/autogen_data.c
 SOURCE_FILES_EC_BM += ./startup.c
 SOURCE_FILES_EC_BM += ./libs/STM32F4xx_StdPeriph_Driver/src/misc.c
 SOURCE_FILES_EC_BM += ./startup/system_stm32f4xx.c
@@ -36,6 +37,7 @@ LDFLAGS += -L/usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/lib/thumb/v
 
 
 INCLUDE_DIRS_EC_BM += -I./
+INCLUDE_DIRS_EC_BM += -I ../../partitioner/monitor/include/
 INCLUDE_DIRS_EC_BM += -I./CMSIS/Device/ST/STM32F4xx/Include/
 INCLUDE_DIRS_EC_BM += -I./CMSIS/Include/
 INCLUDE_DIRS_EC_BM += -I./libs/STM32F4xx_StdPeriph_Driver/inc/
@@ -85,9 +87,13 @@ bc: $(OBJ_FILES)
 
 exec: build/$(BIN).bc build/reg.o 
 	llc -filetype=obj build/$(BIN).bc
-	$(CC)  --target=arm-none-eabi -mthumb -mcpu=cortex-m4 $(LDFLAGS)  -Xlinker -Map=./rtmk.map build/$(BIN).bc $(BUILD_DIR)/reg.o -o ./build/$(BIN)
+	$(CC)  --target=arm-none-eabi -mthumb -mcpu=cortex-m4 $(LDFLAGS)  -Xlinker -Map=./rtmk.map build/$(BIN).bc $(BUILD_DIR)/reg.o -L ../../partitioner/monitor/ -lmonitor -o ./build/$(BIN)
 	size -A -d ./build/$(BIN) | tee ./sizeinfo
 
-
+ec:
+	ansible-playbook ./bm-playbook.yml
 rund:
 	gdb-multiarch ./build/$(BIN)
+
+run:
+	../../emulators/qemu-arm -M stm32-p103 -semihosting -nographic -kernel ./build/firmware.bin -s -S 

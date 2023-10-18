@@ -1,3 +1,4 @@
+#include <monitor.h>
 RTMK_CODE 
 unsigned int mon_lib_strlen(const char *str) {
 		int i =0;

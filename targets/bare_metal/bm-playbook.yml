@@ -4,6 +4,7 @@
   vars:
     static: ~/projects/LBC/SVF
     target: ./
+    monitor: ../../partitioner/monitor/
     llvm_build_dir: /home/arslan/projects/LBC/llvm-project/llvm-pkg/bin/
     clang_build_dir: ~/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin/
     codeql_dir: /home/arslan/projects/codeql/
@@ -15,6 +16,10 @@
   environment:
     PATH: '{{ ansible_env.PATH }}'
   tasks:
+    - name: Build monitor
+      shell:
+        cmd: echo $PWD && scons platform=stm32 --clean && scons platform=stm32
+        chdir: '{{ monitor }}'
     - name: Print message
       debug:
         msg: ECC ;)
@@ -33,9 +38,15 @@
       debug:
         msg: Hehe no symex..
 
+    - name: Create autogen directory
+      ignore_errors: true
+      shell:        
+        cmd: mkdir autogen
+        chdir: '{{ target }}'
+
     - name: Generate Vanilla Firmware
       shell:
-        cmd: make clean && make bc
+        cmd: make clean 
         chdir: '{{ target }}'
 
 

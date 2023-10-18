@@ -1,0 +1,11 @@
+cflags = " -flto=thin -O0 -g"
+Import("env")
+platform = env["PLATFORM"]
+if platform == "stm32":
+    cflags  = cflags + " --target=arm-none-eabi -DCONFIG_CPU_CORTEX_M4 -DSTM32F4xx -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 "
+
+
+env.Import('*')
+env.Append(CCFLAGS = cflags)
+objs = env.Object([env.Glob("*.c")])
+Return("objs")

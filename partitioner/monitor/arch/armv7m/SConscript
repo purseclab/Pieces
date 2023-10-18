@@ -1,5 +1,16 @@
-cflags = "-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -g -DSTM32F769xx -DCONFIG_CPU_CORTEX_M7 -DBAREMTL"
+cflags = " -flto=thin --target=arm-none-eabi -O0 -g"
+platform = ARGUMENTS.get('platform', "stm32")
+
+if platform == "stm32":
+	cfalgs  = cflags + " -DCONFIG_CPU_CORTEX_M4 -DSTM32F4xx -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 "
 env = Environment()
 env.Import('*')
+dir = Dir("./CMSIS/Include/")
+gcc_path = Dir("/usr/lib/gcc/arm-none-eabi/9.2.1/include")
+env.Append(CPPPATH = gcc_path)
+env.Append(CPPPATH = dir)
 env.Append(CCFLAGS = cflags)
-env.Library('monitor', [env.Glob("*.c")])
+objs= env.Object(source = [env.Glob("./*.c")])
+Return("objs")
+
+

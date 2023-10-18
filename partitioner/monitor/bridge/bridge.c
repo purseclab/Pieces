@@ -1,5 +1,5 @@
 #include <monitor.h>
-
+#define MK_METHOD
 RTMK_DATA
 int goff;//Global offset across xcalls for shared memory
 RTMK_CODE void* rtmkcpy(void * dest, void * src, int size);

@@ -1,5 +1,6 @@
 #include <monitor.h>
-
+#include <arch/armv7m/arch.h>
+void arch_error_fatal();
 /*********
   Locals
   ********/
@@ -8,6 +9,7 @@ static int counter;
 RTMK_CODE
 void _test_debug_mon() {
 		/* Good testing script because gdb won't work with debugmon hack */
+#if 0
 		counter++;
         switch (counter % 4) {
                 case 3: //11
@@ -30,6 +32,7 @@ void _test_debug_mon() {
                         break;
 
         }
+#endif 
 }
 
 RTMK_DATA static int debugmon_hits = 0; 

@@ -1,0 +1,2 @@
+*.sconsign.dblite
+partitioner/monitor/build/*

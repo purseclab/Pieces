@@ -61,7 +61,7 @@ def main(argv):
 			else:
 					outFile.write(line)
 
-	prologue_string  = "#include <rtmk.h> \n RTMK_DATA \n SEC_INFO comp_info[] = {"
+	prologue_string  = "#include <monitor.h> \n #include <arch/armv7m/arch.h> \n RTMK_DATA \n SEC_INFO comp_info[] = {"
 	#CodeStart,CodeSize,DataStart,DataSize
 	endstring = "};"
 	f = open(configFile, "w")

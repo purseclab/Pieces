@@ -1,6 +1,6 @@
-cflags = " --target=x86_64-unknown-linux-gnu -fsplit-lto-unit "
 env = Environment()
 env.Import('*')
-env.Append(CPPPATH="/usr/include/")
-env.Append(CCFLAGS=cflags)
-env.Library('monitor', [env.Glob("*.c")])
+objs= env.Object(source = [env.Glob("./*.c")])
+Return("objs")
+
+

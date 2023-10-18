@@ -1,6 +1,15 @@
 #include <monitor.h>
-#include "autogen_data.c"
+#include <arch/armv7m/arch.h>
 
+
+//This should come from core:
+extern unsigned int init;
+extern unsigned int last;
+extern unsigned int current;
+
+
+//This comes from autogen:
+#define BOOT_COMPARTMENT 0
 #define KLEE
 #ifdef KLEE
 unsigned char * _shared_region;
@@ -15,22 +24,12 @@ RTMK_CODE
 void SVC_Handler_Main( unsigned int *svc_args );
 extern unsigned char * _shared_region;
 RTMK_CODE void* rtmkcpy(void * dest, void * src, int size);
-# if 1
-RTMK_DATA
-char shadow_stack[32];
-#endif 
-
-RTMK_DATA 
-int sp;
 
 RTMK_DATA
 volatile unsigned long long bridge_time;
 
 RTMK_DATA
 volatile unsigned long long exit_time;
-
-RTMK_DATA
-int goff;//Global offset across xcalls for shared memory
 
 
 RTMK_CODE
@@ -83,36 +82,10 @@ void _init_mpu() {
 }
 RTMK_CODE
 int arch_mm_switch_view(int to, int push) {
-		/* Until kernel is init no need to update MPU */
-        if (init == 0) {
-                last = current; current = to;
-                return last;
-        }
-#if SSTACK
-        if (push) {
-                shadow_stack[sp++] = to;
-                if (sp>highest)
-                        highest = sp;
-        } else {
-                int temp = shadow_stack[--sp]; // Current
-                if (current != temp) {
-                        //  while(1); // This is a BUG.
-                }
-                temp = shadow_stack[sp-1];
-                if (temp != to) {
-                        /* Buffer overflow condition */
-                        //  while(1);
-                }
-        }
-#endif
-        last = current;
-        current = to;
         __DSB();
         /* Disable MPU */
         MPU->CTRL = 0;
 
-        last = current;
-        current = to;
         MPU->RNR = 7;
         /* Configure region 1 to cover CPU 32KB SRAM (Normal, Non-Shared, Executable, Full Access) */
         MPU->RBAR = (comp_info[to].start & MPU_RBAR_ADDR_Msk) | MPU_RBAR_VALID_Msk |  7;
@@ -134,7 +107,8 @@ int arch_mm_switch_view(int to, int push) {
 
         __ISB();
         __DSB();
-        return last;
+
+		return 0;
 }
 
 

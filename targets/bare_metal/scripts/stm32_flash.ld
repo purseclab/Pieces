@@ -91,67 +91,35 @@ SECTIONS
   }
   .csection0 : 
   {
-  . = 134225920;
+  . = 134221824;
 _scsection0 = .;
 	*(.csection0)
-	. = 134234112;
+	. = 134225920;
 _ecsection0 = .;
   } > FLASH 
   .csection1 : 
   {
-  . = 134234112;
+  . = 134225920;
 _scsection1 = .;
 	*(.csection1)
-	. = 134234368;
+	. = 134226432;
 _ecsection1 = .;
   } > FLASH 
   .csection2 : 
   {
-  . = 134234368;
+  . = 134227968;
 _scsection2 = .;
 	*(.csection2)
-	. = 134234432;
+	. = 134230016;
 _ecsection2 = .;
   } > FLASH 
   .csection3 : 
   {
-  . = 134235136;
+  . = 134230016;
 _scsection3 = .;
 	*(.csection3)
-	. = 134236160;
+	. = 134230272;
 _ecsection3 = .;
-  } > FLASH 
-  .csection4 : 
-  {
-  . = 134242304;
-_scsection4 = .;
-	*(.csection4)
-	. = 134250496;
-_ecsection4 = .;
-  } > FLASH 
-  .csection5 : 
-  {
-  . = 134250496;
-_scsection5 = .;
-	*(.csection5)
-	. = 134251008;
-_ecsection5 = .;
-  } > FLASH 
-  .csection6 : 
-  {
-  . = 134254592;
-_scsection6 = .;
-	*(.csection6)
-	. = 134258688;
-_ecsection6 = .;
-  } > FLASH 
-  .csection7 : 
-  {
-  . = 134258688;
-_scsection7 = .;
-	*(.csection7)
-	. = 134258944;
-_ecsection7 = .;
   } > FLASH 
 
    .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
@@ -234,7 +202,7 @@ _ecsection7 = .;
 	. = 536879104;
 	_sosection0 = .;
 	*(.osection0)
-	. = 536887296;
+	. = 536883200;
 	_eosection0 = .;
   }  > RAM 
 compartLMA = compartLMA + SIZEOF(.osection0); 

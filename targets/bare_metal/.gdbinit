@@ -1,4 +1,4 @@
-target remote :3333
+target remote :1234
 load
 b main
 monitor tpiu config internal itm.fifo uart off 168000000

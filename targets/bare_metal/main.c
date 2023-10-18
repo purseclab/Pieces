@@ -1,6 +1,6 @@
 /* Hardware and starter kit includes. */
 //#include "arm_comm.h"
-extern void jail();
+extern int jail();
 int foo() {
 		volatile int i=0;
 		while(i<0) i++;
@@ -10,7 +10,7 @@ int foo() {
 }
 int main(int argc, char *argv[])
 {
-//	rtmk_init();
+	mon_init();
 	for( ;; ) {
 			foo();
 	}

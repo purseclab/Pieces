@@ -5,20 +5,26 @@ include = Dir('include')
 include2 = Dir('/home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/')
 env = Environment(CC=clang, AR=ar, LD=ld, CPPPATH=[include, include2], CCFLAGS="-flto=thin")
 debug = ARGUMENTS.get('debug', 0)
-platform = ARGUMENTS.get('platform', "x64")
+env["PLATFORM"] = ARGUMENTS.get('platform', "x64")
 
 Export('env')
 
+#Available platforms for ARM
 armv7m = ["stm32"]
-if platform in armv7m:
+
+if env["PLATFORM"] in armv7m:
 	arch = "armv7m"
 else:
 	arch = "x64"
-deps = []
-
+deps = ["./core/SConscript"]
+deps.append("./lib/SConscript")
 deps.append("./arch/"+arch+"/SConscript")
 deps.append("./bridge/SConscript")
-deps.append("./lib/SConscript")
 
-SConscript(deps)
+
+obs = []
+for dep in deps:
+	obs.append(SConscript(dep))
+
+Library("libmonitor.a", obs)
 
