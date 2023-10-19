@@ -133,6 +133,22 @@ string getRetType(CallInst * ci) {
 		}
 		return ret;
 }
+
+Type* getRetTy(CallInst * ci, IRBuilder<> &Builder) {
+		llvm::Type * ret;
+        if (ci->getType()->isVoidTy()) {
+                ret = Builder.getVoidTy();
+        } else if (ci->getType()->isIntegerTy()) {
+                ret = Builder.getInt32Ty();
+        } else if (ci->getType()->isPointerTy()) {
+				ret = Builder.getInt8PtrTy();
+        } else {
+                cerr<<"Pass incomplete" <<endl;
+                ci->dump();
+                ret = NULL;
+        }
+        return ret;
+}
 static map<int,vector<string>> compartments;
 static map<string, int>compartmentMap;
 int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
@@ -154,27 +170,26 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 		switch (num) {
 				case 0: {
 								string funcName;
+								FunctionType* funcType;
+								llvm::ArrayRef<llvm::Type*> args = {Builder.getInt32Ty(), Builder.getInt8PtrTy()};
 								if (ci->getType()->isVoidTy()) {
 										funcName = "xcall_arg0";
+										funcType = FunctionType::get(Builder.getVoidTy(), args, false);
 								} else if (ci->getType()->isIntegerTy()) {
 										funcName = "icall_arg0";
+										funcType = FunctionType::get(Builder.getInt32Ty(), args, false);
 								} else if (ci->getType()->isPointerTy()) {
 										funcName = "pcall_arg0";
+										funcType = FunctionType::get(Builder.getInt8PtrTy(), args, false);
 								} else {
 										cerr<<"Pass incomplete" <<endl;
 										//ci->dump();
 										return 0;
 								}
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+							    Function* f = Function::Create(funcType, Function::ExternalLinkage, funcName, ll_mod);
 								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(func->getContext()));
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
+								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(f->getContext()));
+								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(f->getContext(),
 														llvm::APInt(32, compID, false)), ccallee});
 								if (ci->getType() == new_inst->getType()) {
 										//new_inst->dump();
@@ -204,6 +219,7 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 								Value *sizeInt = NULL;
 								auto arg = ci->getArgOperand(0);
 								ret = getRetType(ci);
+								auto ret_type = getRetTy(ci, Builder);
 								if (ret.empty())
 										return 0;
 								args = argToBridge(ci, 0, &v, &sizeInt);
@@ -215,8 +231,8 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 										cerr<< funcName << " not implemented" <<endl;
 										return 0;
 								}
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType()}, false);
+								Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
 								int compID = compartmentMap[callee->getName().str()];
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
 
@@ -258,6 +274,7 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 								auto args2 = argToBridge(ci, 1, &v1, &sizeInt1);
 								if (args.empty())
 										return 0;
+
 								funcName = ret + "call_arg2" + args + args2;
 								auto func = ll_mod->getFunction(funcName);
 								if (func==NULL) {
@@ -265,8 +282,8 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 										return 0;
 								}
 
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType()}, false);
+                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
 								int compID = compartmentMap[callee->getName().str()];
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
 
@@ -317,8 +334,8 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 										return 0;
 								}
 
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType()}, false);
+                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
 								int compID = compartmentMap[callee->getName().str()];
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
 
@@ -378,8 +395,9 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 										return 0;
 								}
 
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType(), v3->getType(), sizeInt3->getType()}, false);
+                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
+
 								int compID = compartmentMap[callee->getName().str()];
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
 
@@ -445,8 +463,10 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 										cerr<< funcName << " not implemented" <<endl;
 										return 0;
 								}
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType(), v3->getType(), sizeInt3->getType(), v4->getType(), sizeInt4->getType()}, false);
+                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
+
 								int compID = compartmentMap[callee->getName().str()];
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
 
@@ -506,8 +526,10 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 										cerr<< funcName << " not implemented" <<endl;
 										return 0;
 								}
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType(), v3->getType(), sizeInt3->getType(), v4->getType(), sizeInt4->getType(), v5->getType(), sizeInt5->getType()}, false);
+                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
+
 								int compID = compartmentMap[callee->getName().str()];
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
 
@@ -558,38 +580,83 @@ int promoteXCallNoCalee(CallInst * ci, BasicBlock::iterator& stmt, int compID) {
 		IRBuilder<> Builder(stmt->getParent());
 		BasicBlock::iterator it(stmt);it--;
 		//Builder.SetInsertPoint(stmt->getNextNode()->getPrevNode());
-		switch (ci->arg_size()) {
-				case 0: {
-								string funcName;
-								if (ci->getType()->isVoidTy()) {
-										funcName = "xcall_arg0";
-								} else if (ci->getType()->isIntegerTy()) {
-										funcName = "icall_arg0";
-								}
-								auto func = ll_mod->getFunction(funcName);
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
-								auto callee = ci->getCalledOperand ();
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), callee});
-								//new_inst->dump();
-								stmt++;
-								new_inst->removeFromParent();
-								ReplaceInstWithInst(ci, new_inst);
-								break;
-						}
-				default:
-						cerr<<"Pass incomplete NoCalee"<<endl;
-						ci->dump();
 
-						break;
+
+		auto params = ci->getFunctionType()->params().vec();
+		vector<Type *> args;
+		vector<Value *> args_val;
+		args.push_back(Builder.getInt32Ty());
+		args.push_back(Builder.getInt8PtrTy());
+		auto p = llvm::ConstantInt::get(Builder.getInt32Ty(), llvm::APInt(32, compID, false));
+		args_val.push_back(p);
+		auto ccallee = Builder.CreatePointerCast(ci->getCalledOperand(), Builder.getInt8PtrTy());
+		args_val.push_back(ccallee);
+
+
+		int i =0;
+		string func_name = getRetType(ci);
+		func_name = func_name + "call_arg";
+		string suffix = "";
+		for (auto arg: params) {
+				Value * v;
+				Value * size;
+				suffix = suffix + argToBridge(ci, i++, &v, &size);
+				args.push_back(v->getType());
+				args.push_back(size->getType());
+				args_val.push_back(v);
+				args_val.push_back(size);
 		}
+		func_name = func_name + std::to_string(i) + suffix;
+
+		auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
+		Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
+
+		auto new_inst = Builder.CreateCall(f,args_val);
+
+		stmt++;
+		new_inst->removeFromParent();
+        ReplaceInstWithInst(ci, new_inst);
+
 		return 0;
 }
 int promoteXCallNoCaleeNoId(CallInst * ci, BasicBlock::iterator& stmt) {
 		IRBuilder<> Builder(ci);
 		BasicBlock::iterator it(stmt);it--;
 		//Builder.SetInsertPoint(stmt->getNextNode()->getPrevNode());
+
+		auto params = ci->getFunctionType()->params().vec();
+        vector<Type *> args;
+        vector<Value *> args_val;
+        args.push_back(Builder.getInt8PtrTy());
+		auto ccallee = Builder.CreatePointerCast(ci->getCalledOperand(), Builder.getInt8PtrTy());
+        args_val.push_back(ccallee);
+
+
+        int i =0;
+        string func_name = getRetType(ci);
+        func_name = func_name + "call_arg";
+        string suffix = "_noid";
+        for (auto arg: params) {
+                Value * v;
+                Value * size;
+                suffix = suffix + argToBridge(ci, i++, &v, &size);
+                args.push_back(v->getType());
+                args.push_back(size->getType());
+                args_val.push_back(v);
+                args_val.push_back(size);
+        }
+        func_name = func_name + std::to_string(i) + suffix;
+
+        auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
+        Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
+
+        auto new_inst = Builder.CreateCall(f,args_val);
+
+        stmt++;
+        new_inst->removeFromParent();
+        ReplaceInstWithInst(ci, new_inst);
+
+		return 0;
 		switch (ci->arg_size()) {
 				case 0: {
 								string funcName;
@@ -630,8 +697,8 @@ int promoteXCallNoCaleeNoId(CallInst * ci, BasicBlock::iterator& stmt) {
 										return 0;
 								}
 								auto callee = ci->getCalledOperand ();
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
+								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt8PtrTy(), v->getType(), sizeInt->getType()}, false);
+								auto f= Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
 								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(ci->getContext()));
 
 								auto new_inst = Builder.CreateCall(f,{ccallee, v, sizeInt});
@@ -802,7 +869,7 @@ int compartmentalize(char * argv[]) {
                         continue;
                 }
 				if (fun->isIntrinsic ()) {
-						ffmap<<fun->getName().str()<<"##" << "intrinsic"<<endl;
+						//ffmap<<fun->getName().str()<<"##" << "intrinsic"<<endl;
 						ignoreList<<fun->getName().str()<<endl;
 						continue;
 				}
@@ -828,7 +895,7 @@ int compartmentalize(char * argv[]) {
 						}
 				}
 				if (found ==0) {
-						ffmap<<fun->getName().str()<<"##" << "external"<<endl;
+						//ffmap<<fun->getName().str()<<"##" << "external"<<endl;
 						cout<<fun->getName().str()<< " is defined externally" <<endl;
 				}
 		}
