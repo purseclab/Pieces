@@ -3,6 +3,9 @@
 RTMK_DATA
 int goff;//Global offset across xcalls for shared memory
 RTMK_CODE void* rtmkcpy(void * dest, void * src, int size);
+RTMK_DATA
+extern
+int total_secs;
 
 typedef void (*xfunction0)(void);
 typedef int  (*ifunction0)(void);
@@ -406,8 +409,7 @@ RTMK_CODE int getCompartmentFromAddr(unsigned int addr) {
 		int ret;
 		int compartment = 0;
 		/* TODO: Binary search would be far superior here */
-#if 0
-		for (int i =0; i< (sizeof(comp_info)/sizeof(comp_info[0])); i++) {
+		for (int i =0; i< total_secs; i++) {
 				if (addr > comp_info[i].start && addr < comp_info[i].end) {
 						compartment = i;
 						break;
@@ -417,7 +419,6 @@ RTMK_CODE int getCompartmentFromAddr(unsigned int addr) {
 						break;
 				}
 		}
-#endif 
 		BNCHEND(bridge_time, handle);
 		return compartment;
 }

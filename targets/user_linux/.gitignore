@@ -1,0 +1,6 @@
+out/*
+build/*
+rtmk.map
+linker.stat
+sizeinfo
+autogen/*

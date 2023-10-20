@@ -4,6 +4,7 @@ import sys, getopt
 import math
 
 fragmentation=0
+arch = "armv7m"
  
 # Function to check
 # Log base 2
@@ -43,7 +44,10 @@ def writeCodeSections(cpatch, csections):
 				cpatch.write("	*(.csection"+str(i)+")\n")
 				cpatch.write("	. = "+ str(csections[cs + str(section)][0] + csections[cs + str(section)][1])+";\n")
 				cpatch.write("_ecsection"+str(i)+" = .;\n")
-				cpatch.write("  } > FLASH \n")
+				if arch=="armv7m":
+					cpatch.write("  } > FLASH \n")
+				else:
+					cpatch.write("  }")
 				i +=1
 
 def writeDataSections(dpatch, dsections):
@@ -57,7 +61,10 @@ def writeDataSections(dpatch, dsections):
 				dpatch.write("	*(.osection"+str(i)+")\n")
 				dpatch.write("	. = "+ str(dsections[os + str(section)][0] + dsections[os + str(section)][1])+";\n")
 				dpatch.write("	_eosection" +str(i) +" = .;\n")
-				dpatch.write("  }  > RAM \n")
+				if arch=="armv7m":
+					dpatch.write("  }  > RAM \n")
+				else:
+					dpatch.write(" }")
 #				dpatch.write("  }  > RAM \n")
 				dpatch.write("compartLMA = compartLMA + SIZEOF(.osection"+str(i) +"); \n")
 				i += 1
@@ -127,11 +134,12 @@ def printSortedAndVerifSections(sections):
 
 def main(argv):
 	global fragmentation
+	global arch
 	inputfile = ''
 	outputfile = ''
 	devFile = None
 	try:
-		opts, args = getopt.getopt(argv,"hi:o:l:c:d:",["ifile=","ofile="])
+		opts, args = getopt.getopt(argv,"hi:o:l:c:d:a:",["ifile=","ofile="])
 	except getopt.GetoptError:
 		print 'test.py -i <inputfile> -o <outputfile>'
 		sys.exit(2)
@@ -147,6 +155,8 @@ def main(argv):
 			configFile = arg
 		elif opt in ("-d"):
 			devFile = arg
+		elif opt in ("-a"):
+			arch = arg
 	print 'Input file is "', inputfile
 	outputFile = overlay.replace("overlay","ld")
 	outFile = open(outputFile, "w")
@@ -212,13 +222,17 @@ def main(argv):
 	lumpText = [rtmkCode[0]+rtmkCode[1] - FLASH_BASE, FLASH_BASE]
 	stat= open("./linker.stat", "w")
 	fragmentation=0
-	size = printSortedAndFixupSections(codesections, fixup(lumpText))
+
+	if arch=="armv7m":
+		size = printSortedAndFixupSections(codesections, fixup(lumpText))
+	
 	codeFragmentation = fragmentation
 	stat.write(str(size)+"\n")
 	stat.write(str(codeFragmentation)+"\n")
 	fragmentation  = 0
 	lumpData = [rtmkData[0]+rtmkData[1] - RAM_BASE, RAM_BASE]
-	size = printSortedAndFixupSections(datasections, fixup(lumpData))
+	if arch=="armv7m":
+		size = printSortedAndFixupSections(datasections, fixup(lumpData))
 	dataFragmentation = fragmentation
 	stat.write(str(size)+"\n")
 	stat.write(str(dataFragmentation)+"\n")
@@ -237,7 +251,14 @@ def main(argv):
 					writeCodeSections(outFile, codesections)
 			else:
 					outFile.write(line)
-	prologue_string  = "#include <monitor.h> \n #include <arch/armv7m/arch.h> \n RTMK_DATA \n  SEC_INFO comp_info[] = {"
+	prologue_string  = "#include <monitor.h> \n "
+	if arch == "armv7m":
+		prologue_string += "#include <arch/armv7m/arch.h> \n "
+	prologue_string += "RTMK_DATA \n  SEC_INFO comp_info[] = {"
+
+	if arch =="x64":
+		global sizeRegionMap
+		sizeRegionMap= { 0:"0", 32: "32", 64: "64", 128: "128", 256: "256", 512: "512", 1024: "1024", 2048: "2048", 4096: "4096", 8192:"8192", 16384: "16384", 32768: "32768", 65536: "65536", 131072: "131072", 262144: "262144", 524288: "524288", 1048576: "1048576", 2097152:"2097152", 4194304:"4194304",8388608:"8388608",16777216:"16777216",33554432:"33554432",67108864:"67108864",134217728:"134217728",268435456:"268435456",536870912:"536870912",1073741824:"1073741824",2147483648:"2147483648",4294967296:"4294967296"}	
 	#CodeStart,CodeSize,DataStart,DataSize
 	endstring = "}; \n"
 	f = open(configFile, "w")
@@ -264,13 +285,19 @@ def main(argv):
 #			print(hex(int(csection[1])))
 #			print(hex(int(csection[0])))
 
-			f.write(sizeRegionMap[csection[0]])#Size
+			if arch == "armv7m":
+				f.write(sizeRegionMap[csection[0]])#Size
+			else:
+				f.write(str(csection[0]))
 			f.write(",")
 			f.write(str(dsection[1]))
 			f.write(",")
 #			print(hex(int(dsection[1])))
 #			print(hex(int(dsection[0])))
-			f.write(sizeRegionMap[dsection[0]])
+			if arch == "armv7m":
+				f.write(sizeRegionMap[dsection[0]])
+			else:
+				f.write(str(dsection[0]))
 			f.write(",")
 			f.write(str(csection[0] + csection[1]))
 			f.write(",")
@@ -283,16 +310,28 @@ def main(argv):
 			print("After")
 			print(start)
 			print(size)
-			f.write("," + str(start) + " , "  + sizeRegionMap[size] + " , " + str(end))
+			if arch == "armv7m":
+				f.write("," + str(start) + " , "  + sizeRegionMap[size] + " , " + str(end))
+			else:
+				f.write("," + str(start) + " , "  + str(size) + " , " + str(end))
 			f.write("}")
 			i +=1
 			if i!= len(codesections):
 					f.write(",")
 	f.write(endstring)
 	f.write("RTMK_DATA int code_base= "+ str(FLASH_BASE) + ";\n");
-	f.write("RTMK_DATA int code_size= "+ str(sizeRegionMap[codesections[".csection0"][1] - FLASH_BASE]) +";\n")
+	if arch == "armv7m":
+		f.write("RTMK_DATA int code_size= "+ str(sizeRegionMap[codesections[".csection0"][1] - FLASH_BASE]) +";\n")
+	else:
+		f.write("RTMK_DATA int code_size= "+ str(codesections[".csection0"][1] - FLASH_BASE) +";\n")
 	f.write("RTMK_DATA int data_base= "+ str(RAM_BASE) + ";\n");
-	f.write("RTMK_DATA int data_size= "+ str(sizeRegionMap[datasections[".osection0"][1] - RAM_BASE]) + ";\n")
+	if arch == "armv7m":
+		f.write("RTMK_DATA int data_size= "+ str(sizeRegionMap[datasections[".osection0"][1] - RAM_BASE]) + ";\n")
+	else:
+		f.write("RTMK_DATA int data_size= "+ str(datasections[".osection0"][1] - RAM_BASE) + ";\n")
+
+
+	f.write("int total_secs = sizeof(comp_info) / sizeof(comp_info[0]);")
 
 
 

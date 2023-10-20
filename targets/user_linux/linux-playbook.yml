@@ -1,0 +1,92 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    static: ~/projects/LBC/SVF
+    target: ./
+    monitor: ../../partitioner/monitor/
+    llvm_build_dir: /home/arslan/projects/LBC/llvm-project/llvm-pkg/bin/
+    clang_build_dir: ~/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin/
+    codeql_dir: /home/arslan/projects/codeql/
+    clang_include_dir: /home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/
+    klee_build_dir: ~/projects/KLEE/klee/build/bin/
+    llvm_pkg: ~/projects/LBC/checkedC-12/src/package/bin/
+    curr_dir: ./
+    
+  environment:
+    PATH: '{{ ansible_env.PATH }}'
+  tasks:
+    - name: Build monitor
+      shell:
+        cmd: echo $PWD && scons platform=null --clean && scons platform=null
+        chdir: '{{ monitor }}'
+    - name: Print message
+      debug:
+        msg: ECC ;)
+
+    - name: Patching Allocator
+      debug:
+        msg: Hehehe no allocator..
+
+    - name: Clean Cached Policy
+      ignore_errors: true
+      shell:
+        cmd: test -f ./.policy && rm ./.policy
+        chdir: '{{ static }}'
+
+    - name: Generate SymEx Harness
+      debug:
+        msg: Hehe no symex..
+
+    - name: Create autogen directory
+      ignore_errors: true
+      shell:        
+        cmd: mkdir autogen
+        chdir: '{{ target }}'
+
+    - name: Generate Vanilla Firmware
+      shell:
+        cmd: make clean 
+        chdir: '{{ target }}'
+
+
+    - name: Initial Link Setup
+      shell:
+        cmd: ../../partitioner/scripts/setupLD.py -n 20 -l '{{ target }}'scripts/linux.overlay -c '{{ target }}'/autogen/autogen_data.c -H '{{ target }}'/autogen/autogen_heap.c -a x64
+        chdir: '{{ target }}'
+
+    - name: Unpartitioned Build
+      shell:
+        cmd: make clean && mkdir build &&  make bc
+        chdir: '{{ target }}'
+
+
+    - name: Partitioning Firmware and blind relocations
+      shell:
+        cmd: ../../partitioner/run.py ./linux_user.json && ../../partitioner/scripts/setupLD.py -n $(shell cat '{{ target }}'/out/.policy | wc -l) -l '{{ target }}'scripts/linux.overlay -c '{{ target }}'/autogen/autogen_data.c -H '{{ target }}'/autogen/autogen_heap.c 
+        chdir: '{{ target }}'
+
+    - name: Partitioned Build
+      shell:
+        cmd: make exec
+        chdir: '{{ target }}'
+
+    - name: Binary relocations harness
+      shell:
+        cmd: ../../partitioner/scripts/checkMPUReq.py -i '{{ target }}'sizeinfo -l '{{ target }}'scripts/linux.overlay -c '{{ target }}'autogen/autogen_data.c -d '{{ target }}'out/rtmk.devautogen -a x64
+        chdir: '{{ target }}'
+
+    - name: Binary relocations
+      shell:
+        cmd: make clean && mkdir build && make bc 
+        chdir: '{{ target }}'
+
+    - name: Static Binary patching
+      shell:
+        cmd: ../../partitioner/run.py ./linux_user.json
+        chdir: '{{ target }}'
+
+    - name: EC-Compatible Build
+      shell:
+        cmd: make exec
+        chdir: '{{ target }}'

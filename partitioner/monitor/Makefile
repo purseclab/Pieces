@@ -1,5 +1,5 @@
 all:
-	scons platform=x64
+	scons platform=null
 
 clean:
-	scons -c
+	scons platform=null -c

@@ -3,8 +3,8 @@
 			"bc" : "./build/firmware.bin.bc",
 			"symex_bc": "./build/firmware.bin.bc",
 			"background_policy" : "file",
-			"os": "baremetal",
-			"platform": "STMicro",
+			"os": "linux",
+			"platform": "x64",
 			"svd": "STM32F46_79x.svd",
 			"relaxed_pins": "True",
 			"cliques": {

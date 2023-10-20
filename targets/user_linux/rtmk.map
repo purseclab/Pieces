@@ -1,0 +1,163 @@
+             VMA              LMA     Size Align Out     In      Symbol
+               0                0   4002e0     1 . = SEGMENT_START ( "text-segment" , 0x400000 ) + SIZEOF_HEADERS
+          4002e0           4002e0       1c     1 .interp
+          4002e0           4002e0       1c     1         <internal>:(.interp)
+          4002fc           4002fc       20     4 .note.ABI-tag
+          4002fc           4002fc       20     4         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.note.ABI-tag)
+          400320           400320       1c     8 .gnu.hash
+          400320           400320       1c     8         <internal>:(.gnu.hash)
+          400340           400340       78     8 .dynsym
+          400340           400340       78     8         <internal>:(.dynsym)
+          4003b8           4003b8       6e     1 .dynstr
+          4003b8           4003b8       6e     1         <internal>:(.dynstr)
+          400426           400426        a     2 .gnu.version
+          400426           400426        a     2         <internal>:(.gnu.version)
+          400430           400430       20     4 .gnu.version_r
+          400430           400430       20     4         <internal>:(.gnu.version_r)
+          400450           400450       30     8 .rela.dyn
+          400450           400450       30     8         <internal>:(.rela.dyn)
+          400480           400480      b80     1 . = ALIGN ( CONSTANT ( MAXPAGESIZE ) )
+          401000           401000       1b     4 .init
+          401000           401000       16     4         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o:(.init)
+          401000           401000        0     1                 _init
+          401016           401016        5     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.init)
+          401020           401020      100    16 .text
+          401020           401020       35    16         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.text)
+          401020           401020       2f     1                 _start
+          401050           401050        5     1                 _dl_relocate_static_pie
+          401055           401055        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o:(.text)
+          401060           401060       a6    16         /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o:(.text)
+          401060           401060        0     1                 deregister_tm_clones
+          401090           401090        0     1                 register_tm_clones
+          4010d0           4010d0        0     1                 __do_global_dtors_aux
+          401100           401100        0     1                 frame_dummy
+          401108           401108        0     4         /tmp/firmware-ab6812.o:(.text)
+          401108           401108        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o:(.text)
+          401108           401108        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.text)
+          401108           401108        0     4         lto.tmp:(.text)
+          401110           401110        f    16         lto.tmp:(.text.mon_init)
+          401110           401110        f     1                 mon_init
+          401120           401120        0     4         lto.tmp:(.text)
+          401120           401120        0     4         lto.tmp:(.text)
+          401120           401120        d     4 .fini
+          401120           401120        8     4         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o:(.fini)
+          401120           401120        0     1                 _fini
+          401128           401128        5     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.fini)
+          401130           401130       97    16 .csection0
+          401130           401130       97    16         /tmp/firmware-ab6812.o:(.csection0)
+          401130           401130       46     1                 foo
+          401180           401180        6     1                 __libc_csu_fini
+          401190           401190        6     1                 __libc_csu_init
+          4011a0           4011a0       27     1                 main
+          4011d0           4011d0       66    16 .csection1
+          4011d0           4011d0       66    16         /tmp/firmware-ab6812.o:(.csection1)
+          4011d0           4011d0       66     1                 jail
+          401240           401240       a0    16 .rtmkcode
+          401240           401240       31    16         lto.tmp:(.rtmkcode)
+          401240           401240       31     1                 switch_view
+          401280           401280       16    16         lto.tmp:(.rtmkcode)
+          401280           401280        e     1                 arch_mm_switch_view
+          401290           401290        6     1                 arch_mm_init
+          4012a0           4012a0       40    16         lto.tmp:(.rtmkcode)
+          4012a0           4012a0       40     1                 icall_arg0
+          4012e0           4012e0      d20     1 . = ALIGN ( CONSTANT ( MAXPAGESIZE ) )
+          402000           402000        0     1 . = SEGMENT_START ( "rodata-segment" , ALIGN ( CONSTANT ( MAXPAGESIZE ) ) + ( . & ( CONSTANT ( MAXPAGESIZE ) - 1 ) ) )
+          402000           402000        4     4 .rodata
+          402000           402000        4     4         <internal>:(.rodata)
+          402004           402004       6c     4 .eh_frame_hdr
+          402004           402004       6c     4         <internal>:(.eh_frame_hdr)
+          402070           402070      194     8 .eh_frame
+          402070           402070       30     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.eh_frame+0x0)
+          4020a0           4020a0       14     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.eh_frame+0x48)
+          4020b8           4020b8       7c     1         /tmp/firmware-ab6812.o:(.eh_frame+0x18)
+          402138           402138       24     1         /tmp/firmware-ab6812.o:(.eh_frame+0x94)
+          402160           402160       40     1         lto.tmp:(.eh_frame+0x18)
+          4021a0           4021a0       40     1         lto.tmp:(.eh_frame+0x18)
+          4021e0           4021e0       20     1         lto.tmp:(.eh_frame+0x18)
+          402204           402204      dfc     1 . = DATA_SEGMENT_ALIGN ( CONSTANT ( MAXPAGESIZE ) , CONSTANT ( COMMONPAGESIZE ) )
+          403000           403000        8     8 .init_array
+          403000           403000        8     8         /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o:(.init_array)
+          403000           403000        0     1                 __frame_dummy_init_array_entry
+          403008           403008        8     8 .fini_array
+          403008           403008        8     8         /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o:(.fini_array)
+          403008           403008        0     1                 __do_global_dtors_aux_fini_array_entry
+          403010           403010      160     8 .dynamic
+          403010           403010      160     8         <internal>:(.dynamic)
+          403170           403170       10     8 .got
+          403170           403170       10     8         <internal>:(.got)
+          403180           403180      e80     1 . = DATA_SEGMENT_RELRO_END ( SIZEOF ( .got.plt ) >= 24 ? 24 : 0 , . )
+          404000           404000       18     8 .got.plt
+          404000           404000       18     8         <internal>:(.got.plt)
+          404018           404018       10     8 .data
+          404018           404018        4     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.data)
+          404018           404018        0     1                 data_start
+          404018           404018        0     1                 __data_start
+          40401c           40401c        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o:(.data)
+          404020           404020        8     8         /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o:(.data)
+          404020           404020        0     1                 __dso_handle
+          404028           404028        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o:(.data)
+          404028           404028        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.data)
+          404028           404028        0     1 _edata = .
+          404028           404028        0     8 .tm_clone_table
+          404028           404028        0     8         /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o:(.tm_clone_table)
+          404028           404028        0     1                 __TMC_LIST__
+          404028           404028        0     8         /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o:(.tm_clone_table)
+          404028           404028        0     1                 __TMC_END__
+          404030           404030      fa4    16 .osection0
+          404030           404030      fa4    16         /tmp/firmware-ab6812.o:(.osection0)
+          404030           404030      fa0     1                 array_local
+          404fd0           404fd0        4     1                 total_secs
+          404fe0           404fe0       60    16 .rtmkdata
+          404fe0           404fe0       58    16         /tmp/firmware-ab6812.o:(.rtmkdata)
+          404fe0           404fe0       48     1                 comp_info
+          405028           405028        4     1                 code_base
+          40502c           40502c        4     1                 code_size
+          405030           405030        4     1                 data_base
+          405034           405034        4     1                 data_size
+          405038           405038        8     4         lto.tmp:(.rtmkdata)
+          405038           405038        4     1                 current
+          40503c           40503c        4     1                 last
+          405040           405040        0     1 . = .
+          405040           405040        0     1 __bss_start = .
+          405040           405040        8     1 .bss
+          405040           405040        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.bss)
+          405040           405040        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o:(.bss)
+          405040           405040        1     1         /usr/lib/gcc/x86_64-linux-gnu/11/crtbegin.o:(.bss)
+          405040           405040        1     1                 completed.0
+          405041           405041        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o:(.bss)
+          405041           405041        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.bss)
+          405041           405041        7     1         . = ALIGN ( . != 0 ? 64 / 8 : 1 )
+          405048           405048        0     1 . = ALIGN ( 64 / 8 )
+          405048           405048        0     1 . = SEGMENT_START ( "ldata-segment" , . )
+          406048           406048        0     1 .ldata
+          406048           406048        0     1         . = ALIGN ( . != 0 ? 64 / 8 : 1 )
+          406048           406048        0     1 . = ALIGN ( 64 / 8 )
+          406048           406048        0     1 _end = .
+          406048           406048        0     1 . = DATA_SEGMENT_END ( . )
+               0                0       c4     1 .comment
+               0                0       c4     1         <internal>:(.comment)
+               0                0      658     1 .debug_info
+               0                0      286     1         /tmp/firmware-ab6812.o:(.debug_info)
+             286              286       ea     1         lto.tmp:(.debug_info)
+             370              370       7d     1         lto.tmp:(.debug_info)
+             3ed              3ed      26b     1         lto.tmp:(.debug_info)
+               0                0      2d6     1 .debug_abbrev
+               0                0      133     1         /tmp/firmware-ab6812.o:(.debug_abbrev)
+             133              133       95     1         lto.tmp:(.debug_abbrev)
+             1c8              1c8       58     1         lto.tmp:(.debug_abbrev)
+             220              220       b6     1         lto.tmp:(.debug_abbrev)
+               0                0      282     1 .debug_line
+               0                0      14b     1         /tmp/firmware-ab6812.o:(.debug_line)
+             14b              14b       76     1         lto.tmp:(.debug_line)
+             1c1              1c1       51     1         lto.tmp:(.debug_line)
+             212              212       70     1         lto.tmp:(.debug_line)
+               0                0      3b3     1 .debug_str
+               0                0      3b3     1         <internal>:(.debug_str)
+               0                0       30     1 .debug_ranges
+               0                0       30     1         lto.tmp:(.debug_ranges)
+               0                0      4f8     8 .symtab
+               0                0      4f8     8         <internal>:(.symtab)
+               0                0      171     1 .shstrtab
+               0                0      171     1         <internal>:(.shstrtab)
+               0                0      2a7     1 .strtab
+               0                0      2a7     1         <internal>:(.strtab)

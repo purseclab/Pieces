@@ -30,8 +30,9 @@ def writeDataSections(dpatch, num):
 def main(argv):
 	num = 0
 	heapConfig = ""
+	arch = "armv7m"
 	try:
-		opts, args = getopt.getopt(argv,"hn:l:o:c:H:")
+		opts, args = getopt.getopt(argv,"hn:l:o:c:H:a:")
 	except getopt.GetoptError:
 		print("test.py -i <inputfile> -o <outputfile>")
 		sys.exit(2)
@@ -48,6 +49,8 @@ def main(argv):
 			configFile = arg
 		elif opt in ("-H"):
 			heapConfig = arg
+		elif opt in ("-a"):
+			arch = arg
 
 	outputFile = overlay.replace("overlay","ld")
 	outFile = open(outputFile, "w")
@@ -61,7 +64,10 @@ def main(argv):
 			else:
 					outFile.write(line)
 
-	prologue_string  = "#include <monitor.h> \n #include <arch/armv7m/arch.h> \n RTMK_DATA \n SEC_INFO comp_info[] = {"
+	prologue_string  = "#include <monitor.h> \n"
+	if arch=="armv7m":
+		prologue_string += "#include <arch/armv7m/arch.h> \n"
+	prologue_string += "RTMK_DATA \n SEC_INFO comp_info[] = {"
 	#CodeStart,CodeSize,DataStart,DataSize
 	endstring = "};"
 	f = open(configFile, "w")
@@ -75,6 +81,8 @@ def main(argv):
 	f.write("int code_size;")
 	f.write("int data_base;")
 	f.write("int data_size;")
+
+	f.write("int total_secs = sizeof(comp_info) / sizeof(comp_info[0]);")
 
 	if not heapConfig:
 		return
@@ -120,6 +128,7 @@ def main(argv):
 				if not i == num-1:
 					f.write(",")
 	f.write("}; \n");
+
 				
 
 

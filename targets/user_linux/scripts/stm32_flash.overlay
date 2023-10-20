@@ -89,70 +89,7 @@ SECTIONS
     . = ALIGN(32);
 	_ertmkcode = .;
   }
-  .csection0 : 
-  {
-  . = 134219776;
-_scsection0 = .;
-	*(.csection0)
-	. = 134219904;
-_ecsection0 = .;
-  } > FLASH 
-  .csection1 : 
-  {
-  . = 134219904;
-_scsection1 = .;
-	*(.csection1)
-	. = 134220032;
-_ecsection1 = .;
-  } > FLASH 
-  .csection2 : 
-  {
-  . = 134220032;
-_scsection2 = .;
-	*(.csection2)
-	. = 134220096;
-_ecsection2 = .;
-  } > FLASH 
-  .csection3 : 
-  {
-  . = 134220288;
-_scsection3 = .;
-	*(.csection3)
-	. = 134220800;
-_ecsection3 = .;
-  } > FLASH 
-  .csection4 : 
-  {
-  . = 134221824;
-_scsection4 = .;
-	*(.csection4)
-	. = 134225920;
-_ecsection4 = .;
-  } > FLASH 
-  .csection5 : 
-  {
-  . = 134225920;
-_scsection5 = .;
-	*(.csection5)
-	. = 134226432;
-_ecsection5 = .;
-  } > FLASH 
-  .csection6 : 
-  {
-  . = 134227968;
-_scsection6 = .;
-	*(.csection6)
-	. = 134230016;
-_ecsection6 = .;
-  } > FLASH 
-  .csection7 : 
-  {
-  . = 134230016;
-_scsection7 = .;
-	*(.csection7)
-	. = 134230272;
-_ecsection7 = .;
-  } > FLASH 
+    /* codemarker-fixup:: */
 
    .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
     .ARM : {
@@ -229,16 +166,7 @@ _ecsection7 = .;
       . = ALIGN(32);
       _ekernsyms = .;
   }  > RAM
-  .osection0 : AT ( _sidata  + compartLMA)
-  {
-	. = 536879104;
-	_sosection0 = .;
-	*(.osection0)
-	. = 536883200;
-	_eosection0 = .;
-  }  > RAM 
-compartLMA = compartLMA + SIZEOF(.osection0); 
-_edata = .; 
+  /* datamarker-fixup:: */
   _edata = .;
   /* Uninitialized data section */
   . = ALIGN(4);

@@ -15,7 +15,7 @@ armv7m = ["stm32"]
 if env["PLATFORM"] in armv7m:
 	arch = "armv7m"
 else:
-	arch = "x64"
+	arch = env["PLATFORM"]
 deps = ["./core/SConscript"]
 deps.append("./lib/SConscript")
 deps.append("./arch/"+arch+"/SConscript")
