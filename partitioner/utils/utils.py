@@ -6,6 +6,7 @@ import json
 import click
 from   cmsis_svd.parser import SVDParser
 
+DEBUG_ON = False
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -45,7 +46,6 @@ def getDevice(addr, peripherals):
 	return None, 0, 0
 
 
-DEBUG_ON = True
 def print_help_msg(command):
 	with click.Context(command) as ctx:
 		click.echo(command.get_help(ctx))
@@ -111,19 +111,23 @@ def create_reverse_list_map(input_map):
 	return out
 
 
-def run_cmd(cmd, out=subprocess.DEVNULL, cwd_arg=None):
+def run_cmd(cmd, out=subprocess.DEVNULL, cwd_arg=None, shell=False):
+	debug("Runing" + str(cmd) + " in " + str(cwd_arg))
 	if cwd_arg==None:
 		cwd_arg=os.environ["P_OUT_DIR"]
 	if  out==subprocess.STDOUT:
 		p = subprocess.Popen(cmd, cwd=cwd_arg)
 	else:			
-		p = subprocess.Popen(cmd, stdout=out, stderr=out, cwd=cwd_arg)
+		p = subprocess.Popen(cmd, stdout=out, stderr=out, shell=shell, cwd=cwd_arg)
 	p.wait()
 	debug("Ran" + str(cmd) + " in " + str(cwd_arg))
 	if p.returncode != 0:  
 		debug("Command didn't succeed:")
 		debug(cmd)
-		debug("Return Code:" + str(p.returncode)) 
+		debug("Return Code:" + str(p.returncode))
+		if out!= subprocess.DEVNULL:
+			out.seek(0)
+			debug(out.read())
 		sys.exit(1)
 
 def load_cfg(bc):

@@ -7,12 +7,14 @@ class Firmware:
 	def __init__(self, config, llvm_data_dir=None):
 		if llvm_data_dir is None:
 			llvm_data_dir = os.environ["P_OUT_DIR"]
+		self.config = config
 		self.bitcode = config["bc"]
 		self.platform = config["platform"]
 		self.svd = config["svd"]
 		print(llvm_data_dir)
 		#Load function-file and data-file maps.
 		self.funcfilemap = read_key_value_file(llvm_data_dir + os.environ["FILE_MAP_FILE"], os.environ["EC_DELIM"])
+		self.funcdirmap  = read_key_value_file(llvm_data_dir + os.environ["DIR_MAP_FILE"], os.environ["EC_DELIM"])
 		self.datafilemap = read_key_value_file(llvm_data_dir + os.environ["DATA_MAP_FILE"], os.environ["EC_DELIM"])
 
 		self.files = {}
@@ -32,6 +34,16 @@ class Firmware:
 		#Note: dfmap = {v: k for k, v in fdmap.items()} #Only works for 1-1
 		#thats why we do this way, TODO:maybe there's a better way fix later
 		self.devfuncmap = create_reverse_list_map(self.funcdevmap)
+
+		temp = open(llvm_data_dir + os.environ["FUNC_REACH_FILE"])
+		self.threads_reach = {}
+		current_thread =""
+		for line in temp:
+			if "	" in line:
+				self.threads_reach[current_thread].append(line.strip())
+			else:
+				self.threads_reach[line.strip()] = []
+				current_thread = line.strip()
 
 		#Create a coarse grained map for devices. TODO: This was 
 		#required in early days when we didn't parse SVD check if we still need it.

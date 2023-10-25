@@ -4,3 +4,4 @@ compiler/bin/clang-12 filter=lfs diff=lfs merge=lfs -text
 compiler/bin/llvm-as filter=lfs diff=lfs merge=lfs -text
 compiler/bin/* filter=lfs diff=lfs merge=lfs -text
 compiler/bin/** filter=lfs diff=lfs merge=lfs -text
+compiler/bin/opt filter=lfs diff=lfs merge=lfs -text
