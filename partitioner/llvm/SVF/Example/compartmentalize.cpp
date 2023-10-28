@@ -30,7 +30,131 @@
 #include <llvm/Transforms/Utils/Cloning.h>
 
 bool analysisOnly = false;
+void get_crt_functions(string file_name, vector<string> & funcs_vec)
+{
+		string line;
+        std::ifstream infile(file_name);
+        while (std::getline(infile, line))
+        {
+                vector <string> tokens;
+                char *token = strtok((char *)line.c_str(), ",");
+                while (token != NULL)
+                {
+                        string str(token);
+                        char chars[] = "[]'' ";
 
+                        for (unsigned int i = 0; i < strlen(chars); ++i)
+                        {
+                                // you need include <algorithm> to use general algorithms like std::remove()
+                                str.erase (std::remove(str.begin(), str.end(), chars[i]), str.end());
+                        }
+                        tokens.push_back(str);
+                        token = strtok(NULL, ",");
+                }
+
+                for (auto token: tokens) {
+					if (token[0] != '\0') {
+	                    if(!vContains(funcs_vec, token)) {
+    	                    funcs_vec.push_back(token);
+        	            }
+					}
+                }
+        }
+}
+
+
+int crt_intertask(vector<string>& thread_funcs_vec, vector<string>& kernel_funcs_vec, map<Function *, SmallPtrSet<Function*, 16>> & thread_reach) {
+		vector<Function *> threads;
+		for (auto thread: thread_funcs_vec) {
+				threads.push_back(ll_mod->getFunction(thread));
+		}
+
+		map<Function *, vector<Value *>>value_map;
+		//get all values for this function
+		for (auto thread: threads) {
+				vector<Value *> vals;
+				pushValsInFun(thread, vals, pag, NULL);
+				for (auto fun: thread_reach[thread]) {
+						pushValsInFun(fun, vals, pag, NULL);
+				}
+				value_map[thread] = vals;
+		}
+
+
+		for (auto task1 : threads) {
+			for (auto task2: threads) {
+					if (task1 == task2)
+                                continue;
+					for (auto val1: value_map[task1]) {
+							if (auto cnst =dyn_cast<ConstantInt>(val1)) {
+                                        continue;
+                            }
+							if (auto func = dyn_cast<Function>(val1)) {
+                                        /* TODO: Should we allow functions to call anything??? */
+                                        continue;
+                             }
+                                 //See if this is a null constant
+                              if (auto nc =  dyn_cast<llvm::ConstantPointerNull>(val1)) {
+                                                        //NULL Constants are shareable becaause they are literals
+                                                        continue;
+                              }
+							  for (auto val2: value_map[task2]) {
+                                        if (val1 == val2) {
+                                                //See if we have explicit ownership
+                                                if (auto go =  dyn_cast<llvm::GlobalVariable>(val1))
+                                                    if ((go->getSection().str().find(task1->getName().str()) != std::string::npos) && (go->getSection().str().find(task2->getName().str()) != std::string::npos))
+                                                            continue;
+
+
+                                                cout<< "Tasks are sharing resources:"<<endl;
+												cout<< task1->getName().str()<<endl;
+												cout<< task2->getName().str()<<endl;
+                                                val1->dump();
+												exit(0);
+										}
+							  }
+					}
+			}
+		}
+
+		return 0;
+}
+int crt_instrument(vector<string>& thread_funcs_vec, vector<string>&  kernel_funcs_vec) {
+
+		for (auto name: thread_funcs_vec) {
+				cout<<name<<endl;
+		}
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+				auto fun = *F;
+				if (vContains(thread_funcs_vec, fun->getName().str())) {
+						LLVMContext &Context = ll_mod->getContext();
+			            FunctionType *ValidateFnType = FunctionType::get(Type::getVoidTy(Context), {Type::getInt8PtrTy(Context)}, false);
+						auto ValidateFn = ll_mod->getOrInsertFunction("crt_validate", ValidateFnType);
+						for (auto bb=fun->begin();bb!=fun->end(); bb++) {
+								for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
+	                                if (auto ci = dyn_cast<llvm::CallInst> (stmt)) {
+											if(!ci->getCalledFunction()) {
+													cout<< fun->getName().str()<<" has indirect calls"<<endl;
+													auto callee = ci->getCalledOperand();
+													if (auto iasm = dyn_cast<InlineAsm>(callee)) {
+															cerr<< iasm->getAsmString()<<endl;
+															cerr<<"Bro, no inline asm in safe code, you sly fox!!"<<endl;
+															exit(1);
+													}
+													// This is an indirect call
+					                                IRBuilder<> Builder(ci);
+													auto ccallee = Builder.CreatePointerCast(ci->getCalledOperand(), Builder.getInt8PtrTy());
+					                                // Call the validate function with the argument
+                    					            Builder.CreateCall(ValidateFn, {ccallee});
+											}
+									}
+								}
+						}
+				}
+		}
+
+		return 0;
+}
 string  argToBridge(CallInst * ci, int argnum, Value ** v, Value ** sizeInt) {
 		auto arg = ci->getArgOperand(argnum);
 		string args;
@@ -151,6 +275,9 @@ Type* getRetTy(CallInst * ci, IRBuilder<> &Builder) {
 }
 static map<int,vector<string>> compartments;
 static map<string, int>compartmentMap;
+
+int promoteXCallNoCalee(CallInst * ci, BasicBlock::iterator& stmt, int compID);
+
 int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 		//Builder.SetInsertPoint(stmt->getNextNode()->getPrevNode());
 		IRBuilder<> Builder(ci);
@@ -167,417 +294,12 @@ int promoteXCall(CallInst * ci, Function * callee, BasicBlock::iterator& stmt) {
 				}
 		}
 
-		switch (num) {
-				case 0: {
-								string funcName;
-								FunctionType* funcType;
-								llvm::ArrayRef<llvm::Type*> args = {Builder.getInt32Ty(), Builder.getInt8PtrTy()};
-								if (ci->getType()->isVoidTy()) {
-										funcName = "xcall_arg0";
-										funcType = FunctionType::get(Builder.getVoidTy(), args, false);
-								} else if (ci->getType()->isIntegerTy()) {
-										funcName = "icall_arg0";
-										funcType = FunctionType::get(Builder.getInt32Ty(), args, false);
-								} else if (ci->getType()->isPointerTy()) {
-										funcName = "pcall_arg0";
-										funcType = FunctionType::get(Builder.getInt8PtrTy(), args, false);
-								} else {
-										cerr<<"Pass incomplete" <<endl;
-										//ci->dump();
-										return 0;
-								}
-							    Function* f = Function::Create(funcType, Function::ExternalLinkage, funcName, ll_mod);
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(f->getContext()));
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(f->getContext(),
-														llvm::APInt(32, compID, false)), ccallee});
-								if (ci->getType() == new_inst->getType()) {
-										//new_inst->dump();
-										stmt++;
-										new_inst->removeFromParent();
-										ReplaceInstWithInst(ci, new_inst);
-								} else {
-										Value * new_inst1;
-										if (ci->getType()->isPointerTy()) {
-												new_inst1 = Builder.CreatePointerCast(new_inst, ci->getType());
-										} else {
-												new_inst1 = Builder.CreateIntCast(new_inst, ci->getType(),false);
-										}
-										auto ins= dyn_cast<llvm::Instruction>(new_inst1);
-										auto bb = ins->getParent();
-										stmt++;
-										ins->removeFromParent();
-										ReplaceInstWithInst(ci, ins);
-								}
-								break;
-						}
-				case 1: {
-								string funcName;
-								string ret;
-								string args;
-								Value *v = NULL;
-								Value *sizeInt = NULL;
-								auto arg = ci->getArgOperand(0);
-								ret = getRetType(ci);
-								auto ret_type = getRetTy(ci, Builder);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								if (args.empty())
-										return 0;
-								funcName = ret + "call_arg1" + args;
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType()}, false);
-								Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
-
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), ccallee, v, sizeInt});
-								if (ci->getType() == new_inst->getType()) {
-										//new_inst->dump();
-										stmt++;
-										new_inst->removeFromParent();
-										ReplaceInstWithInst(ci, new_inst);
-								} else { 
-										Instruction * ins;
-										if (ci->getType()->isPointerTy()) {
-												ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
-										}else {
-												ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
-										}
-										auto bb = ins->getParent();
-										stmt++;
-										ins->removeFromParent();
-										ReplaceInstWithInst(ci, ins);
-
-								}
-								break;
-						}
-				case 2: {
-								string funcName;
-								string ret;
-								string args;
-								Value *v = NULL;
-								Value *sizeInt = NULL;
-								Value *v1 = NULL;
-								Value *sizeInt1 = NULL;
-								auto arg = ci->getArgOperand(0);
-								ret = getRetType(ci);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								auto args2 = argToBridge(ci, 1, &v1, &sizeInt1);
-								if (args.empty())
-										return 0;
-
-								funcName = ret + "call_arg2" + args + args2;
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType()}, false);
-                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
-
-
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), ccallee, v, sizeInt, v1, sizeInt1});
-
-								if (ci->getType() == new_inst->getType()) {
-										//new_inst->dump();
-										stmt++;
-										new_inst->removeFromParent();
-										ReplaceInstWithInst(ci, new_inst);
-								} else {
-										auto new_inst1 = Builder.CreateIntCast(new_inst, ci->getType(),false);
-										auto ins= dyn_cast<llvm::Instruction>(new_inst1);
-										auto bb = ins->getParent();
-										stmt++;
-										ins->removeFromParent();
-										ReplaceInstWithInst(ci, ins);
-								}
-								break;
-						}
-				case 3: {
-								string funcName;
-								string ret;
-								string args;
-								Value *v = NULL;
-								Value *sizeInt = NULL;
-								Value *v1 = NULL;
-								Value *sizeInt1 = NULL;
-								Value *v2 = NULL;
-								Value *sizeInt2 = NULL;
-								auto arg = ci->getArgOperand(0);
-								ret = getRetType(ci);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								auto args2 = argToBridge(ci, 1, &v1, &sizeInt1);
-								if (args.empty())
-										return 0;
-								auto args3 = argToBridge(ci, 2, &v2, &sizeInt2);
-								if (args.empty())
-										return 0;
-								funcName = ret + "call_arg3" + args + args2 + args3;
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType()}, false);
-                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
-
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), ccallee, v, sizeInt, v1, sizeInt1, v2, sizeInt2});
-								if (ci->getType() == new_inst->getType()) {
-										//new_inst->dump();
-										stmt++;
-										new_inst->removeFromParent();
-										ReplaceInstWithInst(ci, new_inst);
-								} else {
-										Value * new_inst1;
-										if (ci->getType()->isPointerTy()) {
-												new_inst1 = Builder.CreatePointerCast(new_inst, ci->getType());
-										} else {
-												new_inst1 = Builder.CreateIntCast(new_inst, ci->getType(),false);
-										}
-										auto ins= dyn_cast<llvm::Instruction>(new_inst1);
-										auto bb = ins->getParent();
-										stmt++;
-										ins->removeFromParent();
-										ReplaceInstWithInst(ci, ins);
-								}
-								break;
-						}
-
-				case 4: {
-								string funcName;
-								string ret;
-								string args;
-								Value *v = NULL; 
-								Value *sizeInt = NULL;
-								Value *v1 = NULL; 
-								Value *sizeInt1 = NULL;
-								Value *v2 = NULL; 
-								Value *sizeInt2 = NULL;
-								Value *v3 = NULL;
-								Value *sizeInt3 = NULL;
-								auto arg = ci->getArgOperand(0);
-								ret = getRetType(ci);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								auto args2 = argToBridge(ci, 1, &v1, &sizeInt1);
-								if (args2.empty())
-										return 0;
-								auto args3 = argToBridge(ci, 2, &v2, &sizeInt2);
-								if (args3.empty())
-										return 0;
-								auto args4 = argToBridge(ci, 3, &v3, &sizeInt3);
-								if (args4.empty())
-										return 0;
-								funcName = ret + "call_arg4" + args + args2 + args3 + args4;
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType(), v3->getType(), sizeInt3->getType()}, false);
-                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
-
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), ccallee, v, sizeInt, v1, sizeInt1, v2, sizeInt2, v3, sizeInt3});                                       
-								//new_inst->dump();
-								if (ci->getType() == new_inst->getType()) {
-                                        //new_inst->dump();
-                                        stmt++;
-                                        new_inst->removeFromParent();
-                                        ReplaceInstWithInst(ci, new_inst);
-                                } else {
-                                        Value * new_inst1;
-                                        if (ci->getType()->isPointerTy()) {
-                                                new_inst1 = Builder.CreatePointerCast(new_inst, ci->getType());
-                                        } else {
-                                                new_inst1 = Builder.CreateIntCast(new_inst, ci->getType(),false);
-                                        }
-                                        auto ins= dyn_cast<llvm::Instruction>(new_inst1);
-                                        auto bb = ins->getParent();
-                                        stmt++;
-                                        ins->removeFromParent();
-                                        ReplaceInstWithInst(ci, ins);
-                                }
-								break;
-						}
-
-				case 5: {
-								string funcName;
-								string ret;
-								string args;
-								funcName = callee->getName().str() + "_bridge";
-								Value *v = NULL;
-								Value *sizeInt = NULL;
-								Value *v1 = NULL;
-								Value *sizeInt1 = NULL;
-								Value *v2 = NULL;
-								Value *sizeInt2 = NULL;
-								Value *v3 = NULL;
-								Value *sizeInt3 = NULL;
-								Value *v4 = NULL;
-								Value *sizeInt4 = NULL;
-								auto arg = ci->getArgOperand(0);
-								ret = getRetType(ci);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								auto args2 = argToBridge(ci, 1, &v1, &sizeInt1);
-								if (args2.empty())
-										return 0;
-								auto args3 = argToBridge(ci, 2, &v2, &sizeInt2);
-								if (args3.empty())
-										return 0;
-								auto args4 = argToBridge(ci, 3, &v3, &sizeInt3);
-								if (args4.empty())
-										return 0;
-								auto args5 = argToBridge(ci, 4, &v4, &sizeInt4);
-								if (args5.empty())
-										return 0;
-								funcName = ret + "call_arg5" + args + args2 + args3 + args4 + args5;
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType(), v3->getType(), sizeInt3->getType(), v4->getType(), sizeInt4->getType()}, false);
-                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
-
-
-
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), ccallee, v, sizeInt, v1, sizeInt1, v2, sizeInt2, v3, sizeInt3, v4, sizeInt4});
-								//new_inst->dump();
-								stmt++;
-								new_inst->removeFromParent();
-								ReplaceInstWithInst(ci, new_inst);
-								break;
-
-						}
-
-				case 6: {
-								//return 0;
-								string funcName;
-								string ret;
-								string args;
-								funcName = callee->getName().str() + "_bridge";
-								Value *v = NULL;
-								Value *sizeInt = NULL;
-								Value *v1 = NULL;
-								Value *sizeInt1 = NULL;
-								Value *v2 = NULL;
-								Value *sizeInt2 = NULL;
-								Value *v3 = NULL;
-								Value *sizeInt3 = NULL;
-								Value *v4 = NULL;
-								Value *sizeInt4 = NULL;
-								Value *v5 = NULL;
-								Value *sizeInt5 = NULL;
-								auto arg = ci->getArgOperand(0);
-								ret = getRetType(ci);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								auto args2 = argToBridge(ci, 1, &v1, &sizeInt1);
-								if (args2.empty())
-										return 0;
-								auto args3 = argToBridge(ci, 2, &v2, &sizeInt2);
-								if (args3.empty())
-										return 0;
-								auto args4 = argToBridge(ci, 3, &v3, &sizeInt3);
-								if (args4.empty())
-										return 0;
-								auto args5 = argToBridge(ci, 4, &v4, &sizeInt4);
-								if (args5.empty())
-										return 0;
-								auto args6 = argToBridge(ci, 5, &v5, &sizeInt5);
-								if (args6.empty())
-										return 0;
-								funcName = ret + "call_arg6" + args + args2 + args3 + args4 + args5 + args6;
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt32Ty(), Builder.getInt8PtrTy(), v->getType(), sizeInt->getType(), v1->getType(), sizeInt1->getType(), v2->getType(), sizeInt2->getType(), v3->getType(), sizeInt3->getType(), v4->getType(), sizeInt4->getType(), v5->getType(), sizeInt5->getType()}, false);
-                                Function* f = Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-
-								int compID = compartmentMap[callee->getName().str()];
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(arg->getContext()));
-
-
-
-								auto new_inst = Builder.CreateCall(f,{ConstantInt::get(func->getContext(),
-														llvm::APInt(32, compID, false)), ccallee, v, sizeInt, v1, sizeInt1, v2, sizeInt2, v3, sizeInt3, v4, sizeInt4, v5, sizeInt5});
-								//new_inst->dump();
-								stmt++;
-								new_inst->removeFromParent();
-								ReplaceInstWithInst(ci, new_inst);
-
-								break;
-						}
-				case ((unsigned int)-1) : {
-												  auto funcName = callee->getName().str() + "_bridge";
-												  auto func = ll_mod->getFunction(funcName);
-												  if (func==NULL) {
-														  cerr<< funcName << " not implemented" <<endl;
-														  return 0;
-												  }
-												  int compID = compartmentMap[callee->getName().str()];
-												  vector<Value *> args;
-												  args.push_back(ConstantInt::get(func->getContext(),
-																		  llvm::APInt(32, compID, false)));
-												  for (int i =0; i< ci->arg_size(); i++) {
-														  args.push_back(ci->getArgOperand(i));
-												  }
-												  auto func_type = func->getFunctionType();
-												  auto f = ll_mod->getOrInsertFunction (funcName, func_type);
-												  auto new_inst = Builder.CreateCall(f, ArrayRef<Value *>(args));
-												  //new_inst->dump();
-												  stmt++;
-												  new_inst->removeFromParent();
-												  ReplaceInstWithInst(ci, new_inst);
-												  break;
-
-										  }
-
-				default:
-										  cerr<<"arg count incomplete"<<num<<endl;
-										  ci->dump();
-										  break;
-		}
+		int compID = compartmentMap[callee->getName().str()];
+		promoteXCallNoCalee(ci, stmt, compID);
 		return 0;
 }
 int promoteXCallNoCalee(CallInst * ci, BasicBlock::iterator& stmt, int compID) {
-		IRBuilder<> Builder(stmt->getParent());
+		IRBuilder<> Builder(ci);
 		BasicBlock::iterator it(stmt);it--;
 		//Builder.SetInsertPoint(stmt->getNextNode()->getPrevNode());
 
@@ -609,13 +331,24 @@ int promoteXCallNoCalee(CallInst * ci, BasicBlock::iterator& stmt, int compID) {
 		func_name = func_name + std::to_string(i) + suffix;
 
 		auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
-		Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
+		auto f = ll_mod->getOrInsertFunction(func_name, func_type);
+//		Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
 
 		auto new_inst = Builder.CreateCall(f,args_val);
+		Instruction * ins;
+		if(ci->getType() == new_inst->getType()) {
+				ins = new_inst;
+		}
+		else if (ci->getType()->isPointerTy()) {
+			ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
+		}else {
+			ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
+		}
 
 		stmt++;
-		new_inst->removeFromParent();
-        ReplaceInstWithInst(ci, new_inst);
+		ins->removeFromParent();
+		ins->dump();
+        ReplaceInstWithInst(ci, ins);
 
 		return 0;
 }
@@ -648,86 +381,26 @@ int promoteXCallNoCaleeNoId(CallInst * ci, BasicBlock::iterator& stmt) {
         func_name = func_name + std::to_string(i) + suffix;
 
         auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
-        Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
+		auto f = ll_mod->getOrInsertFunction(func_name, func_type);
+//        Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
 
         auto new_inst = Builder.CreateCall(f,args_val);
 
+		Instruction * ins;
+        if(ci->getType() == new_inst->getType()) {
+                ins = new_inst;
+        }
+        else if (ci->getType()->isPointerTy()) {
+            ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
+        }else {
+            ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
+        }
+
         stmt++;
-        new_inst->removeFromParent();
-        ReplaceInstWithInst(ci, new_inst);
+        ins->removeFromParent();
+		ins->dump();
+        ReplaceInstWithInst(ci, ins);
 
-		return 0;
-		switch (ci->arg_size()) {
-				case 0: {
-								string funcName;
-								if (ci->getType()->isVoidTy()) {
-										funcName = "xcall_arg0_noid";
-								} else if (ci->getType()->isIntegerTy()) {
-										funcName = "icall_arg0_noid";
-								}
-								auto func = ll_mod->getFunction(funcName);
-								if (!func)
-										return 0;
-								auto func_type = func->getFunctionType();
-								auto f = ll_mod->getOrInsertFunction (funcName, func_type); //FuncCallee
-								auto callee = ci->getCalledOperand ();
-								auto new_inst = Builder.CreateCall(f,{ callee});
-								//new_inst->dump();
-								stmt++;
-								new_inst->removeFromParent();
-								ReplaceInstWithInst(ci, new_inst);
-								break;
-						}
-				case 1: {
-								string funcName;
-								string ret;
-								string args;
-								Value *v = NULL;
-								Value *sizeInt = NULL;
-								ret = getRetType(ci);
-								if (ret.empty())
-										return 0;
-								args = argToBridge(ci, 0, &v, &sizeInt);
-								if (args.empty())
-										return 0;
-								funcName = ret + "call_arg1" + args + "_noid";
-								auto func = ll_mod->getFunction(funcName);
-								if (func==NULL) {
-										cerr<< funcName << " not implemented" <<endl;
-										return 0;
-								}
-								auto callee = ci->getCalledOperand ();
-								auto func_type = FunctionType::get(getRetTy(ci, Builder), {Builder.getInt8PtrTy(), v->getType(), sizeInt->getType()}, false);
-								auto f= Function::Create(func_type, Function::ExternalLinkage, funcName, ll_mod);
-								auto ccallee = Builder.CreatePointerCast(callee, Type::getInt8PtrTy(ci->getContext()));
-
-								auto new_inst = Builder.CreateCall(f,{ccallee, v, sizeInt});
-								if (ci->getType() == new_inst->getType()) {
-										//new_inst->dump();
-										stmt++;
-										new_inst->removeFromParent();
-										ReplaceInstWithInst(ci, new_inst);
-								} else {
-										Instruction * ins;
-										if (ci->getType()->isPointerTy()) {
-												ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
-										}else {
-												ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
-										}
-										auto bb = ins->getParent();
-										stmt++;
-										ins->removeFromParent();
-										ReplaceInstWithInst(ci, ins);
-
-								}
-								break;
-								break;
-						}
-				default:
-						cerr<<"Pass incomplete NoCallee No ID"<<endl;
-						ci->dump();
-						break;
-		}
 		return 0;
 }
 map<Value *, Function *> function_pointers;
@@ -739,6 +412,22 @@ typedef struct {
 map<string, COMP> pinned_resources;
 vector<Value *> cloneFuncs;
 vector<Value *> secrets;
+
+void forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions, vector<Function *> &compat) {
+            if (visitedFunctions.count(F) > 0 || vContains(compat, F) || F->isIntrinsic())
+                return;
+            visitedFunctions.insert(F);
+
+            for (BasicBlock &BB : *F) {
+                for (Instruction &I : BB) {
+                    if (CallInst *CI = dyn_cast<CallInst>(&I)) {
+                        Function *calledFunction = CI->getCalledFunction();
+                        if (calledFunction)
+                            forward_slice_crt(calledFunction, visitedFunctions, compat);
+                    }
+                }
+            }
+}
 int compartmentalize(char * argv[]) {
 		ofstream debug;
 		ofstream ignoreList;
@@ -842,7 +531,9 @@ int compartmentalize(char * argv[]) {
 
 		// Fmap basically captures the CFG
 		ofstream ffmap;
-		ffmap.open("./ffmap"); 
+		ofstream fdirmap;
+		ffmap.open("./ffmap");
+		fdirmap.open("./fdirmap");
 
 		for(auto F = ll_mod->ifunc_begin(), E=ll_mod->ifunc_end(); F != E; ++F) {
 				auto fun = F;
@@ -889,6 +580,7 @@ int compartmentalize(char * argv[]) {
 								auto &debugInfo = stmt->getDebugLoc();
 								if (debugInfo) {
 										ffmap<<fun->getName().str()<<"##" <<debugInfo->getFilename().str() <<endl;
+										fdirmap<<fun->getName().str()<<"##"<<debugInfo->getDirectory().str() <<endl; 
 										found =1;
 										break;
 								}
@@ -1057,7 +749,7 @@ int compartmentalize(char * argv[]) {
 		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
 				Function *fun = *F;
 				Value * val = (Value *)fun;
-				if (val->getName().str().compare("xTaskCreate")==0) {
+				if (val->getName().str().compare("xTaskCreate")==0 || val->getName().str().compare("SafeTaskCreate")==0) {
 						for (auto user : val->users()) {
 								if (auto ci =  dyn_cast<llvm::CallInst>(user)) {
 										auto  thread = ci->getArgOperand(0);
@@ -1068,6 +760,32 @@ int compartmentalize(char * argv[]) {
 				}
 		}
 #endif
+
+		ofstream compat;
+		vector<llvm::Function *> compat_vec;
+        compat.open("./compat");
+        for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+                Function *fun = *F;
+				string rtmksec= "compat";
+                if (fun->getSection().str().find(rtmksec) != std::string::npos) {
+						compat<<fun->getName().str()<<endl;
+						compat_vec.push_back(fun);
+				}
+        }
+		ofstream reach;
+		map<Function *, SmallPtrSet<Function*, 16>> thread_reach;
+		reach.open("./rtmk.threadsreach");
+		for (auto thread :thread_vec) {
+				if (auto thread_fn =  dyn_cast<llvm::Function>(thread)) {
+					SmallPtrSet<Function*, 16> visitedFunctions;
+					forward_slice_crt(thread_fn, visitedFunctions, compat_vec);
+					reach<<thread->getName().str()<<"\n";
+					for (Function *F : visitedFunctions) {
+	    	            reach << "	"<<F->getName().str() << "\n";
+    	    	    }
+					thread_reach[thread_fn] = visitedFunctions;
+				}
+		}
 
 		ofstream loopInfoFile;
         loopInfoFile.open("./loop");
@@ -1124,11 +842,13 @@ int compartmentalize(char * argv[]) {
                 cloned<<res->getName().str()<<endl;
         }
 		//Kick the compartmentalization phase
-		if (!kleeFile.getValue().empty() || analysisOnly)
+		if (!kleeFile.getValue().empty() || analysisOnly || partGuide.getValue().empty())
 				return 0;
 
 
 		auto pgFile = partGuide.getValue();
+		auto safe_funcs_file = "";
+		auto unsafe_funcs_file = "";
 		//Create compartments
 		if (partGuide.getValue().empty()) {
 			string cmd = "./partition.py -c ";
@@ -1137,6 +857,9 @@ int compartmentalize(char * argv[]) {
 			system(cmd.c_str());
 			pgFile = "./policy";
 		}
+
+		safe_funcs_file = "./.crtsafe";
+		unsafe_funcs_file = "./.crtunsafe";
 
 		std::ifstream infile(pgFile);
 		std::string line;
@@ -1162,6 +885,33 @@ int compartmentalize(char * argv[]) {
 				compartments[compartmentID] = tokens;
 				compartmentID++;
 		}
+
+		vector<string> safe_funcs_vec;
+		get_crt_functions(safe_funcs_file, safe_funcs_vec);
+
+		//Remove compatibility layer from safe_funcs
+		for (auto compat: compat_vec) {
+			if (vContains(safe_funcs_vec, compat->getName().str())) {
+					safe_funcs_vec.erase(std::remove(safe_funcs_vec.begin(), safe_funcs_vec.end(), compat->getName().str()), safe_funcs_vec.end());
+			}
+		}
+
+		vector<string> unsafe_funcs_vec;
+		get_crt_functions(unsafe_funcs_file, unsafe_funcs_vec);
+
+		for (auto elem: safe_funcs_vec) {
+				cout<<elem<<endl;
+		}
+		crt_instrument(safe_funcs_vec, unsafe_funcs_vec);
+
+		vector<string> crt_threads;
+		for (auto thread: thread_vec){
+			if (vContains(safe_funcs_vec, thread->getName().str())) {
+				crt_threads.push_back(thread->getName().str());
+			}
+		}
+		crt_intertask(crt_threads, unsafe_funcs_vec, thread_reach);
+
 #ifdef DEBUG
 		for(const auto& elem : compartments) {
 				std::cout << elem.first << ":";
@@ -1403,9 +1153,6 @@ int compartmentalize(char * argv[]) {
 		memset(directCall, 0, sizeof(directCall));
 		memset(indirectCall, 0, sizeof(indirectCall));
 
-
-		//Clone functions into respective compartments 
-		cout<<"HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"<<endl;
 
 		for (auto res: cloneFuncs) {
 				if (auto fun = dyn_cast<llvm::Function> (res)) {

@@ -489,6 +489,8 @@ void updateBC() {
         std::error_code EC;
             //raw_fd_ostream output = raw_fd_ostream("temp.bc", EC); error: use of deleted function ‘llvm::raw_fd_ostream::raw_fd_ostream(const llvm::raw_fd_ostream&)’
 		verifyModule(*ll_mod);
+		//Holy Grail of debug
+		ll_mod->dump();
         raw_fd_ostream output("temp.bc", EC);
         llvm::WriteBitcodeToFile(*ll_mod, output);
 		cerr<<"temp.bc updated"<<endl;

@@ -110,25 +110,39 @@ def create_reverse_list_map(input_map):
 				out[elem] = [f]
 	return out
 
-
+sub_commands = 0
 def run_cmd(cmd, out=subprocess.DEVNULL, cwd_arg=None, shell=False):
+	global sub_commands
+	f= None
 	debug("Runing" + str(cmd) + " in " + str(cwd_arg))
 	if cwd_arg==None:
 		cwd_arg=os.environ["P_OUT_DIR"]
 	if  out==subprocess.STDOUT:
 		p = subprocess.Popen(cmd, cwd=cwd_arg)
+	elif out==subprocess.DEVNULL:
+		exe = os.path.basename(cmd[0])
+		f = open(os.environ["P_OUT_DIR"] + exe + str(sub_commands), "w")
+		sub_commands +=1
+		p = subprocess.Popen(cmd, stdout=f, stderr=f, shell=shell, cwd=cwd_arg)
+		f.write("Command used: \n")
+		f.write(str(" ".join(cmd)))
+		f.write("CWD: \n")
+		f.write(str(cwd_arg))
 	else:			
 		p = subprocess.Popen(cmd, stdout=out, stderr=out, shell=shell, cwd=cwd_arg)
 	p.wait()
 	debug("Ran" + str(cmd) + " in " + str(cwd_arg))
 	if p.returncode != 0:  
 		debug("Command didn't succeed:")
-		debug(cmd)
+		debug(" ".join(cmd))
 		debug("Return Code:" + str(p.returncode))
-		if out!= subprocess.DEVNULL:
-			out.seek(0)
-			debug(out.read())
+#if out!= subprocess.DEVNULL:
+#			out.seek(0)
+#			debug(out.read())
 		sys.exit(1)
+
+	if f:
+		f.close()
 
 def load_cfg(bc):
 	#We don't create CFG in our pass, instead we use opt.

@@ -90,3 +90,6 @@ class Policy():
 	@abstractmethod
 	def partition(self, firmware, clique):
 		pass
+
+	def finalizer(self, firmware):
+		return 

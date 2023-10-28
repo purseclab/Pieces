@@ -3,7 +3,7 @@ import frontend
 from utils import error, debug, warn
 import os
 class crt(Policy):
-
+	firmware_map = {}
 	def get_safe_funcs(self):
 		return 0
 
@@ -84,15 +84,27 @@ class crt(Policy):
 
 		possible_kernel_funcs = [x for x in clique["objs"] if x not in safe_funcs]
 
-		debug("High Privilege function in Clique:" + str(possible_kernel_funcs))
-		with open(os.environ["P_OUT_DIR"] + ".crtsafe", 'a') as f:
-			f.write(str(safe_funcs))
 
-		with open(os.environ["P_OUT_DIR"] + ".crtunsafe", 'a') as f:
-			f.write(str(possible_kernel_funcs))
+		if firmware not in crt.firmware_map:
+			crt.firmware_map[firmware] = {}
+			crt.firmware_map[firmware]["safe_funcs"] = []
+			crt.firmware_map[firmware]["kernel_funcs"] = []
 
+		for func in safe_funcs:
+			if func not in crt.firmware_map[firmware]["safe_funcs"]:
+				crt.firmware_map[firmware]["safe_funcs"].append(func)
 
+		#TODO: make function
+		for func in possible_kernel_funcs:
+			if func not in crt.firmware_map[firmware]["kernel_funcs"]:
+				crt.firmware_map[firmware]["kernel_funcs"].append(func)
 
-					
+	def finalizer(self, firmware):
+		with open(os.environ["P_OUT_DIR"] + ".crtsafe", 'w') as f:
+			f.write(str(crt.firmware_map[firmware]["safe_funcs"]))
+
+		with open(os.environ["P_OUT_DIR"] + ".crtunsafe", 'w') as f:
+			f.write(str(crt.firmware_map[firmware]["kernel_funcs"]))
+
 
 #	print(frontend.parse_pragmas(firmware.funcdirmap[thread]+ "/"+ firmware.funcfilemap[thread], firmware.config["fronted_flags"], firmware.config["project_root"]))

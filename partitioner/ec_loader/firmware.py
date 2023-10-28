@@ -216,9 +216,12 @@ class Firmware:
 		members = {}
 		clique_id = 0
 		cliques = config["cliques"]
+		policies = []
 		for clique in cliques:
 			dir = cliques[clique]["dir"]
 			policy = config_to_class(cliques[clique]["policy"])()
+			if type(policy) not in policies:
+				policies.append(type(policy))
 			current_files = {}
 			current_objs = []
 			current_clique = {}
@@ -248,12 +251,19 @@ class Firmware:
 			for obj in current_files[file]:
 				current_objs.append(obj)
 		policy = config_to_class(config["background_policy"])()
+		if type(policy) not in policies:
+			policies.append(type(policy))
 		background_clique["files"] = current_files
 		background_clique["objs"] = current_objs
 		background_clique["name"] = "background_clique"
 		self.cliques.append(background_clique)
 		debug("Last background clique")
 		policy.partition(self, background_clique)
+
+		#run finalizers
+		for policy in policies:
+			obj = policy()
+			obj.finalizer(self)
 
 	def dump(self):
 		debug("Number of compartments: "+ str(len(self.compartments)))
