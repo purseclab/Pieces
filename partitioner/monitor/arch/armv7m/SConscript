@@ -1,8 +1,7 @@
 cflags = " -flto=thin --target=arm-none-eabi -O0 -g"
 platform = ARGUMENTS.get('platform', "stm32")
-
 if platform == "stm32":
-	cfalgs  = cflags + " -DCONFIG_CPU_CORTEX_M4 -DSTM32F4xx -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 "
+	cflags  = cflags + " -DCONFIG_CPU_CORTEX_M4 -DSTM32F4xx -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 "
 env = Environment()
 env.Import('*')
 dir = Dir("./CMSIS/Include/")

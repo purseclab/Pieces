@@ -1,21 +1,45 @@
+from llvmlite import ir
+import llvmlite.binding as llvm
+import json
+
+# Initialize the LLVM library
+llvm.initialize()
+llvm.initialize_native_target()
+llvm.initialize_native_asmprinter()
+
 clang = "/home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin//clang"
 ar = "/home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin//llvm-ar" 
 ld = "/home/arslan/projects/LBC/checkedC-12/checkedc-clang/buildmk/bin//llvm-link"
 include = Dir('include')
 include2 = Dir('/home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/')
 env = Environment(CC=clang, AR=ar, LD=ld, CPPPATH=[include, include2], CCFLAGS="-flto=thin")
+
+bc = ARGUMENTS.get('bc', "None")
+if bc=="None":
+	print("Must specify a bitcode file")
+	exit(1)
+
+# Load the Bitcode file
+bitcode_file = bc
+with open(bitcode_file, "rb") as f:
+    bitcode_module = llvm.parse_bitcode(f.read())
+
+print(dir(bitcode_module))
+# Print some basic information about the Bitcode module
+print(f"Module name: {bitcode_module.triple}")
+print(f"Data layout: {bitcode_module.data_layout}")
+
+
 debug = ARGUMENTS.get('debug', 0)
 env["PLATFORM"] = ARGUMENTS.get('platform', "x64")
-
 Export('env')
 
-#Available platforms for ARM
-armv7m = ["stm32"]
+#Infer architecture using bitcode.
+with open('heuristics.json', 'r') as json_file:
+    key = json.load(json_file)
+	
+arch = key[bitcode_module.triple]
 
-if env["PLATFORM"] in armv7m:
-	arch = "armv7m"
-else:
-	arch = env["PLATFORM"]
 deps = ["./core/SConscript"]
 deps.append("./lib/SConscript")
 deps.append("./arch/"+arch+"/SConscript")

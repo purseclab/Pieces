@@ -16,10 +16,6 @@
   environment:
     PATH: '{{ ansible_env.PATH }}'
   tasks:
-    - name: Build monitor
-      shell:
-        cmd: echo $PWD && scons platform=null --clean && scons platform=null
-        chdir: '{{ monitor }}'
     - name: Print message
       debug:
         msg: ECC ;)
@@ -65,6 +61,12 @@
       shell:
         cmd: ../../partitioner/run.py ./linux_user.json && ../../partitioner/scripts/setupLD.py -n $(shell cat '{{ target }}'/out/.policy | wc -l) -l '{{ target }}'scripts/linux.overlay -c '{{ target }}'/autogen/autogen_data.c -H '{{ target }}'/autogen/autogen_heap.c 
         chdir: '{{ target }}'
+
+
+    - name: Build monitor using infered architecture
+      shell:
+        cmd: scons bc='{{ playbook_dir }}'/build/firmware.bin.bc --clean && scons bc='{{ playbook_dir }}'/build/firmware.bin.bc
+        chdir: '{{ monitor }}'
 
     - name: Partitioned Build
       shell:

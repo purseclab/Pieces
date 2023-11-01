@@ -16,10 +16,6 @@
   environment:
     PATH: '{{ ansible_env.PATH }}'
   tasks:
-    - name: Build monitor
-      shell:
-        cmd: echo $PWD && scons platform=stm32 --clean && scons platform=stm32
-        chdir: '{{ monitor }}'
     - name: Print message
       debug:
         msg: ECC ;)
@@ -49,7 +45,6 @@
         cmd: make clean 
         chdir: '{{ target }}'
 
-
     - name: Initial Link Setup
       shell:
         cmd: ../../partitioner/scripts/setupLD.py -n 20 -l '{{ target }}'scripts/stm32_flash.overlay -c '{{ target }}'/autogen/autogen_data.c -H '{{ target }}'/autogen/autogen_heap.c
@@ -60,11 +55,16 @@
         cmd: make clean && mkdir build && make build/reg.o && make bc
         chdir: '{{ target }}'
 
-
     - name: Partitioning Firmware and blind relocations
       shell:
         cmd: ../../partitioner/run.py ./baremetal.json && ../../partitioner/scripts/setupLD.py -n $(shell cat '{{ target }}'/out/.policy | wc -l) -l '{{ target }}'scripts/stm32_flash.overlay -c '{{ target }}'/autogen/autogen_data.c -H '{{ target }}'/autogen/autogen_heap.c 
         chdir: '{{ target }}'
+
+
+    - name: Build monitor using infered architecture
+      shell:
+        cmd: scons bc='{{ playbook_dir }}'/build/firmware.bin.bc --clean && scons bc='{{ playbook_dir }}'/build/firmware.bin.bc
+        chdir: '{{ monitor }}'
 
     - name: Partitioned Build
       shell:

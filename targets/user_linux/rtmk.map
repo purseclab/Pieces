@@ -31,7 +31,7 @@
           401090           401090        0     1                 register_tm_clones
           4010d0           4010d0        0     1                 __do_global_dtors_aux
           401100           401100        0     1                 frame_dummy
-          401108           401108        0     4         /tmp/firmware-ab6812.o:(.text)
+          401108           401108        0     4         /tmp/firmware-5081ea.o:(.text)
           401108           401108        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o:(.text)
           401108           401108        0     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.text)
           401108           401108        0     4         lto.tmp:(.text)
@@ -44,13 +44,13 @@
           401120           401120        0     1                 _fini
           401128           401128        5     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o:(.fini)
           401130           401130       97    16 .csection0
-          401130           401130       97    16         /tmp/firmware-ab6812.o:(.csection0)
+          401130           401130       97    16         /tmp/firmware-5081ea.o:(.csection0)
           401130           401130       46     1                 foo
           401180           401180        6     1                 __libc_csu_fini
           401190           401190        6     1                 __libc_csu_init
           4011a0           4011a0       27     1                 main
           4011d0           4011d0       66    16 .csection1
-          4011d0           4011d0       66    16         /tmp/firmware-ab6812.o:(.csection1)
+          4011d0           4011d0       66    16         /tmp/firmware-5081ea.o:(.csection1)
           4011d0           4011d0       66     1                 jail
           401240           401240       a0    16 .rtmkcode
           401240           401240       31    16         lto.tmp:(.rtmkcode)
@@ -69,8 +69,8 @@
           402070           402070      194     8 .eh_frame
           402070           402070       30     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.eh_frame+0x0)
           4020a0           4020a0       14     1         /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crt1.o:(.eh_frame+0x48)
-          4020b8           4020b8       7c     1         /tmp/firmware-ab6812.o:(.eh_frame+0x18)
-          402138           402138       24     1         /tmp/firmware-ab6812.o:(.eh_frame+0x94)
+          4020b8           4020b8       7c     1         /tmp/firmware-5081ea.o:(.eh_frame+0x18)
+          402138           402138       24     1         /tmp/firmware-5081ea.o:(.eh_frame+0x94)
           402160           402160       40     1         lto.tmp:(.eh_frame+0x18)
           4021a0           4021a0       40     1         lto.tmp:(.eh_frame+0x18)
           4021e0           4021e0       20     1         lto.tmp:(.eh_frame+0x18)
@@ -104,11 +104,11 @@
           404028           404028        0     8         /usr/lib/gcc/x86_64-linux-gnu/11/crtend.o:(.tm_clone_table)
           404028           404028        0     1                 __TMC_END__
           404030           404030      fa4    16 .osection0
-          404030           404030      fa4    16         /tmp/firmware-ab6812.o:(.osection0)
+          404030           404030      fa4    16         /tmp/firmware-5081ea.o:(.osection0)
           404030           404030      fa0     1                 array_local
           404fd0           404fd0        4     1                 total_secs
           404fe0           404fe0       60    16 .rtmkdata
-          404fe0           404fe0       58    16         /tmp/firmware-ab6812.o:(.rtmkdata)
+          404fe0           404fe0       58    16         /tmp/firmware-5081ea.o:(.rtmkdata)
           404fe0           404fe0       48     1                 comp_info
           405028           405028        4     1                 code_base
           40502c           40502c        4     1                 code_size
@@ -134,25 +134,25 @@
           406048           406048        0     1 . = ALIGN ( 64 / 8 )
           406048           406048        0     1 _end = .
           406048           406048        0     1 . = DATA_SEGMENT_END ( . )
-               0                0       c4     1 .comment
-               0                0       c4     1         <internal>:(.comment)
+               0                0       af     1 .comment
+               0                0       af     1         <internal>:(.comment)
                0                0      658     1 .debug_info
-               0                0      286     1         /tmp/firmware-ab6812.o:(.debug_info)
+               0                0      286     1         /tmp/firmware-5081ea.o:(.debug_info)
              286              286       ea     1         lto.tmp:(.debug_info)
              370              370       7d     1         lto.tmp:(.debug_info)
              3ed              3ed      26b     1         lto.tmp:(.debug_info)
                0                0      2d6     1 .debug_abbrev
-               0                0      133     1         /tmp/firmware-ab6812.o:(.debug_abbrev)
+               0                0      133     1         /tmp/firmware-5081ea.o:(.debug_abbrev)
              133              133       95     1         lto.tmp:(.debug_abbrev)
              1c8              1c8       58     1         lto.tmp:(.debug_abbrev)
              220              220       b6     1         lto.tmp:(.debug_abbrev)
                0                0      282     1 .debug_line
-               0                0      14b     1         /tmp/firmware-ab6812.o:(.debug_line)
+               0                0      14b     1         /tmp/firmware-5081ea.o:(.debug_line)
              14b              14b       76     1         lto.tmp:(.debug_line)
              1c1              1c1       51     1         lto.tmp:(.debug_line)
              212              212       70     1         lto.tmp:(.debug_line)
-               0                0      3b3     1 .debug_str
-               0                0      3b3     1         <internal>:(.debug_str)
+               0                0      39e     1 .debug_str
+               0                0      39e     1         <internal>:(.debug_str)
                0                0       30     1 .debug_ranges
                0                0       30     1         lto.tmp:(.debug_ranges)
                0                0      4f8     8 .symtab
