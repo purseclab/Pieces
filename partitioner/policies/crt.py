@@ -4,6 +4,7 @@ from utils import error, debug, warn
 import os
 class crt(Policy):
 	firmware_map = {}
+	forbidden_fruit = ["_Dynamic_bounds_cast"]
 	def get_safe_funcs(self):
 		return 0
 
@@ -71,7 +72,21 @@ class crt(Policy):
 				for range in ranges:
 					cursors = []
 					frontend.get_cursors_in_range(frontend.get_cursor(pp_f.name), range[0], 0, range[1], 999999999999999, cursors)
+					tokens = frontend.get_tokens_in_range(pp_f.name, range[0], 0, range[1], 999999999999999)
+					print(dir(tokens[0]))
+					
+					for token in tokens:
+						if token.spelling in crt.forbidden_fruit:
+							error("CRT: " + token.spelling +" is not allowed in CRT")
+							error("CRT: See https://github.com/microsoft/checkedc/issues/480 for details")
+							frontend.print_token(token)
+							exit(1)
 					safe_funcs.extend(frontend.find_function_names_in_subset(cursors))
+					casts =  frontend.find_casts_in_subset(cursors)
+					if len(casts) != 0:
+						error("CRTC: Casts not allowed in safe functions")
+						error(str(casts))
+					
 
 
 		debug("Safe Functions Found:" + str(safe_funcs))

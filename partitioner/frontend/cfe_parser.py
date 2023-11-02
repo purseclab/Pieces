@@ -52,7 +52,11 @@ def get_function_attributes(cursor):
 	return attributes
 
 def print_cursor_kind(cursor, depth=0):
-	print ('  '* depth, str(cursor.extent.start.line) + ":"  +str( cursor.kind) + "::" +str(cursor.spelling))
+	print ('  '* depth, str(cursor.location.file) + ":" + str(cursor.location.line)+ ":"  +str( cursor.kind) + "::" +str(cursor.spelling))
+
+def print_token(token):
+	print(str(token.location.file)+ ":" +str(token.location.line))
+	print(token.cursor.spelling)
 
 def print_function_prototypes(cursor, depth=0):
 	if cursor.kind == clang.cindex.CursorKind.FUNCTION_DECL:
@@ -214,7 +218,22 @@ def get_cursor(file_path):
 	
 def get_cursors_in_range(icursor, start_line, start_column, end_line, end_column, ocursors):
 	if start_line <= icursor.location.line <= end_line and start_column <= icursor.location.column <= end_column:
+#print_cursor_kind(icursor)
 		ocursors.append(icursor)
 	for node in icursor.get_children():
 		# Recursively check child nodes
 		get_cursors_in_range(node, start_line, start_column, end_line, end_column, ocursors)
+
+def find_casts(cursor):
+	if cursor.kind == clang.cindex.CursorKind.CSTYLE_CAST_EXPR:
+		print(f"Type cast: {cursor.spelling}")
+
+def find_casts_in_subset(cursor_set):
+	casts = []
+
+	for cursor in cursor_set:
+		if cursor.kind == clang.cindex.CursorKind.CSTYLE_CAST_EXPR:
+			print(str(cursor.location.file) + ":" + str(cursor.location.line))
+			print(cursor.spelling)
+			casts.append(cursor.spelling)
+	return casts
