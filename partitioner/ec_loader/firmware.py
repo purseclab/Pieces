@@ -30,10 +30,12 @@ class Firmware:
 
 
 		self.funcdevmap = read_key_list_value_file(llvm_data_dir + os.environ["FUNC_DEV_MAP_FILE"], os.environ["EC_DELIM"])
+		print(self.funcdevmap)
 		#create reverse map for device->function access
 		#Note: dfmap = {v: k for k, v in fdmap.items()} #Only works for 1-1
 		#thats why we do this way, TODO:maybe there's a better way fix later
 		self.devfuncmap = create_reverse_list_map(self.funcdevmap)
+
 
 		temp = open(llvm_data_dir + os.environ["FUNC_REACH_FILE"])
 		self.threads_reach = {}
@@ -104,10 +106,15 @@ class Firmware:
 			if fun in self.funcdevmap:
 				for addr in self.funcdevmap[fun]:
 					periph,base,size = getDevice(addr, handle);
+					#Let's create a new device SVD's are not super reliable IMO
+					if periph==None:
+						base = addr
+						size = 0x1000
+					print(fun, periph, base, size)
 					if (periph,base,size) not in self.svdmap[fun]:
 						self.svdmap[fun].append((periph,base,size))
 	
-		if self.printDevUsage:
+		if True:
 			for dev,base,size in self.svdfmap:
 				if dev == "unkown":
 					continue

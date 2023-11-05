@@ -28,38 +28,45 @@
 #include <llvm/Analysis/LoopInfo.h>
 #include <llvm/IR/Dominators.h>
 #include <llvm/Transforms/Utils/Cloning.h>
-
+#define OVER_APPOX_TRICK
 bool analysisOnly = false;
+#ifdef OVER_APPOX_TRICK
+typedef struct {
+		unsigned long long base;
+		unsigned long long end;
+} IO_INFO;
+map<Type *, IO_INFO> ioTypes;
+#endif 
 void get_crt_functions(string file_name, vector<string> & funcs_vec)
 {
 		string line;
-        std::ifstream infile(file_name);
-        while (std::getline(infile, line))
-        {
-                vector <string> tokens;
-                char *token = strtok((char *)line.c_str(), ",");
-                while (token != NULL)
-                {
-                        string str(token);
-                        char chars[] = "[]'' ";
+		std::ifstream infile(file_name);
+		while (std::getline(infile, line))
+		{
+				vector <string> tokens;
+				char *token = strtok((char *)line.c_str(), ",");
+				while (token != NULL)
+				{
+						string str(token);
+						char chars[] = "[]'' ";
 
-                        for (unsigned int i = 0; i < strlen(chars); ++i)
-                        {
-                                // you need include <algorithm> to use general algorithms like std::remove()
-                                str.erase (std::remove(str.begin(), str.end(), chars[i]), str.end());
-                        }
-                        tokens.push_back(str);
-                        token = strtok(NULL, ",");
-                }
+						for (unsigned int i = 0; i < strlen(chars); ++i)
+						{
+								// you need include <algorithm> to use general algorithms like std::remove()
+								str.erase (std::remove(str.begin(), str.end(), chars[i]), str.end());
+						}
+						tokens.push_back(str);
+						token = strtok(NULL, ",");
+				}
 
-                for (auto token: tokens) {
-					if (token[0] != '\0') {
-	                    if(!vContains(funcs_vec, token)) {
-    	                    funcs_vec.push_back(token);
-        	            }
-					}
-                }
-        }
+				for (auto token: tokens) {
+						if (token[0] != '\0') {
+								if(!vContains(funcs_vec, token)) {
+										funcs_vec.push_back(token);
+								}
+						}
+				}
+		}
 }
 
 
@@ -82,39 +89,39 @@ int crt_intertask(vector<string>& thread_funcs_vec, vector<string>& kernel_funcs
 
 
 		for (auto task1 : threads) {
-			for (auto task2: threads) {
-					if (task1 == task2)
-                                continue;
-					for (auto val1: value_map[task1]) {
-							if (auto cnst =dyn_cast<ConstantInt>(val1)) {
-                                        continue;
-                            }
-							if (auto func = dyn_cast<Function>(val1)) {
-                                        /* TODO: Should we allow functions to call anything??? */
-                                        continue;
-                             }
-                                 //See if this is a null constant
-                              if (auto nc =  dyn_cast<llvm::ConstantPointerNull>(val1)) {
-                                                        //NULL Constants are shareable becaause they are literals
-                                                        continue;
-                              }
-							  for (auto val2: value_map[task2]) {
-                                        if (val1 == val2) {
-                                                //See if we have explicit ownership
-                                                if (auto go =  dyn_cast<llvm::GlobalVariable>(val1))
-                                                    if ((go->getSection().str().find(task1->getName().str()) != std::string::npos) && (go->getSection().str().find(task2->getName().str()) != std::string::npos))
-                                                            continue;
+				for (auto task2: threads) {
+						if (task1 == task2)
+								continue;
+						for (auto val1: value_map[task1]) {
+								if (auto cnst =dyn_cast<ConstantInt>(val1)) {
+										continue;
+								}
+								if (auto func = dyn_cast<Function>(val1)) {
+										/* TODO: Should we allow functions to call anything??? */
+										continue;
+								}
+								//See if this is a null constant
+								if (auto nc =  dyn_cast<llvm::ConstantPointerNull>(val1)) {
+										//NULL Constants are shareable becaause they are literals
+										continue;
+								}
+								for (auto val2: value_map[task2]) {
+										if (val1 == val2) {
+												//See if we have explicit ownership
+												if (auto go =  dyn_cast<llvm::GlobalVariable>(val1))
+														if ((go->getSection().str().find(task1->getName().str()) != std::string::npos) && (go->getSection().str().find(task2->getName().str()) != std::string::npos))
+																continue;
 
 
-                                                cout<< "Tasks are sharing resources:"<<endl;
+												cout<< "Tasks are sharing resources:"<<endl;
 												cout<< task1->getName().str()<<endl;
 												cout<< task2->getName().str()<<endl;
-                                                val1->dump();
+												val1->dump();
 												exit(0);
 										}
-							  }
-					}
-			}
+								}
+						}
+				}
 		}
 
 		return 0;
@@ -128,26 +135,26 @@ int crt_instrument(vector<string>& thread_funcs_vec, vector<string>&  kernel_fun
 				auto fun = *F;
 				if (vContains(thread_funcs_vec, fun->getName().str())) {
 						LLVMContext &Context = ll_mod->getContext();
-			            FunctionType *ValidateFnType = FunctionType::get(Type::getVoidTy(Context), {Type::getInt8PtrTy(Context)}, false);
+						FunctionType *ValidateFnType = FunctionType::get(Type::getVoidTy(Context), {Type::getInt8PtrTy(Context)}, false);
 						auto ValidateFn = ll_mod->getOrInsertFunction("crt_validate", ValidateFnType);
 						for (auto bb=fun->begin();bb!=fun->end(); bb++) {
 								for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
-	                                if (auto ci = dyn_cast<llvm::CallInst> (stmt)) {
-											if(!ci->getCalledFunction()) {
-													cout<< fun->getName().str()<<" has indirect calls"<<endl;
-													auto callee = ci->getCalledOperand();
-													if (auto iasm = dyn_cast<InlineAsm>(callee)) {
-															cerr<< iasm->getAsmString()<<endl;
-															cerr<<"Bro, no inline asm in safe code, you sly fox!!"<<endl;
-															exit(1);
-													}
-													// This is an indirect call
-					                                IRBuilder<> Builder(ci);
-													auto ccallee = Builder.CreatePointerCast(ci->getCalledOperand(), Builder.getInt8PtrTy());
-					                                // Call the validate function with the argument
-                    					            Builder.CreateCall(ValidateFn, {ccallee});
-											}
-									}
+										if (auto ci = dyn_cast<llvm::CallInst> (stmt)) {
+												if(!ci->getCalledFunction()) {
+														cout<< fun->getName().str()<<" has indirect calls"<<endl;
+														auto callee = ci->getCalledOperand();
+														if (auto iasm = dyn_cast<InlineAsm>(callee)) {
+																cerr<< iasm->getAsmString()<<endl;
+																cerr<<"Bro, no inline asm in safe code, you sly fox!!"<<endl;
+																exit(1);
+														}
+														// This is an indirect call
+														IRBuilder<> Builder(ci);
+														auto ccallee = Builder.CreatePointerCast(ci->getCalledOperand(), Builder.getInt8PtrTy());
+														// Call the validate function with the argument
+														Builder.CreateCall(ValidateFn, {ccallee});
+												}
+										}
 								}
 						}
 				}
@@ -164,20 +171,20 @@ string  argToBridge(CallInst * ci, int argnum, Value ** v, Value ** sizeInt) {
 		if (arg->getType()->isIntegerTy()) {
 				auto intt  = dyn_cast<llvm::IntegerType> (arg->getType());
 				if (intt->getBitWidth() <= 32) {
-					args = "i";
-					IRBuilder<> Builder(ci);
-					auto cast = Builder.CreateIntCast (arg, Type::getInt32Ty(arg->getContext()), false);
-					*v = cast;
-					*sizeInt = *v;
+						args = "i";
+						IRBuilder<> Builder(ci);
+						auto cast = Builder.CreateIntCast (arg, Type::getInt32Ty(arg->getContext()), false);
+						*v = cast;
+						*sizeInt = *v;
 				} else if (intt->getBitWidth() <= 64) {
-					args = "d";
-					IRBuilder<> Builder(ci);
-                    auto cast = Builder.CreateIntCast (arg, Type::getInt64Ty(arg->getContext()), false);
-                    *v = cast;
-                    *sizeInt = *v;
+						args = "d";
+						IRBuilder<> Builder(ci);
+						auto cast = Builder.CreateIntCast (arg, Type::getInt64Ty(arg->getContext()), false);
+						*v = cast;
+						*sizeInt = *v;
 				} else {
-					cerr<<"Really Huge Variable is being used!!" <<endl;
-					while(1);
+						cerr<<"Really Huge Variable is being used!!" <<endl;
+						while(1);
 				}
 		} else if (arg->getType()->isPointerTy()) {
 				args = "p";
@@ -193,15 +200,15 @@ string  argToBridge(CallInst * ci, int argnum, Value ** v, Value ** sizeInt) {
 						} else if (kw == "string") {
 								//Get strlen function
 								auto func = ll_mod->getFunction("mystrlen");
-                                if (func==NULL) {
-                                        cerr<< "strlen not implemented" <<endl;
-                                        return 0;
-                                }
-                                auto func_type = func->getFunctionType();
-                                auto f = ll_mod->getOrInsertFunction ("strlen", func_type); //FuncCallee
+								if (func==NULL) {
+										cerr<< "strlen not implemented" <<endl;
+										return 0;
+								}
+								auto func_type = func->getFunctionType();
+								auto f = ll_mod->getOrInsertFunction ("strlen", func_type); //FuncCallee
 								//STRLEN Gives you length of string, but we want to get the null terminator too.
 								*sizeInt = Builder.CreateAdd(Builder.CreateCall(f, {arg}), ConstantInt::get(arg->getContext(),
-                                                        llvm::APInt(32, 1, false))); 
+														llvm::APInt(32, 1, false))); 
 						} else if (kw.find(argkw) != std::string::npos) { 
 								kw.erase(kw.find(argkw), argkw.length());
 								int argNum = stoi(kw);
@@ -260,18 +267,18 @@ string getRetType(CallInst * ci) {
 
 Type* getRetTy(CallInst * ci, IRBuilder<> &Builder) {
 		llvm::Type * ret;
-        if (ci->getType()->isVoidTy()) {
-                ret = Builder.getVoidTy();
-        } else if (ci->getType()->isIntegerTy()) {
-                ret = Builder.getInt32Ty();
-        } else if (ci->getType()->isPointerTy()) {
+		if (ci->getType()->isVoidTy()) {
+				ret = Builder.getVoidTy();
+		} else if (ci->getType()->isIntegerTy()) {
+				ret = Builder.getInt32Ty();
+		} else if (ci->getType()->isPointerTy()) {
 				ret = Builder.getInt8PtrTy();
-        } else {
-                cerr<<"Pass incomplete" <<endl;
-                ci->dump();
-                ret = NULL;
-        }
-        return ret;
+		} else {
+				cerr<<"Pass incomplete" <<endl;
+				ci->dump();
+				ret = NULL;
+		}
+		return ret;
 }
 static map<int,vector<string>> compartments;
 static map<string, int>compartmentMap;
@@ -332,7 +339,7 @@ int promoteXCallNoCalee(CallInst * ci, BasicBlock::iterator& stmt, int compID) {
 
 		auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
 		auto f = ll_mod->getOrInsertFunction(func_name, func_type);
-//		Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
+		//		Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
 
 		auto new_inst = Builder.CreateCall(f,args_val);
 		Instruction * ins;
@@ -340,15 +347,15 @@ int promoteXCallNoCalee(CallInst * ci, BasicBlock::iterator& stmt, int compID) {
 				ins = new_inst;
 		}
 		else if (ci->getType()->isPointerTy()) {
-			ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
+				ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
 		}else {
-			ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
+				ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
 		}
 
 		stmt++;
 		ins->removeFromParent();
 		ins->dump();
-        ReplaceInstWithInst(ci, ins);
+		ReplaceInstWithInst(ci, ins);
 
 		return 0;
 }
@@ -358,75 +365,139 @@ int promoteXCallNoCaleeNoId(CallInst * ci, BasicBlock::iterator& stmt) {
 		//Builder.SetInsertPoint(stmt->getNextNode()->getPrevNode());
 
 		auto params = ci->getFunctionType()->params().vec();
-        vector<Type *> args;
-        vector<Value *> args_val;
-        args.push_back(Builder.getInt8PtrTy());
+		vector<Type *> args;
+		vector<Value *> args_val;
+		args.push_back(Builder.getInt8PtrTy());
 		auto ccallee = Builder.CreatePointerCast(ci->getCalledOperand(), Builder.getInt8PtrTy());
-        args_val.push_back(ccallee);
+		args_val.push_back(ccallee);
 
 
-        int i =0;
-        string func_name = getRetType(ci);
-        func_name = func_name + "call_arg";
-        string suffix = "_noid";
-        for (auto arg: params) {
-                Value * v;
-                Value * size;
-                suffix = suffix + argToBridge(ci, i++, &v, &size);
-                args.push_back(v->getType());
-                args.push_back(size->getType());
-                args_val.push_back(v);
-                args_val.push_back(size);
-        }
-        func_name = func_name + std::to_string(i) + suffix;
+		int i =0;
+		string func_name = getRetType(ci);
+		func_name = func_name + "call_arg";
+		string suffix = "_noid";
+		for (auto arg: params) {
+				Value * v;
+				Value * size;
+				suffix = suffix + argToBridge(ci, i++, &v, &size);
+				args.push_back(v->getType());
+				args.push_back(size->getType());
+				args_val.push_back(v);
+				args_val.push_back(size);
+		}
+		func_name = func_name + std::to_string(i) + suffix;
 
-        auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
+		auto func_type = FunctionType::get(getRetTy(ci, Builder), args, false);
 		auto f = ll_mod->getOrInsertFunction(func_name, func_type);
-//        Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
+		//        Function* f = Function::Create(func_type, Function::ExternalLinkage, func_name, ll_mod);
 
-        auto new_inst = Builder.CreateCall(f,args_val);
+		auto new_inst = Builder.CreateCall(f,args_val);
 
 		Instruction * ins;
-        if(ci->getType() == new_inst->getType()) {
-                ins = new_inst;
-        }
-        else if (ci->getType()->isPointerTy()) {
-            ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
-        }else {
-            ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
-        }
+		if(ci->getType() == new_inst->getType()) {
+				ins = new_inst;
+		}
+		else if (ci->getType()->isPointerTy()) {
+				ins = dyn_cast<llvm::Instruction>(Builder.CreatePointerCast(new_inst, ci->getType()));
+		}else {
+				ins = dyn_cast<llvm::Instruction>(Builder.CreateIntCast(new_inst, ci->getType(),false));
+		}
 
-        stmt++;
-        ins->removeFromParent();
+		stmt++;
+		ins->removeFromParent();
 		ins->dump();
-        ReplaceInstWithInst(ci, ins);
+		ReplaceInstWithInst(ci, ins);
 
 		return 0;
 }
 map<Value *, Function *> function_pointers;
 typedef struct {
-	vector <Value *> data;
-	vector <Value *> code;
-	int compartmentID;
+		vector <Value *> data;
+		vector <Value *> code;
+		int compartmentID;
 } COMP;
 map<string, COMP> pinned_resources;
 vector<Value *> cloneFuncs;
 vector<Value *> secrets;
 
 void forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions, vector<Function *> &compat) {
-            if (visitedFunctions.count(F) > 0 || vContains(compat, F) || F->isIntrinsic())
-                return;
-            visitedFunctions.insert(F);
+		if (visitedFunctions.count(F) > 0 || vContains(compat, F) || F->isIntrinsic())
+				return;
+		visitedFunctions.insert(F);
 
-            for (BasicBlock &BB : *F) {
-                for (Instruction &I : BB) {
-                    if (CallInst *CI = dyn_cast<CallInst>(&I)) {
-                        Function *calledFunction = CI->getCalledFunction();
-                        if (calledFunction)
-                            forward_slice_crt(calledFunction, visitedFunctions, compat);
-                    }
-                }
-            }
+		for (BasicBlock &BB : *F) {
+				for (Instruction &I : BB) {
+						if (CallInst *CI = dyn_cast<CallInst>(&I)) {
+								Function *calledFunction = CI->getCalledFunction();
+								if (calledFunction)
+										forward_slice_crt(calledFunction, visitedFunctions, compat);
+						}
+				}
+		}
+}
+
+Type* getInnermostPointedToType(Type* type) {
+		while (type->isArrayTy() || type->isPointerTy()) {
+				if (type->isArrayTy()) {
+						type = cast<ArrayType>(type)->getElementType();
+				} else if (type->isPointerTy()) {
+						type = cast<PointerType>(type)->getElementType();
+				}
+		}
+		return type;
+}
+bool isVolatile(Value * v) {
+		// See if variable is used as IO var
+		bool isIO = true;
+		for (User* user : v->users()) {
+				if (Instruction* userInst = dyn_cast<Instruction>(user)) {
+						if (auto li = dyn_cast<LoadInst>(userInst)) {
+								if (!li->isVolatile()) {
+										isIO = false;
+										cout<<"Volatile nulled at";
+										userInst->dump();
+										break;
+								}
+						}
+						if (auto si = dyn_cast<StoreInst>(userInst)) {
+								if (!si->isVolatile()) {
+										isIO = false;
+										cout<<"Volatile nulled at";
+										userInst->dump();
+										break;
+								}
+						}
+				}
+		}
+		return isIO;
+}
+
+
+bool isAccessed(Value * v) {
+		// See if variable is used as IO var
+		bool isAcc = false;
+		for (User* user : v->users()) {
+				if (dyn_cast<LoadInst>(user) || dyn_cast<StoreInst>(user)) {
+						isAcc = true;
+						break;
+				}
+		}
+		return isAcc;
+}
+
+
+bool isIOStruct(llvm::Value * stmt) {
+		bool isIO;
+		if (auto gep = dyn_cast<GetElementPtrInst>(stmt)) {
+				if (ioTypes.count(getInnermostPointedToType(gep->getSourceElementType()))) {
+						cout<<"IO Local Variable"<<endl;
+						if  (isAccessed(gep) && isVolatile(gep)) {
+								isIO = true;
+						}
+				}
+		}
+		return isIO;
+
 }
 int compartmentalize(char * argv[]) {
 		ofstream debug;
@@ -434,9 +505,9 @@ int compartmentalize(char * argv[]) {
 		ignoreList.open("./rtmk.ignore");
 		debug.open("./rtmk.log");
 		string rtmksec= "rtmk";
-        string shared = "shared";
-        string pinned = "pinned";
-        string clone = "clone";
+		string shared = "shared";
+		string pinned = "pinned";
+		string clone = "clone";
 		string secret = "secret";
 
 
@@ -444,7 +515,7 @@ int compartmentalize(char * argv[]) {
 		ofstream dfg;
 		dfg.open("./dg");
 
-		
+
 		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
 				auto glob = &*G;
 				if ((*glob)->getName().str() == "llvm.used" || (*glob)->getName().str() == "_shared_region"
@@ -475,11 +546,11 @@ int compartmentalize(char * argv[]) {
 				}
 #if 0
 				if ((*glob)->getAttributes().hasAttribute("rtmkxcmd")) {
-					auto attr = (*glob)->getAttributes().getAttribute("rtmkxcmd");
-					auto kw = attr.getValueAsString().str();
-					if (kw == "secret") { 
-						secrets.push_back(*glob);
-					}
+						auto attr = (*glob)->getAttributes().getAttribute("rtmkxcmd");
+						auto kw = attr.getValueAsString().str();
+						if (kw == "secret") { 
+								secrets.push_back(*glob);
+						}
 				}
 #endif
 
@@ -502,12 +573,12 @@ int compartmentalize(char * argv[]) {
 		secret_file.open("./rtmk.secrets");
 		for (auto sec: secrets) {
 				llvm::SmallVector<DIGlobalVariableExpression *, 1> GVs;
-                auto glob = sec;
+				auto glob = sec;
 				if (auto gv = dyn_cast<llvm::GlobalVariable>(sec)) {
-    	            gv->getDebugInfo(GVs);
-            	    for (auto *g: GVs) {
-						secret_file<<sec->getName().str()<<"##"<<g->getVariable()->getFilename().str()<<endl;
-					}
+						gv->getDebugInfo(GVs);
+						for (auto *g: GVs) {
+								secret_file<<sec->getName().str()<<"##"<<g->getVariable()->getFilename().str()<<endl;
+						}
 				}
 		}
 
@@ -524,8 +595,8 @@ int compartmentalize(char * argv[]) {
 				}
 				pin<<"Data"<<endl;
 				for (auto val: resources.data) {
-                        pin<<"	"<<val->getName().str()<<endl;
-                }
+						pin<<"	"<<val->getName().str()<<endl;
+				}
 		}
 
 
@@ -546,19 +617,19 @@ int compartmentalize(char * argv[]) {
 				//auto fun = *F;
 				auto fun = F;
 				volatile unsigned int i =0;
-		//		string tt = "heval_I2c1";
-			//	if (fun->getName().str() == tt)
-		//				while(i ==0);
+				//		string tt = "heval_I2c1";
+				//	if (fun->getName().str() == tt)
+				//				while(i ==0);
 				//cout<< fun->getName().str() <<endl;
 
-                if (fun->getSection().str().find(rtmksec) != std::string::npos) {
-					ignoreList<<fun->getName().str()<<endl;
-                    continue;
-                }
-                if (fun->getSection().str().find(shared) != std::string::npos) {
+				if (fun->getSection().str().find(rtmksec) != std::string::npos) {
 						ignoreList<<fun->getName().str()<<endl;
-                        continue;
-                }
+						continue;
+				}
+				if (fun->getSection().str().find(shared) != std::string::npos) {
+						ignoreList<<fun->getName().str()<<endl;
+						continue;
+				}
 				if (fun->isIntrinsic ()) {
 						//ffmap<<fun->getName().str()<<"##" << "intrinsic"<<endl;
 						ignoreList<<fun->getName().str()<<endl;
@@ -566,12 +637,12 @@ int compartmentalize(char * argv[]) {
 				}
 
 				if (fun->getSection().str().find(clone) != std::string::npos) {
-                        cloneFuncs.push_back(&(*fun));
+						cloneFuncs.push_back(&(*fun));
 						ignoreList<<fun->getName().str()<<endl;
-                        //TODO: Check if original function is never address taken of, if
-                        // thats the case delete the original function to save memory.
-                        continue;
-                }
+						//TODO: Check if original function is never address taken of, if
+						// thats the case delete the original function to save memory.
+						continue;
+				}
 				int found = 0;
 				for (auto bb=fun->begin();bb!=fun->end(); bb++) {
 						if (found==1)
@@ -593,7 +664,7 @@ int compartmentalize(char * argv[]) {
 		}
 		//DFMAP basically captures the file location of all data variables
 		ofstream dfmap;
-        dfmap.open("./dfmap");
+		dfmap.open("./dfmap");
 		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
 				llvm::SmallVector<DIGlobalVariableExpression *, 1> GVs;
 				auto glob = &*G;
@@ -605,21 +676,21 @@ int compartmentalize(char * argv[]) {
 		}
 		dfmap.close();
 		//FDMAP basically captures all the data accesses by a function.
-		ofstream fdmap;
-		fdmap.open("./fdmap");
+		ofstream fdevmap;
+		fdevmap.open("./fdmap");
 		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F)
 		{
 				auto fun = *F;
 				string rtmksec= "rtmk";
-                if (fun->getSection().str().find(rtmksec) != std::string::npos) {
-					ignoreList<<fun->getName().str()<<endl;
-                    continue;
-                }
-				string shared = "shared_func";
-                if (fun->getSection().str().find(shared) != std::string::npos) {
+				if (fun->getSection().str().find(rtmksec) != std::string::npos) {
 						ignoreList<<fun->getName().str()<<endl;
-                        continue;
-                }
+						continue;
+				}
+				string shared = "shared_func";
+				if (fun->getSection().str().find(shared) != std::string::npos) {
+						ignoreList<<fun->getName().str()<<endl;
+						continue;
+				}
 				for (auto bb=fun->begin();bb!=fun->end();bb++) {
 						for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
 								/* Iterate all operands and see if there is inttoptr */
@@ -638,8 +709,8 @@ int compartmentalize(char * argv[]) {
 																		   way to make a nullptr */
 																		continue;
 																}
-																fdmap << fun->getName().str() << "##";
-																fdmap << std::hex <<"0x"<<*ptsTo->getValue().getRawData() <<endl;
+																fdevmap << fun->getName().str() << "##";
+																fdevmap << std::hex <<"0x"<<*ptsTo->getValue().getRawData() <<endl;
 														}
 												}
 										}
@@ -647,24 +718,20 @@ int compartmentalize(char * argv[]) {
 						}
 				}
 		}
-		fdmap.close();
 
-		//TODO: Use SVD parser like in other pass.
-		ofstream fdevmap;
-		fdevmap.open("./fdevmap");
 		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F)
 		{
 				auto fun = *F;
 				string rtmksec= "rtmk";
-                if (fun->getSection().str().find(rtmksec) != std::string::npos) {
-					ignoreList<<fun->getName().str()<<endl;
-                    continue;
-                }
-				string shared = "shared_func";
-                if (fun->getSection().str().find(shared) != std::string::npos) {
+				if (fun->getSection().str().find(rtmksec) != std::string::npos) {
 						ignoreList<<fun->getName().str()<<endl;
-                        continue;
-                }
+						continue;
+				}
+				string shared = "shared_func";
+				if (fun->getSection().str().find(shared) != std::string::npos) {
+						ignoreList<<fun->getName().str()<<endl;
+						continue;
+				}
 				for (auto bb=fun->begin();bb!=fun->end();bb++) {
 						for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
 								/* Iterate all operands and see if there is inttoptr */
@@ -681,7 +748,34 @@ int compartmentalize(char * argv[]) {
 																		   way to make a nullptr */
 																		continue;
 																}
-
+#ifdef OVER_APPOX_TRICK
+																Type * type = getInnermostPointedToType(inttoptr->getDestTy ()->getPointerElementType());
+																if (type->getTypeID() == Type::StructTyID ) {
+																		cerr<<endl<<"IO Type"<<endl;
+																		inttoptr->getDestTy ()->getPointerElementType()->dump();
+																		if (ioTypes.count(type)) {
+																				auto info = ioTypes[type];
+																				auto end = addr + 0x1000;
+																				if (info.base > addr) {
+																						info.base = addr;
+																				}
+																				if (info.end < end) {
+																						info.end = end;
+																				}
+																				//Write back
+																				ioTypes[type] = info;
+																		} else {
+																				IO_INFO info;
+																				info.base = addr;
+																				info.end = addr + 0x1000;
+																				ioTypes[type] = info;
+																				cout<<"Adding new type"<<endl;
+																				type->dump();
+																				cout<<type<<endl;
+																				cout<<fun->getName().str()<<endl;
+																		}
+																}
+#endif 
 																/* OK, this is a pointer, let's sanitize the shit out of its usage */
 																if (isa<llvm::StoreInst>(stmt) || isa<llvm::LoadInst>(stmt)) {
 																		if (stmt->hasNUsesOrMore(2)) {
@@ -723,7 +817,110 @@ int compartmentalize(char * argv[]) {
 				}
 		}
 
+#ifdef OVER_APPOX_TRICK
+		cerr<<"Type overapprox"<<endl;
+
+		/* Get def-use chains of IO Variables*/
+		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
+				llvm::SmallVector<DIGlobalVariableExpression *, 1> GVs;
+				auto glob = &*G;
+				auto gv = *glob;
+				Type * ty = getInnermostPointedToType(gv->getType());
+				if (ioTypes.count(ty)) {
+						cerr<<"IO Variable"<<endl;
+						gv->dump();
+						auto isIO = isVolatile(gv);
+						// See if variable is used as IO var
+
+						cout<<"is Accessed:" <<isAccessed(gv) << "isVolatile:"<<isVolatile(gv)<<endl;
+						if (isAccessed(gv)) {
+								for (User* user : gv->users()) {
+										user->dump();
+										if (auto gep = dyn_cast<llvm::GetElementPtrInst>(user)) {
+												cout<<"GEP FOund"<<endl;
+												gep->dump();
+												if (isVolatile(gep)) {
+														Function* enclosingFunction = gep->getParent()->getParent();
+														dbgs() << "Use in Function: " << enclosingFunction->getName().str() << "\n";
+												}
+										}
+								}
+						}
+				}
+		}
+
+
+
+
+		/* Parse functions to get users of IO variables */
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F)
+		{
+				auto fun = *F;
+				string rtmksec= "rtmk";
+				if (fun->getSection().str().find(rtmksec) != std::string::npos) {
+						ignoreList<<fun->getName().str()<<endl;
+						continue;
+				}
+				string shared = "shared_func";
+				if (fun->getSection().str().find(shared) != std::string::npos) {
+						ignoreList<<fun->getName().str()<<endl;
+						continue;
+				}
+				for (auto bb=fun->begin();bb!=fun->end();bb++) {
+						for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
+#if 0
+								if (AllocaInst* allocaInst = dyn_cast<AllocaInst>(stmt)) {
+										if (ioTypes.count(getInnermostPointedToType(allocaInst->getType()))) {
+												cout<<"IO Local Variable"<<endl;
+												stmt->dump();
+												if  (isAccessed(allocaInst)) {
+														for (User* user : allocaInst->users()) {
+																user->dump();
+																if (auto gep = dyn_cast<llvm::GetElementPtrInst>(user)) {
+																		cout<<"GEP FOund"<<endl;
+																		if (isVolatile(gep)) {
+																				dbgs() << "Use in Function: " << fun->getName().str() << "\n";
+																				allocaInst->dump();
+																		}
+																}
+														}
+												}
+										}
+								}
+#endif
+
+								if (auto gep = dyn_cast<GetElementPtrInst>(stmt)) {
+										if (ioTypes.count(getInnermostPointedToType(gep->getSourceElementType()))) {
+												cout<<"IO Local Variable"<<endl;
+												if  (isAccessed(gep) && isVolatile(gep)) {
+													dbgs() << "Use in Function: " << fun->getName().str() << "\n";
+													auto ioInfo = ioTypes[getInnermostPointedToType(gep->getSourceElementType())];
+													for (int addr = ioInfo.base; addr < ioInfo.end; addr += 0x1000) {
+														fdevmap << fun->getName().str() << "##";
+    	                                                fdevmap << std::hex <<"0x"<<addr <<endl;
+													}
+												}
+										}
+								}
+
+								/* TODO: Add cast check for malicious users */
+						}
+
+				}
+		}
+#endif 
 		fdevmap.close();
+
+#ifdef OVER_APPOX_TRICK
+		ofstream tyInfo;
+		tyInfo.open("./type_info");
+		for (auto pair: ioTypes) {
+				tyInfo<< pair.first->getStructName().str() <<endl;
+				tyInfo<<"start:	" <<pair.second.base<<endl;
+				tyInfo<<"end:	" <<pair.second.end<<endl;
+		}
+		tyInfo.close();
+#endif 
 
 #define FREERTOS
 #ifdef ZEPHYR
@@ -763,84 +960,84 @@ int compartmentalize(char * argv[]) {
 
 		ofstream compat;
 		vector<llvm::Function *> compat_vec;
-        compat.open("./compat");
-        for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
-                Function *fun = *F;
+		compat.open("./compat");
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+				Function *fun = *F;
 				string rtmksec= "compat";
-                if (fun->getSection().str().find(rtmksec) != std::string::npos) {
+				if (fun->getSection().str().find(rtmksec) != std::string::npos) {
 						compat<<fun->getName().str()<<endl;
 						compat_vec.push_back(fun);
 				}
-        }
+		}
 		ofstream reach;
 		map<Function *, SmallPtrSet<Function*, 16>> thread_reach;
 		reach.open("./rtmk.threadsreach");
 		for (auto thread :thread_vec) {
 				if (auto thread_fn =  dyn_cast<llvm::Function>(thread)) {
-					SmallPtrSet<Function*, 16> visitedFunctions;
-					forward_slice_crt(thread_fn, visitedFunctions, compat_vec);
-					reach<<thread->getName().str()<<"\n";
-					for (Function *F : visitedFunctions) {
-	    	            reach << "	"<<F->getName().str() << "\n";
-    	    	    }
-					thread_reach[thread_fn] = visitedFunctions;
+						SmallPtrSet<Function*, 16> visitedFunctions;
+						forward_slice_crt(thread_fn, visitedFunctions, compat_vec);
+						reach<<thread->getName().str()<<"\n";
+						for (Function *F : visitedFunctions) {
+								reach << "	"<<F->getName().str() << "\n";
+						}
+						thread_reach[thread_fn] = visitedFunctions;
 				}
 		}
 
 		ofstream loopInfoFile;
-        loopInfoFile.open("./loop");
+		loopInfoFile.open("./loop");
 		//Add loop analysis.
 		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
-			Function *func = *F;
-			if (func->isIntrinsic()) {
-					continue;
-			}
-		    if (!vContains(thread_vec, func)) {
-					continue;
-			}
-			cerr<<"Ran once"<<endl;
-			cerr<<func->getName().str()<<endl;
- 	    	//get the dominatortree of the current function
-    		llvm::DominatorTree* DT = new llvm::DominatorTree();
-        	DT->recalculate(*func);
-        	//generate the LoopInfoBase for the current function
-        	llvm::LoopInfoBase<llvm::BasicBlock, llvm::Loop>* loopInfo = new llvm::LoopInfoBase<llvm::BasicBlock, llvm::Loop>();
-        	loopInfo->releaseMemory();
-        	loopInfo->analyze(*DT);
+				Function *func = *F;
+				if (func->isIntrinsic()) {
+						continue;
+				}
+				if (!vContains(thread_vec, func)) {
+						continue;
+				}
+				cerr<<"Ran once"<<endl;
+				cerr<<func->getName().str()<<endl;
+				//get the dominatortree of the current function
+				llvm::DominatorTree* DT = new llvm::DominatorTree();
+				DT->recalculate(*func);
+				//generate the LoopInfoBase for the current function
+				llvm::LoopInfoBase<llvm::BasicBlock, llvm::Loop>* loopInfo = new llvm::LoopInfoBase<llvm::BasicBlock, llvm::Loop>();
+				loopInfo->releaseMemory();
+				loopInfo->analyze(*DT);
 
-			cerr<<loopInfo->getTopLevelLoops().size()<<endl;
-			for (auto loop : (*loopInfo)) {
-					// Blocks may have no name, but SO says you can use this as the ID. In my xp, these names are repeated across functions
-					// so complement it with function name.
-					string temp;
-					llvm::raw_string_ostream sstream(temp);
-					loop->getHeader()->printAsOperand(sstream, false);
-					loopInfoFile<<loop->getHeader()->getParent()->getName().str() << "##" << sstream.str() << endl;;
-			}
+				cerr<<loopInfo->getTopLevelLoops().size()<<endl;
+				for (auto loop : (*loopInfo)) {
+						// Blocks may have no name, but SO says you can use this as the ID. In my xp, these names are repeated across functions
+						// so complement it with function name.
+						string temp;
+						llvm::raw_string_ostream sstream(temp);
+						loop->getHeader()->printAsOperand(sstream, false);
+						loopInfoFile<<loop->getHeader()->getParent()->getName().str() << "##" << sstream.str() << endl;;
+				}
 
 		}
 
 
 		//Run klee tainter
 		if (!kleeFile.getValue().empty()) {
-		string space = " ";
-		for (auto thread: thread_vec) {
-			string cmd = "klee --solver-backend=z3 --search=lloop --entry-point=";
-			cmd += thread->getName().str();
-			cmd += space;
-    	    cmd += kleeFile.getValue();
-			cout<<cmd<<endl;
-	        system(cmd.c_str());
-		}
+				string space = " ";
+				for (auto thread: thread_vec) {
+						string cmd = "klee --solver-backend=z3 --search=lloop --entry-point=";
+						cmd += thread->getName().str();
+						cmd += space;
+						cmd += kleeFile.getValue();
+						cout<<cmd<<endl;
+						system(cmd.c_str());
+				}
 		}
 
 
 
 		ofstream cloned;
-        cloned.open("./rtmk.cloned");
-        for (auto res: cloneFuncs) {
-                cloned<<res->getName().str()<<endl;
-        }
+		cloned.open("./rtmk.cloned");
+		for (auto res: cloneFuncs) {
+				cloned<<res->getName().str()<<endl;
+		}
 		//Kick the compartmentalization phase
 		if (!kleeFile.getValue().empty() || analysisOnly || partGuide.getValue().empty())
 				return 0;
@@ -851,11 +1048,11 @@ int compartmentalize(char * argv[]) {
 		auto unsafe_funcs_file = "";
 		//Create compartments
 		if (partGuide.getValue().empty()) {
-			string cmd = "./partition.py -c ";
-			cmd += argv[InputFilename.getPosition()];
-			cmd += " -d ./dg";
-			system(cmd.c_str());
-			pgFile = "./policy";
+				string cmd = "./partition.py -c ";
+				cmd += argv[InputFilename.getPosition()];
+				cmd += " -d ./dg";
+				system(cmd.c_str());
+				pgFile = "./policy";
 		}
 
 		safe_funcs_file = "./.crtsafe";
@@ -891,9 +1088,9 @@ int compartmentalize(char * argv[]) {
 
 		//Remove compatibility layer from safe_funcs
 		for (auto compat: compat_vec) {
-			if (vContains(safe_funcs_vec, compat->getName().str())) {
-					safe_funcs_vec.erase(std::remove(safe_funcs_vec.begin(), safe_funcs_vec.end(), compat->getName().str()), safe_funcs_vec.end());
-			}
+				if (vContains(safe_funcs_vec, compat->getName().str())) {
+						safe_funcs_vec.erase(std::remove(safe_funcs_vec.begin(), safe_funcs_vec.end(), compat->getName().str()), safe_funcs_vec.end());
+				}
 		}
 
 		vector<string> unsafe_funcs_vec;
@@ -906,9 +1103,9 @@ int compartmentalize(char * argv[]) {
 
 		vector<string> crt_threads;
 		for (auto thread: thread_vec){
-			if (vContains(safe_funcs_vec, thread->getName().str())) {
-				crt_threads.push_back(thread->getName().str());
-			}
+				if (vContains(safe_funcs_vec, thread->getName().str())) {
+						crt_threads.push_back(thread->getName().str());
+				}
 		}
 		crt_intertask(crt_threads, unsafe_funcs_vec, thread_reach);
 
@@ -935,9 +1132,9 @@ int compartmentalize(char * argv[]) {
 								continue;
 						}
 						string shared = "shared_data";
-                		if (go->getSection().str().find(shared) != std::string::npos) {
-                        	continue;
-                		}
+						if (go->getSection().str().find(shared) != std::string::npos) {
+								continue;
+						}
 						string init= "init";
 						if (go->getSection().str().find(init) != std::string::npos) {
 								continue;
@@ -977,9 +1174,9 @@ int compartmentalize(char * argv[]) {
 						continue;
 				}
 				string shared = "shared_func";
-                if (fun->getSection().str().find(shared) != std::string::npos) {
-                        continue;
-                }
+				if (fun->getSection().str().find(shared) != std::string::npos) {
+						continue;
+				}
 
 				debug<<fun->getName().str()<<":" <<endl;
 				debug<<"moved from "<<fun->getSection().str()<< " to ";
@@ -1127,23 +1324,23 @@ int compartmentalize(char * argv[]) {
 		int lastAutoCompart = compartmentID;
 
 		if (partGuide.getValue().empty()) {
-		for (auto res: pinned_resources) {
-                auto pinTag = res.first;
-                auto resources = res.second;
-				compartmentID++;
-                for (auto val: resources.data) {
-						if (auto go = dyn_cast<llvm::GlobalObject> (val)) {
-	                        StringRef s = ".osection" + std::to_string(compartmentID);
-    	                    go->setSection(s);
+				for (auto res: pinned_resources) {
+						auto pinTag = res.first;
+						auto resources = res.second;
+						compartmentID++;
+						for (auto val: resources.data) {
+								if (auto go = dyn_cast<llvm::GlobalObject> (val)) {
+										StringRef s = ".osection" + std::to_string(compartmentID);
+										go->setSection(s);
+								}
 						}
-                }
-                for (auto val: resources.code) {
-						if (auto go = dyn_cast<llvm::GlobalObject> (val)) {
-    	                    StringRef s = ".csection" + std::to_string(compartmentID);
-	                        go->setSection(s);
+						for (auto val: resources.code) {
+								if (auto go = dyn_cast<llvm::GlobalObject> (val)) {
+										StringRef s = ".csection" + std::to_string(compartmentID);
+										go->setSection(s);
+								}
 						}
-                }
-        }
+				}
 		}
 
 		/* Stats to hold number of xcalls */
@@ -1156,37 +1353,37 @@ int compartmentalize(char * argv[]) {
 
 		for (auto res: cloneFuncs) {
 				if (auto fun = dyn_cast<llvm::Function> (res)) {
-                for (auto user : fun->users ()) {
-						cout<<"Dump old user"<<endl;
-						user->dump();
+						for (auto user : fun->users ()) {
+								cout<<"Dump old user"<<endl;
+								user->dump();
+						}
 				}
-			}
 		}
 		vector<Value *> clones; //We need to track our clones so we don't instrument them.
-        for (auto res: cloneFuncs) {
+		for (auto res: cloneFuncs) {
 				if (auto fun = dyn_cast<llvm::Function> (res)) {
-				vector<Value *> temp;
-				//Deep copy for iteration
-				for (auto user : fun->users ()) {
-						temp.push_back(user);
-				}
-                for (auto user : temp) {
-						user->dump();
-						ValueToValueMapTy VMap;
-					    auto cfun = CloneFunction(fun, VMap);
-						clones.push_back(cfun);
-						if (auto inst = dyn_cast<llvm::Instruction> (user) ){
-						cfun->setSection(inst->getParent()->getParent()->getSection());
+						vector<Value *> temp;
+						//Deep copy for iteration
+						for (auto user : fun->users ()) {
+								temp.push_back(user);
+						}
+						for (auto user : temp) {
+								user->dump();
+								ValueToValueMapTy VMap;
+								auto cfun = CloneFunction(fun, VMap);
+								clones.push_back(cfun);
+								if (auto inst = dyn_cast<llvm::Instruction> (user) ){
+										cfun->setSection(inst->getParent()->getParent()->getSection());
 
-						if (auto ci= dyn_cast<llvm::CallInst> (user)) {
-								ci->setCalledFunction (cfun);
-								cout<<"Cloning to new function"<<endl;
-								ci->dump();
-						}
+										if (auto ci= dyn_cast<llvm::CallInst> (user)) {
+												ci->setCalledFunction (cfun);
+												cout<<"Cloning to new function"<<endl;
+												ci->dump();
+										}
+								}
 						}
 				}
-				}
-        }
+		}
 
 		/* TODO: Assign pinned resources their own compartments based on data or code */
 
@@ -1204,8 +1401,8 @@ int compartmentalize(char * argv[]) {
 				}
 				string shared = "shared_func";
 				if (fun->getSection().str().find(shared) != std::string::npos) {
-                        continue;
-                }
+						continue;
+				}
 
 				for (auto bb=fun->begin();bb!=fun->end();bb++) {
 						for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
@@ -1225,7 +1422,7 @@ int compartmentalize(char * argv[]) {
 														continue;
 												//TODO: Inconsistency between compartmentMap and actual compartment due to cloning
 												if (vContains(clones, callee) || vContains(cloneFuncs, callee)) {
-																continue;
+														continue;
 												}
 												/* See if this is a debug call/intrinsic */
 												string llvm = "llvm";
