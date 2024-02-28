@@ -10,7 +10,6 @@ int foo() {
 }
 int main(int argc, char *argv[])
 {
-	mon_init();
 	for( ;; ) {
 			foo();
 	}

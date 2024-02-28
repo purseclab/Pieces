@@ -18,10 +18,8 @@ void __libc_csu_fini() {
 void __libc_csu_init() {
 }
 
-__attribute__((section(".csection0"))) 
 int main(int argc, char *argv[])
 {
-	mon_init();
 	for( ;; ) {
 			foo();
 	}

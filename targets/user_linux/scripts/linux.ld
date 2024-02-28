@@ -73,14 +73,14 @@ SECTIONS
   . = 4198704;
 _scsection0 = .;
 	*(.csection0)
-	. = 4198855;
+	. = 4198867;
 _ecsection0 = .;
   }  .csection1 : 
   {
-  . = 4198864;
+  . = 4198880;
 _scsection1 = .;
 	*(.csection1)
-	. = 4198966;
+	. = 4198982;
 _ecsection1 = .;
   }  PROVIDE (__etext = .);
   PROVIDE (_etext = .);

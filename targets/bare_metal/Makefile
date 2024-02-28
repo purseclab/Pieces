@@ -93,6 +93,7 @@ exec: build/$(BIN).bc build/reg.o
 ec:
 	ansible-playbook ./bm-playbook.yml
 rund:
+	../../emulators/qemu-arm -M stm32-p103 -semihosting -nographic -kernel ./build/firmware.bin -s -S &
 	gdb-multiarch ./build/$(BIN)
 
 run:
