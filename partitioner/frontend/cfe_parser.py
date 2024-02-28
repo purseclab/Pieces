@@ -237,3 +237,29 @@ def find_casts_in_subset(cursor_set):
 			print(cursor.spelling)
 			casts.append(cursor.spelling)
 	return casts
+
+
+# Function to add a new line at the beginning of each function
+def add_line_to_functions(cursor):
+	if cursor.kind == clang.cindex.CursorKind.FUNCTION_DECL:
+		# Get the location of the cursor
+		location = cursor.location
+		if location.file:
+			# Print function name and line number (for demonstration)
+			print(f"Function: {cursor.spelling} at line {location.line}")
+
+			# Get the function body
+			function_body = cursor.get_children()
+			if function_body and function_body[0].kind == clang.cindex.CursorKind.COMPOUND_STMT:
+				# Get the first statement in the function body
+				first_statement = function_body[0].get_children().next()
+				
+				# Create a new cursor for the line "int a = 0;"
+				new_line_cursor = clang.cindex.Cursor.from_location(cursor.translation_unit, location.file, location.line, 1)
+
+				# Insert the new line into the function body
+				clang.cindex.Cursor.insert_before(first_statement, "int a = 0;\n")
+
+	# Recursively traverse children
+	for child in cursor.get_children():
+		add_line_to_functions(child)

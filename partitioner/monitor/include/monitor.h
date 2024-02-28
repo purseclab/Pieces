@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #define RTMK_CODE   __attribute__((section(".rtmkcode"))) extern
+#define COMPAT      __attribute__((section(".rtmkcode"))) static inline
 #define DRIVER_CODE __attribute__((section(".driver"))) static inline 
 #define RTMK_CODE_INTERNAL __attribute__((section(".rtmkcode")))  static inline
 #define INIT       __attribute__((section(".init")))

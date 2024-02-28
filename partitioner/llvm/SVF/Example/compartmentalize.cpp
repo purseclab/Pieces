@@ -28,6 +28,7 @@
 #include <llvm/Analysis/LoopInfo.h>
 #include <llvm/IR/Dominators.h>
 #include <llvm/Transforms/Utils/Cloning.h>
+#include "llvm/Demangle/Demangle.h"
 #define OVER_APPOX_TRICK
 bool analysisOnly = false;
 #ifdef OVER_APPOX_TRICK
@@ -499,6 +500,18 @@ bool isIOStruct(llvm::Value * stmt) {
 		return isIO;
 
 }
+
+Value * getTaskFromTaskStruct(Value * elem) {
+																		//Get Task from task struct
+                                                                        if (auto str2 = dyn_cast<llvm::ConstantStruct>(elem)) {
+                                                                            auto functor = str2->getOperand(0);
+                                                                            if (auto str3 = dyn_cast<llvm::ConstantStruct>(functor)) {
+                                                                                    auto task = str3->getOperand(1);
+                                                                                    return task;
+                                                                            }
+                                                                        }
+																		return NULL;
+}
 int compartmentalize(char * argv[]) {
 		ofstream debug;
 		ofstream ignoreList;
@@ -923,6 +936,8 @@ int compartmentalize(char * argv[]) {
 #endif 
 
 #define FREERTOS
+#undef FREERTOS
+#define ARDU
 #ifdef ZEPHYR
 		ofstream threads;
 		threads.open("./threads");
@@ -957,6 +972,124 @@ int compartmentalize(char * argv[]) {
 				}
 		}
 #endif
+
+#ifdef ARDU
+		ofstream threads;
+        vector<llvm::Value *> thread_vec;
+        threads.open("./threads");
+#if 0
+        for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+                Function *fun = *F;
+                Value * val = (Value *)fun;
+                //Ardupilot uses the functor class to bind class methods as wrappers, this should be a good first level filter.
+                if (fun->getName().contains("Functor") && fun->getName().contains("method_wrapper")) {
+                        std::string demangledName = llvm::demangle(fun->getName().str());
+						auto args = demangledName.substr(demangledName.find('>') + 1);
+						args = args.substr(args.find('>') + 1);
+//						threads<<demangledName <<endl;
+//						threads<<args<<endl;
+//						threads<<"______"<<endl;
+                        size_t pos = args.find('(');
+                        size_t pos_end = args.find(')');
+                        std::stringstream ss(args.substr(pos +1, pos_end -1));
+                        std::vector<std::string> tokens;
+                        std::string token;
+
+                        // Tokenize the string based on commas
+                        while (std::getline(ss, token, ',')) {
+                            tokens.push_back(token);
+                        }
+
+                        int num_args = tokens.size();
+//						threads<< tokens[0] <<" $$$$$$ "<<fun->getName().str()<<endl;
+                        if ( (num_args == 1) &&  (tokens[0]=="void*")) {
+							//We passed our filter, lets extract the name of the method with class
+							std::string demangledName = llvm::demangle(fun->getName().str());
+							auto template_args = demangledName.substr(demangledName.find('<') + 1);
+							auto args = template_args.substr(template_args.find('<') );
+							size_t pos = args.find('<');
+							size_t pos_end = args.find('>');
+							std::stringstream ss(args.substr(pos +1, pos_end -1));
+	                        std::vector<std::string> tokens;
+    	                    std::string token;
+							// Tokenize the string based on commas
+	                        while (std::getline(ss, token, ',')) {
+    	                        tokens.push_back(token);
+        	                }
+							auto name_fun = tokens[1].substr(tokens[1].find("&"));
+							//Name mangling approach.
+                            threads<<name_fun<<endl;
+                            thread_vec.push_back(fun);
+                        }
+                }
+        }
+#endif 
+
+#if 0
+		auto types = ll_mod->getIdentifiedStructTypes();
+		cout<< "Length of identified structures" << types.size()<<endl;
+		for (auto ty : types) {
+			ty->dump();
+			if (ty->getName().str() == "struct.AP_Scheduler::Task") {
+					task_type = ty;
+					break;
+			}
+		}
+#endif 
+
+		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
+                auto glob = &*G;
+
+				auto go = *glob;
+				auto ty = go->getType();
+				auto ity = getInnermostPointedToType(ty);
+						if (auto str = dyn_cast<llvm::StructType>(ity)) 
+						{
+							if (str->getNumElements() == 5) {
+							cerr<<"Struct Type"<<endl;
+							if (str->isLiteral()) {
+									cerr<<"Literal Type" <<endl;
+									if (auto str1 = dyn_cast<llvm::StructType>(str->getElementType((unsigned int ) 0))) {
+											//Match signature of Task types
+											if (!str1->isLiteral() && str1->getStructName().contains("Functor")) {
+												if (str->getElementType(1)->isPointerTy() &&
+									                str->getElementType(2)->isFloatTy() &&
+									                str->getElementType(3)->isIntegerTy(16) &&
+									                str->getElementType(4)->isIntegerTy(8)) {
+														if (go->hasInitializer()) {
+																auto init = go->getInitializer();
+																if (init->getType()->isArrayTy()) {
+																	unsigned NumElements = init->getNumOperands();
+																	for (unsigned i = 0; i < NumElements; ++i) {
+																			auto elem = init->getOperand(i);
+																			//Get Task from task struct
+																			auto task = getTaskFromTaskStruct(elem);
+																			cerr<<"Adding a new task"<<endl;
+																			task->dump();
+																			threads<<task->getName().str()<<endl;
+												                            thread_vec.push_back(task);
+
+																	}
+																} else if (ty->isPointerTy()) {
+																		//TODO: Test this path
+
+																} else {
+																		//TODO: Test this path
+																		auto task = getTaskFromTaskStruct(go);
+																		task->dump();
+																		threads<<task->getName().str()<<endl;
+																		thread_vec.push_back(task);
+																}
+														}
+												}
+											}
+									}
+								}
+							}
+						} 
+		}
+#endif
+		return 0;
 
 		ofstream compat;
 		vector<llvm::Function *> compat_vec;
