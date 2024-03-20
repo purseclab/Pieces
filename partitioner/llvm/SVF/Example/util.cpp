@@ -313,6 +313,26 @@ void buildPTA() {
     fsptal.analyze();
 	fspta = &fsptal;
 #endif 
+
+#if 01
+	PTACallGraph* callgraph = fspta->getPTACallGraph();
+	    /// ICFG
+    ICFG* icfg = pag->getICFG();
+    //icfg->dump("icfg");
+
+    /// Value-Flow Graph (VFG)
+    VFG* vfg = new VFG(callgraph);
+	vfg->dump("vfg");
+
+    /// Sparse value-flow graph (SVFG)
+    SVFGBuilder svfBuilder(true);
+    SVFG* svfg = svfBuilder.buildFullSVFG(fspta);
+
+	//svfg->dump("svfg");
+
+
+#endif 
+
 	SVFModule::llvm_iterator F = svfModule->llvmFunBegin();
 	Function *fun = *F;
 	ll_mod = fun->getParent();

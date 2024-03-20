@@ -68,7 +68,7 @@ int main(int argc, char ** argv) {
 	if (ETSAN) {
 			etsan();
 	}
-	updateBC();
+	//updateBC();
 
     //Temp for debugging and hacking
     return error_value;

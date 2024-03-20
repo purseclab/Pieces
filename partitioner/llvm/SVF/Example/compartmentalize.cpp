@@ -29,6 +29,20 @@
 #include <llvm/IR/Dominators.h>
 #include <llvm/Transforms/Utils/Cloning.h>
 #include "llvm/Demangle/Demangle.h"
+#include "llvm/IR/PassManager.h"
+#include "llvm/Analysis/CallGraph.h"
+#include "llvm/Analysis/CallGraphSCCPass.h"
+#include "llvm/Analysis/ModuleSummaryAnalysis.h"
+#include "llvm/IR/PassManager.h"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Analysis/ProfileSummaryInfo.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/Module.h"
+#include "llvm/IR/PassManager.h"
+#include "llvm/Passes/PassBuilder.h"
+#include "llvm/Passes/PassPlugin.h"
+#include "llvm/Support/raw_ostream.h"
+
 #define OVER_APPOX_TRICK
 bool analysisOnly = false;
 #ifdef OVER_APPOX_TRICK
@@ -37,7 +51,68 @@ typedef struct {
 		unsigned long long end;
 } IO_INFO;
 map<Type *, IO_INFO> ioTypes;
-#endif 
+#endif
+
+//Have to key on string instead of type*, because Type* is identified.
+map<string, vector<string>> classH; // Parent Class Name-> Children Class Names
+map<Type *, vector<Type *>> classHType; 
+map<Type* , Value *> class_vtable_map; // Class Type -> Vtable
+map<Type *, vector<Function *>> class_virtual_funs; //Class Name->Virtual Functions
+Type* getInnermostPointedToType(Type* type);
+
+Type * getTypeFromName(Module *m, string name) {
+	auto types = m->getIdentifiedStructTypes (); 
+	for (auto ty : types) {
+			if (ty->hasName() && ty->getName().str() == name) {
+					return ty;
+			}
+	}
+	return NULL;
+}
+
+
+bool isSubFunction(Type * FuncParentTy, Type* FuncChildTy) {
+
+	if (auto FuncParent = dyn_cast<FunctionType>(FuncParentTy)) {
+			if (auto FuncChild = dyn_cast<FunctionType>(FuncChildTy)) {
+	// Check return types
+    if (FuncParent->getReturnType() != FuncChild->getReturnType())
+        return false;
+
+    // Check number of arguments
+    if (FuncParent->getNumParams() != FuncChild->getNumParams())
+        return false;
+
+    // Check argument types
+    auto ArgParent = FuncParent->param_begin();
+    auto ArgChild  = FuncChild->param_begin();
+    for (; ArgParent != FuncParent->param_end() && ArgChild != FuncChild->param_end(); ++ArgParent, ++ArgChild) {
+        if ((*ArgParent) != (*ArgChild)){
+			if (auto pType = dyn_cast<StructType>(getInnermostPointedToType((*ArgParent)))) {
+					if (auto cType = dyn_cast<StructType>(getInnermostPointedToType((*ArgChild)))) {
+							if (vContains(classH[pType->getName().str()], cType->getName()))
+									continue;
+					}
+
+			}
+            return false;
+		}
+    }
+
+	return true;
+			}
+	}
+//TODO: Fix this mess
+	return false;
+}
+
+llvm::PipelineTuningOptions::PipelineTuningOptions() {
+	return;
+}
+llvm::PassBuilder::PassBuilder(bool, llvm::TargetMachine*, llvm::PipelineTuningOptions, llvm::Optional<llvm::PGOOptions>, llvm::PassInstrumentationCallbacks*)
+{
+		return;
+}
 void get_crt_functions(string file_name, vector<string> & funcs_vec)
 {
 		string line;
@@ -69,7 +144,6 @@ void get_crt_functions(string file_name, vector<string> & funcs_vec)
 				}
 		}
 }
-
 
 int crt_intertask(vector<string>& thread_funcs_vec, vector<string>& kernel_funcs_vec, map<Function *, SmallPtrSet<Function*, 16>> & thread_reach) {
 		vector<Function *> threads;
@@ -125,6 +199,16 @@ int crt_intertask(vector<string>& thread_funcs_vec, vector<string>& kernel_funcs
 				}
 		}
 
+		return 0;
+}
+
+int find_vtables(vector<Value*> &vtables) {
+		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
+				if ((*G)->getName().startswith("_ZTV")) {
+						cerr << "Found vtable: " << (*G)->getName().str() << "\n";
+						vtables.push_back((*G));
+				}
+		}
 		return 0;
 }
 int crt_instrument(vector<string>& thread_funcs_vec, vector<string>&  kernel_funcs_vec) {
@@ -420,7 +504,8 @@ typedef struct {
 map<string, COMP> pinned_resources;
 vector<Value *> cloneFuncs;
 vector<Value *> secrets;
-
+vector<Value *> vtables;
+Type* getInnermostPointedToType(Type* type);
 void forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions, vector<Function *> &compat) {
 		if (visitedFunctions.count(F) > 0 || vContains(compat, F) || F->isIntrinsic())
 				return;
@@ -430,8 +515,70 @@ void forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions
 				for (Instruction &I : BB) {
 						if (CallInst *CI = dyn_cast<CallInst>(&I)) {
 								Function *calledFunction = CI->getCalledFunction();
-								if (calledFunction)
+								if (calledFunction) {
 										forward_slice_crt(calledFunction, visitedFunctions, compat);
+								}
+								else {
+										cerr<<"Incomplete Trace due to:"<<F->getName().str()<<endl;
+										CI->getCalledOperand()->dump();
+										auto los = CI->getCalledOperand();
+										CI->getFunctionType()->dump();
+										//Compiler makes it the first argument for class function
+										CI->getFunctionType()->getParamType(0)->dump();
+
+										for (auto vfun: class_virtual_funs[CI->getFunctionType()->getParamType(0)]) {
+												if (static_cast<Type *>(getInnermostPointedToType(vfun->getType())) == 
+													static_cast<Type *>(getInnermostPointedToType(CI->getFunctionType()))) {
+														cerr<<"OverApproximating Trace"<<endl;
+														cerr<<"Target Function: "<<vfun->getName().str()<<endl;
+														forward_slice_crt(vfun, visitedFunctions, compat);
+
+
+														//Go down in class hierarchy
+														if (auto st = dyn_cast<StructType>(getInnermostPointedToType(CI->getFunctionType()->getParamType(0)))) 
+														{
+															auto name = st->getName().str();
+															for (auto child: classH[name]) {
+																auto child_type = getTypeFromName(ll_mod, child);
+																child_type->dump();
+
+																for (auto vfun1: class_virtual_funs[child_type->getPointerTo()]) {
+																		cerr<<"Came inside"<<endl;
+																		// isSubFunction(parent, child)
+																		if (isSubFunction(getInnermostPointedToType(CI->getFunctionType()), 
+                                                                                        getInnermostPointedToType(vfun1->getType()))) {
+																				cerr<<"Target Function (OverAppx): "<<vfun1->getName().str()<<endl;
+																				forward_slice_crt(vfun1, visitedFunctions, compat);
+																		} else {
+																				cerr<<"Didn't match any target function for child"<<endl;
+
+							                                                    vfun1->getType()->dump();
+                            							                        getInnermostPointedToType(CI->getFunctionType())->dump();
+																		}
+																}
+															}
+														}
+														
+												} else {
+													cerr<<"Didn't match any target function"<<endl;
+													vfun->getType()->dump();
+													getInnermostPointedToType(CI->getFunctionType())->dump();
+												}
+										}
+
+
+										
+#if 0
+										 
+										if (auto li = dyn_cast<LoadInst>(los)) {
+											auto pt = li->getPointerOperand();
+											cerr<<printPts(fspta, los)<<endl;
+											li->getPointerOperandType ()->dump();
+											li->getType()->dump();
+											pt->dump();
+										}
+#endif 
+								}
 						}
 				}
 		}
@@ -511,6 +658,26 @@ Value * getTaskFromTaskStruct(Value * elem) {
                                                                             }
                                                                         }
 																		return NULL;
+}
+
+Function * getEnclosingFunction(User * val) {
+		if(auto ins = dyn_cast<Instruction>(val)) {
+				cerr<<"Instruction Type"<<endl;
+                        return ins->getParent()->getParent();
+        }
+		else if (auto cexpr = dyn_cast<Operator>(val)){
+                        cerr<<"Operator Type"<<endl;
+						//Just pick the first user
+						if (cexpr->getNumUses ()) {
+							auto op_use = cexpr->use_begin();
+							return getEnclosingFunction(op_use->getUser());
+						} else {
+							//TODO: Why does this happen, investigate later!
+							return NULL;
+						}
+        }  
+                        cerr<<"Incomplete Enclosing Function"<<endl;
+						return NULL;
 }
 int compartmentalize(char * argv[]) {
 		ofstream debug;
@@ -1025,17 +1192,59 @@ int compartmentalize(char * argv[]) {
         }
 #endif 
 
-#if 0
+#if 1
 		auto types = ll_mod->getIdentifiedStructTypes();
 		cout<< "Length of identified structures" << types.size()<<endl;
 		for (auto ty : types) {
-			ty->dump();
+			if (auto st = dyn_cast<StructType>(ty)) {
+					if (st->isOpaque() || !isa<StructType>(st->getElementType(0))) {
+							continue;
+					}
+					cerr<<"Derived Type:"<<endl;
+					auto derived_structure_type = st;
+					for (int i =0; i< st->getNumElements(); i++) {
+							cerr<<i<<endl;
+							if (auto elem = dyn_cast<StructType>(st->getElementType(i))) {
+									if (elem->hasName()) {
+										cerr<<"Parent Type:";
+										st->getElementType(i)->dump();
+										auto parent_structure_type = elem;
+										auto parent_structure_name = parent_structure_type->getName().str();
+										if (parent_structure_type->getName().find("class")!= llvm::StringRef::npos 
+											&& derived_structure_type->getName().find("class")!= llvm::StringRef::npos) { 
+											if (!vContains(classH[parent_structure_name], derived_structure_type->getName().str())) {
+												classH[parent_structure_name].push_back(derived_structure_type->getName().str());
+												classHType[parent_structure_type].push_back(derived_structure_type);
+											}
+										}
+									}
+									else {
+											break;
+									}
+							} else {
+									break;
+							}
+					}
+			}
+#if 0
 			if (ty->getName().str() == "struct.AP_Scheduler::Task") {
-					task_type = ty;
+					//task_type = ty;
 					break;
 			}
+#endif 
 		}
 #endif 
+
+
+		cerr<<"Printing Class Hierarchy:"<<endl;
+		ofstream class_h;
+		class_h.open("./rtmk.class");
+		for (auto const& pair: classH) {
+				class_h<<pair.first<<endl;
+				for (auto children: pair.second) {
+						class_h<<"	"<<children<<endl;
+				}
+		}
 
 		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
                 auto glob = &*G;
@@ -1088,8 +1297,122 @@ int compartmentalize(char * argv[]) {
 							}
 						} 
 		}
+		std::string pag_str = "pag";
+		//fspta->getPAG()->dump(pag_str);
+		cerr << pag_str<<endl;
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+			Function *fun = *F;
+                Value * val = (Value *)fun;
+				fun->getType()->dump();
+                if (val->getName().str().compare("main")==0 ) {
+						thread_vec.push_back(val);
+						threads<<fun->getName().str()<<endl;
+
+						for (auto bb=fun->begin();bb!=fun->end();bb++) {
+	                        for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
+									cerr<<endl<<"The statement:";
+									stmt->dump();
+									Value* val = &(*stmt);
+									cerr<<"Points to"<<endl<<printPts(fspta, val) << "=======>>>>>>>"<<endl;
+            	            }
+                		}
+
+				}
+		}
+
+		find_vtables(vtables);
+
+		//Def-use for vtables
+		for (auto table: vtables) {
+			cerr<<"For Vtable:"; table->dump();
+			for (auto const user: table->users()) {
+					auto fun = getEnclosingFunction(user);
+					if (fun) {
+							cerr<<fun->getName().str()<<endl;
+							auto type = fun->getArg(0)->getType();
+							class_vtable_map[type] = table;
+							break;
+					} else {
+							cerr<<"Couldn't find enclosing function"<<endl;
+					}
+			}
+		}
+
+		cerr<<"VTable Mapping:"<<endl;
+		for (const auto& pair : class_vtable_map) {
+     	   pair.first->dump(); //Class Type
+		   cerr<< ":	" << pair.second->getName().str() << std::endl; //Vtable
+		   cerr<<"Virtual Functions"<<endl;
+		   if (auto gv = dyn_cast<GlobalVariable>(pair.second)) {
+		       Constant *Initializer =  gv->getInitializer();
+			   if (!Initializer) {
+     			   outs() << "Global variable has no initializer.\n";
+			   }
+			   if (auto *C = dyn_cast<ConstantStruct>(Initializer)) {
+     			   for (unsigned i = 0; i < C->getNumOperands(); ++i) {
+			            Type *OperandType = C->getOperand(i)->getType();
+						if (OperandType->isArrayTy()) {
+								if (auto *CA = dyn_cast<ConstantArray>(C->getOperand(i))) {
+										Type *ElementType = CA->getType()->getElementType();
+										//TODO: Make recursive
+								        for (auto operand: CA->operand_values()) {
+											if (auto *bc = dyn_cast<CastInst>(operand)) {
+													if (bc->getSrcTy()->isFunctionTy()) {
+															while(1);
+//															class_virtual_funs[pair.first].push_back(vfun);
+													}
+											} else if (auto *op = dyn_cast<Operator>(operand)) {
+													if (auto vfun = dyn_cast<Function>(op->getOperand(0))) {
+															//Vfuns
+															class_virtual_funs[pair.first].push_back(vfun);
+													}
+											}
+									    }
+
+								}
+						}
+		     	   }
+			   }
+		   }
+	    }
+
+
+		for (auto pair: class_virtual_funs) {
+				cerr<<"For class: "; pair.first->dump();
+				for (auto fun: pair.second) {
+						cerr<<fun->getName().str()<<endl;
+				}
+		}
+
+
+
+		// Perform whole-program analysis to build module summary
+ModuleAnalysisManager AM;
+
+//TODO: We need the information from LTO metadata, currently SVF doesn't seem to include everything. Look into it later.
+#if 0 
+	PassBuilder PB;
+	PB.registerModuleAnalyses(AM);
+//	AM.registerPass(RequireAnalysisPass<ProfileSummaryAnalysis, *ll_mod>());
+	ModuleSummaryIndexAnalysis MSIA;
+    auto Index = MSIA.run(*ll_mod, AM);
+
+    // Iterate through functions in the module
+    for (auto &F : *ll_mod) {
+        // Get function summary from the module summary index
+		Index.dump();
+#if 0
+        FunctionSummary *FS = Index.getFunctionSummary(F.getName());
+        if (FS) {
+            // Print function summary information
+            errs() << "Function: " << F.getName() << "\n";
+            errs() << "  NumCallEdges: " << FS->numCallEdges() << "\n";
+            // Print other relevant function summary information
+        }
+#endif 
+    }
 #endif
-		return 0;
+#endif
 
 		ofstream compat;
 		vector<llvm::Function *> compat_vec;
