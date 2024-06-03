@@ -1,17 +1,44 @@
 from utils import *
 from policies import *
 import os
+from llvmlite import ir, binding
 
 class Firmware:
 	printDevUsage = False
+	def load_bitcode(self, filename):
+		# Load the LLVM shared object
+		binding.initialize()
+		binding.initialize_native_target()
+		binding.initialize_native_asmprinter()
+
+		# Create a new LLVM context and module
+		context = ir.Context()
+		module = ir.Module(context=context)
+
+		# Read bitcode from file
+		with open(filename, 'rb') as f:
+				bitcode = f.read()
+
+		# Parse bitcode into module
+		module = binding.parse_bitcode(bitcode)
+
+		return module
+
+	def get_fun_llir(self, name):
+		return self.module.get_function(name)
+
+	def get_fun_sir(self, path, name):
+		pass 
+
 	def __init__(self, config, llvm_data_dir=None):
 		if llvm_data_dir is None:
 			llvm_data_dir = os.environ["P_OUT_DIR"]
 		self.config = config
 		self.bitcode = config["bc"]
+		self.module = self.load_bitcode(self.bitcode)
+		self.symex_bc = config["symex_bc"]
 		self.platform = config["platform"]
 		self.svd = config["svd"]
-		print(llvm_data_dir)
 		#Load function-file and data-file maps.
 		self.funcfilemap = read_key_value_file(llvm_data_dir + os.environ["FILE_MAP_FILE"], os.environ["EC_DELIM"])
 		self.funcdirmap  = read_key_value_file(llvm_data_dir + os.environ["DIR_MAP_FILE"], os.environ["EC_DELIM"])
@@ -30,7 +57,6 @@ class Firmware:
 
 
 		self.funcdevmap = read_key_list_value_file(llvm_data_dir + os.environ["FUNC_DEV_MAP_FILE"], os.environ["EC_DELIM"])
-		print(self.funcdevmap)
 		#create reverse map for device->function access
 		#Note: dfmap = {v: k for k, v in fdmap.items()} #Only works for 1-1
 		#thats why we do this way, TODO:maybe there's a better way fix later
@@ -46,6 +72,17 @@ class Firmware:
 			else:
 				self.threads_reach[line.strip()] = []
 				current_thread = line.strip()
+
+		temp = open(llvm_data_dir + os.environ["HISTO_FILE"])
+		self.fhisto = {}
+		current_fun = ""
+		for line in temp:
+			if "	" in line:
+				[fun,count] = line.strip().split(":")
+				self.fhisto[current_fun][fun] = int(count)
+			else:
+				self.fhisto[line.strip()] = {}
+				current_fun = line.strip()
 
 		#Create a coarse grained map for devices. TODO: This was 
 		#required in early days when we didn't parse SVD check if we still need it.
@@ -110,7 +147,6 @@ class Firmware:
 					if periph==None:
 						base = addr
 						size = 0x1000
-					print(fun, periph, base, size)
 					if (periph,base,size) not in self.svdmap[fun]:
 						self.svdmap[fun].append((periph,base,size))
 	
@@ -120,7 +156,7 @@ class Firmware:
 					continue
 				debug(dev + " used by:")
 				for fun in self.svdfmap[(dev,base,size)]:
-					print(" " + str(fun))
+					debug(" " + str(fun))
 			debug(str(len(self.svdfmap)) + " devices found")
 
 
@@ -381,8 +417,8 @@ class Firmware:
 						start = base
 						end = base +size
 						if (i==30):
-							print(hex(minBase))
-							print(hex(maxBase))
+							debug(hex(minBase))
+							debug(hex(maxBase))
 						if start < minBase:
 							minBase = start
 							if (i==30):
@@ -395,14 +431,13 @@ class Firmware:
 					maxBase = 0x40000000
 
 				if minBase==0x60000000:
-					print(someDev)
-					print(i)
 					for dtuple in compart:
 						dev, base, size = dtuple
 						if dev is not None:
-							print(dev.name)
-							print(hex(base))
-							print(hex(size))
+							debug("Unknown device:")
+							debug(dev.name)
+							debug(hex(base))
+							debug(hex(size))
 
 						
 				rtdeva.write(hex(minBase) + "," + hex(maxBase - minBase) +"," +hex(maxBase) + "\n")

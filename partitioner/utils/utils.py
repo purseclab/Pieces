@@ -8,15 +8,21 @@ from   cmsis_svd.parser import SVDParser
 
 DEBUG_ON = False
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+	HEADER = '\033[95m'
+	OKBLUE = '\033[94m'
+	OKCYAN = '\033[96m'
+	OKGREEN = '\033[92m'
+	WARNING = '\033[93m'
+	FAIL = '\033[91m'
+	ENDC = '\033[0m'
+	BOLD = '\033[1m'
+	UNDERLINE = '\033[4m'
+	RED = '\033[91m'
+	GREEN = '\033[92m'
+	YELLOW = '\033[93m'
+	BLUE = '\033[94m'
+	MAGENTA = '\033[95m'
+	CYAN = '\033[96m'
 
 
 def getSVDHandle(oem,model):
@@ -42,7 +48,7 @@ def getDevice(addr, peripherals):
 			if ((addr >= peripheral.base_address) and (addr < (peripheral.base_address + peripheral.size))):
 				return peripheral, peripheral.base_address, peripheral.size
 
-	print("Device not found:" + hex(addr))
+	debug("Device not found:" + hex(addr))
 	return None, 0, 0
 
 
@@ -61,6 +67,8 @@ def debug(msg):
 	if DEBUG_ON:
 		print(msg)
 
+def colorize(text, color):
+	return color + text + bcolors.ENDC
 def warn(msg):
 	print(bcolors.WARNING+ "WARN:" + bcolors.ENDC+msg)
 

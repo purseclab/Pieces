@@ -5,8 +5,9 @@ import subprocess
 
 class Compiler:
 	def analyze(self, input):
-		debug("Analyzing firmware.")
-		run_cmd([os.environ["SVF"], input["bc"], "./kern_funcs2", "./user_funcs2", "./safe_funcs2", "./create_funcs", "./dev.map"])
+		if (os.environ["NO_RUN"] == "0"):
+			debug("Analyzing firmware.")
+			run_cmd([os.environ["SVF"], input["bc"], "./kern_funcs2", "./user_funcs2", "./safe_funcs2", "./create_funcs", "./dev.map"])
 
 	def instrument(self, input):
 		debug("Instrumenting firmware.")

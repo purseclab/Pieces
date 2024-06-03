@@ -27,6 +27,7 @@ debug("Loading input firmware.")
 compiler = Compiler()
 compiler.analyze(input["firmware"])
 firmware = ec_loader.Firmware(input["firmware"])
+
 firmware.generate_cliques(input["firmware"])
 firmware.merge_shared_compartments()
 firmware.generate_dev_info()
