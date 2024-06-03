@@ -1,6 +1,5 @@
 click==8.0.3
 cmsis_svd==0.4
-cmsis_svd.egg==info
 cxxfilt==0.3.0
 ipython==8.12.3
 jsonpickle==3.0.1
