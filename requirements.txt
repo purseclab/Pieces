@@ -1,5 +1,4 @@
 click==8.0.3
-Click==7.0
 cmsis_svd==0.4
 cmsis_svd.egg==info
 cxxfilt==0.3.0
