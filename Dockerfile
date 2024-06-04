@@ -12,5 +12,8 @@ RUN curl -sLO "https://github.com/purseclab/Pieces/archive/main.zip" && unzip ma
 WORKDIR "/app/Pieces-main/"
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN mkdir -p /home/arslan/projects/ardupilot/ardupilot/build/Pixhawk6C/bin/
+COPY ./build_ctxt/ardu/arducopter.bc /home/arslan/projects/ardupilot/ardupilot/build/Pixhawk6C/bin/
 
+WORKDIR "/app/Pieces-main/partitioner/"
 CMD ["python3", "./run.py", "./rules/ardu.json"]
