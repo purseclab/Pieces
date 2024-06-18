@@ -32,7 +32,7 @@ firmware = ec_loader.Firmware(input["firmware"])
 
 symex = symex.SymEx()
 fun = "_ZN6AC_PID8update_iEfb"
-fun = "_ZN6AC_PID10update_allEfffbf"
+#fun = "_ZN6AC_PID10update_allEfffbf"
 summaries = symex.generate_summary(firmware, fun)
 
 math_q = symex.filter_queries_with_math(summaries)
@@ -44,7 +44,6 @@ for q in math_q:
 sir = []
 for q in only_math_q:
 	sir.append(symex.super_simple(q))
-	print(symex.super_simple(q))
 
 for path in sir:
 	if len(symex.get_addends(path)) ==3:
