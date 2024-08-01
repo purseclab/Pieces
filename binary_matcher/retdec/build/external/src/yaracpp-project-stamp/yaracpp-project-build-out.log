@@ -1,0 +1,211 @@
+Scanning dependencies of target yara
+[  7%] Creating directories for 'yara'
+[ 14%] Performing download step (download, verify and extract) for 'yara'
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-build/deps/yara/src/yara.zip'
+   timeout='none'
+-- Using src='https://github.com/avast/yara/archive/e3ae3848d66cdb551e149f1a87a45bcc87578f9c.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-build/deps/yara/src/yara.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-build/deps/yara/src/yara.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-build/deps/yara/src/yara'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done
+[ 21%] No patch step for 'yara'
+[ 28%] No update step for 'yara'
+[ 35%] No configure step for 'yara'
+[ 42%] Performing configure-linux step for 'yara'
+libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
+libtoolize: copying file 'build-aux/ltmain.sh'
+libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+libtoolize: copying file 'm4/libtool.m4'
+libtoolize: copying file 'm4/ltoptions.m4'
+libtoolize: copying file 'm4/ltsugar.m4'
+libtoolize: copying file 'm4/ltversion.m4'
+libtoolize: copying file 'm4/lt~obsolete.m4'
+checking whether make supports nested variables... yes
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking for style of include used by make... GNU
+checking for gcc... /usr/bin/cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether /usr/bin/cc accepts -g... yes
+checking for /usr/bin/cc option to accept ISO C89... none needed
+checking whether /usr/bin/cc understands -c and -o together... yes
+checking dependency style of /usr/bin/cc... gcc3
+checking for ar... ar
+checking the archiver (ar) interface... ar
+checking for gcc... (cached) /usr/bin/cc
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether /usr/bin/cc accepts -g... (cached) yes
+checking for /usr/bin/cc option to accept ISO C89... (cached) none needed
+checking whether /usr/bin/cc understands -c and -o together... (cached) yes
+checking dependency style of /usr/bin/cc... (cached) gcc3
+checking for flex... flex
+checking lex output file root... lex.yy
+checking lex library... -lfl
+checking whether yytext is a pointer... yes
+checking for bison... bison -y
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... no
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking how to print strings... printf
+checking for a sed that does not truncate output... /bin/sed
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for fgrep... /bin/grep -F
+checking for ld used by /usr/bin/cc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for archiver @FILE support... @
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /usr/bin/nm -B output from /usr/bin/cc object... ok
+checking for sysroot... no
+checking for a working dd... /bin/dd
+checking how to truncate binary pipes... /bin/dd bs=4096 count=1
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking how to run the C preprocessor... /usr/bin/cc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if /usr/bin/cc supports -fno-rtti -fno-exceptions... no
+checking for /usr/bin/cc option to produce PIC... -fPIC -DPIC
+checking if /usr/bin/cc PIC flag -fPIC -DPIC works... yes
+checking if /usr/bin/cc static flag -static works... yes
+checking if /usr/bin/cc supports -c -o file.o... yes
+checking if /usr/bin/cc supports -c -o file.o... (cached) yes
+checking whether the /usr/bin/cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... no
+checking whether to build static libraries... yes
+checking whether byte ordering is bigendian... no
+checking for the pthreads library -lpthreads... no
+checking whether pthreads work without any flags... no
+checking whether pthreads work with -Kthread... no
+checking whether pthreads work with -kthread... no
+checking for the pthreads library -llthread... no
+checking whether pthreads work with -pthread... yes
+checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
+checking if more special flags are required for pthreads... no
+checking whether to check for GCC pthread/shared inconsistencies... yes
+checking whether -pthread is sufficient with -shared... yes
+checking for isnan in -lm... yes
+checking for log2 in -lm... yes
+checking for strlcpy... no
+checking for strlcat... no
+checking for memmem... yes
+checking for timegm... yes
+checking for _mkgmtime... no
+checking for Microsoft Crypto API... checking for wincrypt.h... no
+checking for MacOSX Common Crypto API... checking CommonCrypto/CommonCrypto.h usability... no
+checking CommonCrypto/CommonCrypto.h presence... no
+checking for CommonCrypto/CommonCrypto.h... no
+checking stdbool.h usability... yes
+checking stdbool.h presence... yes
+checking for stdbool.h... yes
+checking for clock_gettime... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating libyara/Makefile
+config.status: creating libyara/yara.pc
+config.status: executing depfiles commands
+config.status: executing libtool commands
+[ 50%] Performing build step for 'yara'
+Making all in libyara
+  CC       ahocorasick.lo
+  CC       grammar.lo
+  CC       arena.lo
+  CC       atoms.lo
+  CC       bitmask.lo
+  CC       compiler.lo
+  CC       endian.lo
+  CC       exec.lo
+  CC       exefiles.lo
+  CC       filemap.lo
+  CC       hash.lo
+  CC       hex_grammar.lo
+  CC       hex_lexer.lo
+  CC       lexer.lo
+  CC       libyara.lo
+  CC       mem.lo
+  CC       modules.lo
+  CC       object.lo
+  CC       parser.lo
+  CC       proc.lo
+  CC       re.lo
+  CC       re_grammar.lo
+  CC       re_lexer.lo
+  CC       rules.lo
+  CC       scan.lo
+  CC       scanner.lo
+  CC       sizedstr.lo
+  CC       stack.lo
+  CC       stopwatch.lo
+  CC       strutils.lo
+  CC       stream.lo
+  CC       threading.lo
+  CC       modules/tests.lo
+  CC       modules/pe.lo
+  CC       modules/elf.lo
+  CC       modules/math.lo
+  CC       modules/time.lo
+  CC       modules/pe_utils.lo
+  CC       modules/macho.lo
+  CC       proc/linux.lo
+  CCLD     libyara.la
+  CC       args.o
+  CC       yarac.o
+  CC       yara.o
+  CC       threading.o
+  CCLD     yarac
+  CCLD     yara
+[ 57%] No install step for 'yara'
+[ 64%] Completed 'yara'
+[ 64%] Built target yara
+Scanning dependencies of target yaracpp
+[ 71%] Building CXX object src/CMakeFiles/yaracpp.dir/types/yara_match.cpp.o
+[ 78%] Building CXX object src/CMakeFiles/yaracpp.dir/types/yara_meta.cpp.o
+[ 85%] Building CXX object src/CMakeFiles/yaracpp.dir/types/yara_rule.cpp.o
+[ 92%] Building CXX object src/CMakeFiles/yaracpp.dir/yara_detector/yara_detector.cpp.o
+[100%] Linking CXX static library libyaracpp.a
+[100%] Built target yaracpp

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libLLVMCodeGen.a  CMakeFiles/LLVMCodeGen.dir/IntrinsicLowering.cpp.o
+/usr/bin/ranlib ../libLLVMCodeGen.a

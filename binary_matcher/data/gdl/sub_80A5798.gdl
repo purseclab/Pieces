@@ -1,0 +1,203 @@
+graph: {
+title: "sub_80A5798"
+manhattan_edges: yes
+layoutalgorithm: mindepth
+finetuning: no
+layout_downfactor: 100
+layout_upfactor: 0
+layout_nearfactor: 0
+xlspace: 12
+yspace: 30
+// IDA palette
+colorentry 32: 0 0 0
+colorentry 33: 255 255 0
+colorentry 34: 255 255 255
+colorentry 35: 128 128 128
+colorentry 36: 128 128 128
+colorentry 37: 192 192 192
+colorentry 38: 192 192 192
+colorentry 39: 255 255 0
+colorentry 40: 0 255 0
+colorentry 41: 192 192 192
+colorentry 42: 0 255 0
+colorentry 43: 0 255 0
+colorentry 44: 0 255 255
+colorentry 45: 255 0 0
+colorentry 46: 0 128 0
+colorentry 47: 0 128 128
+colorentry 48: 255 0 0
+colorentry 49: 0 128 128
+colorentry 50: 255 0 0
+colorentry 51: 128 128 128
+colorentry 52: 255 255 255
+colorentry 53: 255 255 0
+colorentry 54: 255 0 255
+colorentry 55: 128 128 128
+colorentry 56: 0 255 255
+colorentry 57: 192 192 192
+colorentry 58: 192 192 192
+colorentry 59: 255 255 0
+colorentry 60: 128 0 128
+colorentry 61: 0 255 0
+colorentry 62: 0 255 0
+colorentry 63: 0 255 255
+colorentry 64: 192 192 192
+colorentry 65: 192 192 192
+colorentry 66: 255 0 255
+colorentry 67: 255 255 0
+colorentry 68: 192 192 192
+colorentry 69: 255 255 0
+colorentry 70: 255 255 0
+colorentry 71: 255 255 0
+colorentry 72: 0 0 0
+colorentry 73: 0 0 0
+colorentry 74: 0 0 0
+colorentry 75: 0 255 255
+colorentry 76: 192 192 192
+colorentry 77: 128 128 0
+colorentry 78: 192 192 192
+colorentry 79: 192 192 192
+colorentry 80: 128 0 0
+colorentry 81: 255 255 0
+colorentry 82: 255 255 0
+colorentry 83: 0 0 0
+colorentry 84: 0 255 0
+node: { title: "0" label: "58sub_80A579831:
+PUSH.W          {R4-R10,LR}
+VPUSH           {D8}
+MOV             R4, R0
+LDR             R0, [R0,#0xC]
+MOV             R7, R1
+CBNZ            R0, loc_80A57B2" vertical_order: 0 }
+node: { title: "1" label: "MOVS            R0, #0" }
+node: { title: "2" label: "VPOP            {D8}
+POP.W           {R4-R10,PC}" }
+node: { title: "3" label: "LDR             R3, [R0]
+VLDR            S16, =0.0
+LDR             R3, [R3,#0x10]
+BLX             R3
+MOVS            R6, #0
+MOV             R8, R0
+MOV             R5, R6
+MOV             R10, R6
+ADD.W           R9, R4, #0x14" }
+node: { title: "4" label: "SUB.W           R3, R8, R6
+SXTH            R3, R3
+CMP             R3, #0
+BLE             loc_80A5828" }
+node: { title: "5" label: "LDR             R0, [R4,#0xC]
+LDR             R3, [R0]
+LDR             R3, [R3,#0x14]
+BLX             R3
+SXTB            R0, R0
+CMP             R0, #0xD
+BNE             loc_80A5808" }
+node: { title: "6" label: "LDRB            R3, [R4,#0x1E]
+ADD             R3, R4
+MOV             R0, R9
+STRB.W          R10, [R3,#0x14]
+BL              sub_80C8390
+VMOV            R0, R1, D0
+BL              sub_8004C40
+VMOV            S15, R0
+ADDS            R5, #1
+VADD.F32        S16, S16, S15
+UXTH            R5, R5" }
+node: { title: "7" label: "STRB.W          R10, [R4,#0x1E]
+B               loc_80A5824" }
+node: { title: "8" label: "SUB.W           R3, R0, #0x30 ; '0'
+CMP             R3, #9
+BLS             loc_80A5814" }
+node: { title: "9" label: "CMP             R0, #0x2E ; '.'
+BNE             loc_80A5824" }
+node: { title: "10" label: "LDRB            R2, [R4,#0x1E]
+ADDS            R3, R2, #1
+UXTB            R3, R3
+ADD             R2, R4
+CMP             R3, #0xA
+STRB            R3, [R4,#0x1E]
+STRB            R0, [R2,#0x14]
+BEQ             loc_80A5802" }
+node: { title: "11" label: "ADDS            R6, #1
+B               loc_80A57C8" }
+node: { title: "12" label: "BL              sub_8068F14
+LDR             R3, [R4,#0x20]
+MOV             R6, R0
+CBZ             R3, loc_80A5844" }
+node: { title: "13" label: "SUBS            R3, R0, R3
+CMP.W           R3, #0x3E8
+BLS             loc_80A5874" }
+node: { title: "14" label: "LDR             R3, [R4,#0x10]
+SUBS            R3, R0, R3
+CMP.W           R3, #0x3E8
+BLS             loc_80A5874" }
+node: { title: "15" label: "LDR             R1, =aWww; \"www\\r\\n\"
+LDR             R0, [R4,#0xC]
+BL              sub_802D9E8
+STR             R6, [R4,#0x20]" }
+node: { title: "16" label: "CMP             R5, #0
+BEQ             loc_80A57A8" }
+node: { title: "17" label: "VLDR            S15, =100.0
+VMUL.F32        S16, S16, S15
+VMOV            S15, R5
+VCVT.F32.S32    S15, S15
+MOVS            R0, #1
+VDIV.F32        S14, S16, S15
+VCVT.U32.F32    S15, S14
+VMOV            R3, S15
+STRH            R3, [R7]
+B               loc_80A57AA" }
+node: { title: "18" label: "LDR             R0, [R4,#0xC]
+LDR             R3, [R0]
+MOVS            R1, #0x64 ; 'd'
+LDR             R3, [R3,#8]
+BLX             R3
+B               loc_80A584E" }
+// node 0
+edge: { sourcename: "0" targetname: "1" label: "false" color: red }
+edge: { sourcename: "0" targetname: "3" label: "true" color: darkgreen }
+// node 1
+edge: { sourcename: "1" targetname: "2" }
+// node 2
+// node 3
+edge: { sourcename: "3" targetname: "4" }
+// node 4
+edge: { sourcename: "4" targetname: "5" label: "false" color: red }
+edge: { sourcename: "4" targetname: "12" label: "true" color: darkgreen }
+// node 5
+edge: { sourcename: "5" targetname: "6" label: "false" color: red }
+edge: { sourcename: "5" targetname: "8" label: "true" color: darkgreen }
+// node 6
+edge: { sourcename: "6" targetname: "7" }
+// node 7
+edge: { sourcename: "7" targetname: "11" }
+// node 8
+edge: { sourcename: "8" targetname: "9" label: "false" color: red }
+edge: { sourcename: "8" targetname: "10" label: "true" color: darkgreen }
+// node 9
+edge: { sourcename: "9" targetname: "10" label: "false" color: red }
+edge: { sourcename: "9" targetname: "11" label: "true" color: darkgreen }
+// node 10
+edge: { sourcename: "10" targetname: "7" label: "true" color: darkgreen }
+edge: { sourcename: "10" targetname: "11" label: "false" color: red }
+// node 11
+edge: { sourcename: "11" targetname: "4" }
+// node 12
+edge: { sourcename: "12" targetname: "13" label: "false" color: red }
+edge: { sourcename: "12" targetname: "15" label: "true" color: darkgreen }
+// node 13
+edge: { sourcename: "13" targetname: "14" label: "false" color: red }
+edge: { sourcename: "13" targetname: "18" label: "true" color: darkgreen }
+// node 14
+edge: { sourcename: "14" targetname: "15" label: "false" color: red }
+edge: { sourcename: "14" targetname: "18" label: "true" color: darkgreen }
+// node 15
+edge: { sourcename: "15" targetname: "16" }
+// node 16
+edge: { sourcename: "16" targetname: "1" label: "true" color: darkgreen }
+edge: { sourcename: "16" targetname: "17" label: "false" color: red }
+// node 17
+edge: { sourcename: "17" targetname: "2" }
+// node 18
+edge: { sourcename: "18" targetname: "16" }
+}

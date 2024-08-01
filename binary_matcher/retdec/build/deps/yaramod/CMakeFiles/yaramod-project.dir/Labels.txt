@@ -1,0 +1,13 @@
+# Target labels
+ yaramod-project
+# Source files and their labels
+/home/sloan/dispatch/linux/retdec/build/deps/yaramod/CMakeFiles/yaramod-project
+/home/sloan/dispatch/linux/retdec/build/deps/yaramod/CMakeFiles/yaramod-project.rule
+/home/sloan/dispatch/linux/retdec/build/deps/yaramod/CMakeFiles/yaramod-project-complete.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-install.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-mkdir.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-download.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-update.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-patch.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-configure.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-build.rule

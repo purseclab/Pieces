@@ -1,0 +1,191 @@
+graph: {
+title: "sub_805B4B8"
+manhattan_edges: yes
+layoutalgorithm: mindepth
+finetuning: no
+layout_downfactor: 100
+layout_upfactor: 0
+layout_nearfactor: 0
+xlspace: 12
+yspace: 30
+// IDA palette
+colorentry 32: 0 0 0
+colorentry 33: 255 255 0
+colorentry 34: 255 255 255
+colorentry 35: 128 128 128
+colorentry 36: 128 128 128
+colorentry 37: 192 192 192
+colorentry 38: 192 192 192
+colorentry 39: 255 255 0
+colorentry 40: 0 255 0
+colorentry 41: 192 192 192
+colorentry 42: 0 255 0
+colorentry 43: 0 255 0
+colorentry 44: 0 255 255
+colorentry 45: 255 0 0
+colorentry 46: 0 128 0
+colorentry 47: 0 128 128
+colorentry 48: 255 0 0
+colorentry 49: 0 128 128
+colorentry 50: 255 0 0
+colorentry 51: 128 128 128
+colorentry 52: 255 255 255
+colorentry 53: 255 255 0
+colorentry 54: 255 0 255
+colorentry 55: 128 128 128
+colorentry 56: 0 255 255
+colorentry 57: 192 192 192
+colorentry 58: 192 192 192
+colorentry 59: 255 255 0
+colorentry 60: 128 0 128
+colorentry 61: 0 255 0
+colorentry 62: 0 255 0
+colorentry 63: 0 255 255
+colorentry 64: 192 192 192
+colorentry 65: 192 192 192
+colorentry 66: 255 0 255
+colorentry 67: 255 255 0
+colorentry 68: 192 192 192
+colorentry 69: 255 255 0
+colorentry 70: 255 255 0
+colorentry 71: 255 255 0
+colorentry 72: 0 0 0
+colorentry 73: 0 0 0
+colorentry 74: 0 0 0
+colorentry 75: 0 255 255
+colorentry 76: 192 192 192
+colorentry 77: 128 128 0
+colorentry 78: 192 192 192
+colorentry 79: 192 192 192
+colorentry 80: 128 0 0
+colorentry 81: 255 255 0
+colorentry 82: 255 255 0
+colorentry 83: 0 0 0
+colorentry 84: 0 255 0
+node: { title: "0" label: "58sub_805B4B831:
+PUSH            {R3-R5,LR}
+VLDR            S15, [R0,#0x114]
+VLDR            S14, [R0,#0xC8]
+VCMPE.F32       S15, S14
+VMRS            APSR_nzcv, FPSCR
+VPUSH           {D8-D9}
+MOV             R4, R0
+VMOV.F32        S18, S0
+VMOV.F32        S16, S1
+MOV             R5, R1
+VLDR            S0, [R0,#0xD4]
+BPL             loc_805B4F2" vertical_order: 0 }
+node: { title: "1" label: "VLDR            S12, =1.1921e-7
+VABS.F32        S13, S14
+VCMPE.F32       S13, S12
+VMRS            APSR_nzcv, FPSCR
+BPL             loc_805B5C4" }
+node: { title: "2" label: "VLDR            S14, [R4,#0xCC]
+VCMPE.F32       S15, S14
+VMRS            APSR_nzcv, FPSCR
+BLE             loc_805B512" }
+node: { title: "3" label: "VLDR            S12, =1.1921e-7
+VABS.F32        S13, S14
+VCMPE.F32       S13, S12
+VMRS            APSR_nzcv, FPSCR
+BPL             loc_805B5D2" }
+node: { title: "4" label: "VLDR            S2, =750.0
+VLDR            S1, =0.0
+BL              sub_8031210
+VMOV.F32        S17, S0
+VLDR            S0, [R4,#0x114]
+VSUB.F32        S0, S0, S18
+VABS.F32        S0, S0
+VADD.F32        S0, S0, S0
+VMUL.F32        S0, S0, S17
+BL              sub_8030FA4
+VLDR            S15, [R4,#0xD8]
+VLDR            S1, [R4,#0x114]
+VFMA.F32        S15, S16, S17
+VCMP.F32        S0, S17
+VMRS            APSR_nzcv, FPSCR
+IT GT
+VMOVGT.F32      S0, S17
+VCMP.F32        S0, S15
+VMRS            APSR_nzcv, FPSCR
+IT MI
+VMOVMI.F32      S15, S0
+VMOV.F32        S2, S1
+VSTR            S15, [R4,#0xD8]
+VFMA.F32        S2, S16, S15
+VFMS.F32        S1, S16, S15
+VMOV.F32        S0, S18
+BL              sub_8031210
+LDRB            R3, [R4,#4]
+VSTR            S0, [R4,#0x114]
+VCMPE.F32       S0, #0.0
+ORR.W           R3, R3, #0x80
+VMRS            APSR_nzcv, FPSCR
+STRB            R3, [R4,#4]
+BPL             loc_805B59A" }
+node: { title: "5" label: "LDR             R3, [R4,#0x10]
+LDRB            R3, [R3,#4]
+LSLS            R1, R3, #0x1D
+BPL             loc_805B5B2" }
+node: { title: "6" label: "CBNZ            R5, loc_805B5B2" }
+node: { title: "7" label: "VCMPE.F32       S0, #0.0
+VMRS            APSR_nzcv, FPSCR
+BLE             loc_805B5BE" }
+node: { title: "8" label: "LDR             R3, [R4,#0x10]
+LDRB            R3, [R3,#4]
+LSLS            R2, R3, #0x1C
+BMI             loc_805B5BE" }
+node: { title: "9" label: "LDRB            R3, [R4,#6]
+LSLS            R3, R3, #0x1F
+BMI             loc_805B5BE" }
+node: { title: "10" label: "VLDR            S15, [R4,#0xFC]
+VFMA.F32        S15, S16, S0
+VSTR            S15, [R4,#0xFC]" }
+node: { title: "11" label: "VPOP            {D8-D9}
+POP             {R3-R5,PC}" }
+node: { title: "12" label: "VADD.F32        S12, S15, S15
+VDIV.F32        S13, S12, S14
+VMUL.F32        S0, S0, S13
+B               loc_805B4F2" }
+node: { title: "13" label: "VADD.F32        S15, S15, S15
+VDIV.F32        S13, S15, S14
+VMUL.F32        S0, S0, S13
+B               loc_805B512" }
+// node 0
+edge: { sourcename: "0" targetname: "1" label: "false" color: red }
+edge: { sourcename: "0" targetname: "2" label: "true" color: darkgreen }
+// node 1
+edge: { sourcename: "1" targetname: "2" label: "false" color: red }
+edge: { sourcename: "1" targetname: "12" label: "true" color: darkgreen }
+// node 2
+edge: { sourcename: "2" targetname: "3" label: "false" color: red }
+edge: { sourcename: "2" targetname: "4" label: "true" color: darkgreen }
+// node 3
+edge: { sourcename: "3" targetname: "4" label: "false" color: red }
+edge: { sourcename: "3" targetname: "13" label: "true" color: darkgreen }
+// node 4
+edge: { sourcename: "4" targetname: "5" label: "false" color: red }
+edge: { sourcename: "4" targetname: "7" label: "true" color: darkgreen }
+// node 5
+edge: { sourcename: "5" targetname: "6" label: "false" color: red }
+edge: { sourcename: "5" targetname: "10" label: "true" color: darkgreen }
+// node 6
+edge: { sourcename: "6" targetname: "7" label: "false" color: red }
+edge: { sourcename: "6" targetname: "10" label: "true" color: darkgreen }
+// node 7
+edge: { sourcename: "7" targetname: "8" label: "false" color: red }
+edge: { sourcename: "7" targetname: "11" label: "true" color: darkgreen }
+// node 8
+edge: { sourcename: "8" targetname: "9" label: "false" color: red }
+edge: { sourcename: "8" targetname: "11" label: "true" color: darkgreen }
+// node 9
+edge: { sourcename: "9" targetname: "10" label: "false" color: red }
+edge: { sourcename: "9" targetname: "11" label: "true" color: darkgreen }
+// node 10
+edge: { sourcename: "10" targetname: "11" }
+// node 11
+// node 12
+edge: { sourcename: "12" targetname: "2" }
+// node 13
+edge: { sourcename: "13" targetname: "4" }
+}

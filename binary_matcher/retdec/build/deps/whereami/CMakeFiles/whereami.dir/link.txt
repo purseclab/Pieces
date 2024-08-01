@@ -1,0 +1,2 @@
+/usr/bin/ar qc libwhereami.a  CMakeFiles/whereami.dir/whereami.c.o
+/usr/bin/ranlib libwhereami.a

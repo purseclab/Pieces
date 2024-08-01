@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-pdbparser.a  CMakeFiles/retdec-pdbparser.dir/pdb_file.cpp.o CMakeFiles/retdec-pdbparser.dir/pdb_symbols.cpp.o CMakeFiles/retdec-pdbparser.dir/pdb_types.cpp.o CMakeFiles/retdec-pdbparser.dir/pdb_utils.cpp.o
+/usr/bin/ranlib libretdec-pdbparser.a

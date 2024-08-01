@@ -1,0 +1,19 @@
+Scanning dependencies of target pelib
+[  5%] Building CXX object src/pelib/CMakeFiles/pelib.dir/BoundImportDirectory.cpp.o
+[ 11%] Building CXX object src/pelib/CMakeFiles/pelib.dir/CoffSymbolTable.cpp.o
+[ 17%] Building CXX object src/pelib/CMakeFiles/pelib.dir/ComHeaderDirectory.cpp.o
+[ 23%] Building CXX object src/pelib/CMakeFiles/pelib.dir/DebugDirectory.cpp.o
+[ 29%] Building CXX object src/pelib/CMakeFiles/pelib.dir/ExportDirectory.cpp.o
+[ 35%] Building CXX object src/pelib/CMakeFiles/pelib.dir/IatDirectory.cpp.o
+[ 41%] Building CXX object src/pelib/CMakeFiles/pelib.dir/InputBuffer.cpp.o
+[ 47%] Building CXX object src/pelib/CMakeFiles/pelib.dir/MzHeader.cpp.o
+[ 52%] Building CXX object src/pelib/CMakeFiles/pelib.dir/OutputBuffer.cpp.o
+[ 58%] Building CXX object src/pelib/CMakeFiles/pelib.dir/PeFile.cpp.o
+[ 64%] Building CXX object src/pelib/CMakeFiles/pelib.dir/PeHeader.cpp.o
+[ 70%] Building CXX object src/pelib/CMakeFiles/pelib.dir/PeLibAux.cpp.o
+[ 76%] Building CXX object src/pelib/CMakeFiles/pelib.dir/RelocationsDirectory.cpp.o
+[ 82%] Building CXX object src/pelib/CMakeFiles/pelib.dir/ResourceDirectory.cpp.o
+[ 88%] Building CXX object src/pelib/CMakeFiles/pelib.dir/RichHeader.cpp.o
+[ 94%] Building CXX object src/pelib/CMakeFiles/pelib.dir/SecurityDirectory.cpp.o
+[100%] Linking CXX static library libpelib.a
+[100%] Built target pelib

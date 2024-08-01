@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/yaramod/CMakeFiles/yaramod-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/yaramod/CMakeFiles/yaramod-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/yaramod/CMakeFiles/yaramod-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-stamp/yaramod-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"yaramod-project"
+		],
+		"name" : "yaramod-project"
+	}
+}

@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://github.com/aquynh/capstone/archive/f9c6a90489be7b3637ff1c7298e45efafe7cf1b9.zip'
+tag='SHA256=ccded0e72cf47791afda24ec37c1902974b2c134510addf9f32bb6c92f6f2e8c'

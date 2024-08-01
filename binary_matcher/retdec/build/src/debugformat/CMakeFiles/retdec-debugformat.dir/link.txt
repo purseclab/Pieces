@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-debugformat.a  CMakeFiles/retdec-debugformat.dir/debugformat.cpp.o CMakeFiles/retdec-debugformat.dir/dwarf.cpp.o CMakeFiles/retdec-debugformat.dir/pdb.cpp.o
+/usr/bin/ranlib libretdec-debugformat.a

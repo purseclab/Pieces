@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/capstone/CMakeFiles/capstone-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/capstone/CMakeFiles/capstone-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/capstone/CMakeFiles/capstone-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"capstone-project"
+		],
+		"name" : "capstone-project"
+	}
+}

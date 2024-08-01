@@ -1,0 +1,2 @@
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-install/lib/libretdec-libdwarf.so
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-install/lib/libretdec-libelf.so

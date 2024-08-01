@@ -1,0 +1,12 @@
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found FLEX: /usr/bin/flex (found version "2.6.4") 
+-- Found BISON: /usr/bin/bison (found version "3.0.4") 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project-build

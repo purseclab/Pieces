@@ -1,0 +1,134 @@
+graph: {
+title: "sub_8063CF0"
+manhattan_edges: yes
+layoutalgorithm: mindepth
+finetuning: no
+layout_downfactor: 100
+layout_upfactor: 0
+layout_nearfactor: 0
+xlspace: 12
+yspace: 30
+// IDA palette
+colorentry 32: 0 0 0
+colorentry 33: 255 255 0
+colorentry 34: 255 255 255
+colorentry 35: 128 128 128
+colorentry 36: 128 128 128
+colorentry 37: 192 192 192
+colorentry 38: 192 192 192
+colorentry 39: 255 255 0
+colorentry 40: 0 255 0
+colorentry 41: 192 192 192
+colorentry 42: 0 255 0
+colorentry 43: 0 255 0
+colorentry 44: 0 255 255
+colorentry 45: 255 0 0
+colorentry 46: 0 128 0
+colorentry 47: 0 128 128
+colorentry 48: 255 0 0
+colorentry 49: 0 128 128
+colorentry 50: 255 0 0
+colorentry 51: 128 128 128
+colorentry 52: 255 255 255
+colorentry 53: 255 255 0
+colorentry 54: 255 0 255
+colorentry 55: 128 128 128
+colorentry 56: 0 255 255
+colorentry 57: 192 192 192
+colorentry 58: 192 192 192
+colorentry 59: 255 255 0
+colorentry 60: 128 0 128
+colorentry 61: 0 255 0
+colorentry 62: 0 255 0
+colorentry 63: 0 255 255
+colorentry 64: 192 192 192
+colorentry 65: 192 192 192
+colorentry 66: 255 0 255
+colorentry 67: 255 255 0
+colorentry 68: 192 192 192
+colorentry 69: 255 255 0
+colorentry 70: 255 255 0
+colorentry 71: 255 255 0
+colorentry 72: 0 0 0
+colorentry 73: 0 0 0
+colorentry 74: 0 0 0
+colorentry 75: 0 255 255
+colorentry 76: 192 192 192
+colorentry 77: 128 128 0
+colorentry 78: 192 192 192
+colorentry 79: 192 192 192
+colorentry 80: 128 0 0
+colorentry 81: 255 255 0
+colorentry 82: 255 255 0
+colorentry 83: 0 0 0
+colorentry 84: 0 255 0
+node: { title: "0" label: "58sub_8063CF031:
+PUSH            {R3-R5,LR}
+VPUSH           {D8-D9}
+VMOV.F32        S2, #1.0
+VMOV.F32        S18, S0
+VMOV.F32        S1, #-1.0
+VLDR            S0, [R0,#0x54]
+MOV             R4, R0
+BL              sub_8031210
+VLDR            S15, =0.001
+VABS.F32        S14, S0
+VCMPE.F32       S14, S15
+VMRS            APSR_nzcv, FPSCR
+VMOV.F32        S16, S0
+BMI             loc_8063DAA" vertical_order: 0 }
+node: { title: "1" label: "ADD.W           R5, R4, #0xA8
+MOV             R0, R5
+BL              sub_8044858
+VLDR            S15, [R0]
+VLDR            S14, =1.1921e-7
+VLDR            S13, [R4,#0xB4]
+VABS.F32        S15, S15
+VCMPE.F32       S15, S14
+VMOV.F32        S15, #4.0
+VMUL.F32        S0, S16, S15
+VMOV.F32        S17, #1.0
+VMUL.F32        S0, S0, S13
+VSUB.F32        S14, S17, S16
+VMUL.F32        S0, S0, S18
+VMRS            APSR_nzcv, FPSCR
+VADD.F32        S19, S16, S16
+VFMA.F32        S0, S14, S14
+BMI             loc_8063D98" }
+node: { title: "2" label: "BL              sub_8030FA4
+VSUB.F32        S16, S16, S17
+MOV             R0, R5
+VADD.F32        S16, S16, S0
+BL              sub_8044858
+VLDR            S15, [R0]
+VMUL.F32        S15, S19, S15
+VDIV.F32        S0, S16, S15" }
+node: { title: "3" label: "VPOP            {D8-D9}
+POP.W           {R3-R5,LR}
+VMOV.F32        S2, #1.0
+VLDR            S1, =0.0
+B.W             sub_8031210" }
+node: { title: "4" label: "BL              sub_8030FA4
+VSUB.F32        S16, S16, S17
+VADD.F32        S16, S16, S0
+VDIV.F32        S0, S16, S19
+B               loc_8063D84" }
+node: { title: "5" label: "VMOV.F32        S0, S18
+VPOP            {D8-D9}
+POP             {R3-R5,PC}" }
+node: { title: "6" label: "sub_8031210" color: red }
+// node 0
+edge: { sourcename: "0" targetname: "1" label: "false" color: red }
+edge: { sourcename: "0" targetname: "5" label: "true" color: darkgreen }
+// node 1
+edge: { sourcename: "1" targetname: "2" label: "false" color: red }
+edge: { sourcename: "1" targetname: "4" label: "true" color: darkgreen }
+// node 2
+edge: { sourcename: "2" targetname: "3" }
+// node 3
+edge: { sourcename: "3" targetname: "6" }
+// node 4
+edge: { sourcename: "4" targetname: "3" }
+// node 5
+// node 6
+}

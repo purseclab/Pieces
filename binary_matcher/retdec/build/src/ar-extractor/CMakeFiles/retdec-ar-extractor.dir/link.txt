@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-ar-extractor.a  CMakeFiles/retdec-ar-extractor.dir/archive_wrapper.cpp.o CMakeFiles/retdec-ar-extractor.dir/detection.cpp.o
+/usr/bin/ranlib libretdec-ar-extractor.a

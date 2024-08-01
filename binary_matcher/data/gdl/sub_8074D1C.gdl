@@ -1,0 +1,200 @@
+graph: {
+title: "sub_8074D1C"
+manhattan_edges: yes
+layoutalgorithm: mindepth
+finetuning: no
+layout_downfactor: 100
+layout_upfactor: 0
+layout_nearfactor: 0
+xlspace: 12
+yspace: 30
+// IDA palette
+colorentry 32: 0 0 0
+colorentry 33: 255 255 0
+colorentry 34: 255 255 255
+colorentry 35: 128 128 128
+colorentry 36: 128 128 128
+colorentry 37: 192 192 192
+colorentry 38: 192 192 192
+colorentry 39: 255 255 0
+colorentry 40: 0 255 0
+colorentry 41: 192 192 192
+colorentry 42: 0 255 0
+colorentry 43: 0 255 0
+colorentry 44: 0 255 255
+colorentry 45: 255 0 0
+colorentry 46: 0 128 0
+colorentry 47: 0 128 128
+colorentry 48: 255 0 0
+colorentry 49: 0 128 128
+colorentry 50: 255 0 0
+colorentry 51: 128 128 128
+colorentry 52: 255 255 255
+colorentry 53: 255 255 0
+colorentry 54: 255 0 255
+colorentry 55: 128 128 128
+colorentry 56: 0 255 255
+colorentry 57: 192 192 192
+colorentry 58: 192 192 192
+colorentry 59: 255 255 0
+colorentry 60: 128 0 128
+colorentry 61: 0 255 0
+colorentry 62: 0 255 0
+colorentry 63: 0 255 255
+colorentry 64: 192 192 192
+colorentry 65: 192 192 192
+colorentry 66: 255 0 255
+colorentry 67: 255 255 0
+colorentry 68: 192 192 192
+colorentry 69: 255 255 0
+colorentry 70: 255 255 0
+colorentry 71: 255 255 0
+colorentry 72: 0 0 0
+colorentry 73: 0 0 0
+colorentry 74: 0 0 0
+colorentry 75: 0 255 255
+colorentry 76: 192 192 192
+colorentry 77: 128 128 0
+colorentry 78: 192 192 192
+colorentry 79: 192 192 192
+colorentry 80: 128 0 0
+colorentry 81: 255 255 0
+colorentry 82: 255 255 0
+colorentry 83: 0 0 0
+colorentry 84: 0 255 0
+node: { title: "0" label: "58sub_8074D1C31:
+PUSH            {R4-R7,LR}
+SUB             SP, SP, #0x14
+MOV             R4, R0
+BL              sub_8068EF4
+ADD             R6, SP, #0x28+var_20
+MOVS            R5, #0
+MOV             R7, R0
+STR             R5, [SP,#0x28+var_28]
+MOVS            R3, #8
+MOV             R2, R6
+MOVS            R1, #0x28 ; '('
+MOV             R0, R4
+BL              sub_8074C90
+CBZ             R0, loc_8074D86" vertical_order: 0 }
+node: { title: "1" label: "VLDR            S14, =0.0
+MOV             R3, R5" }
+node: { title: "2" label: "CMP             R3, #4
+LDR             R1, [R4,#8]
+BEQ             loc_8074D6A" }
+node: { title: "3" label: "ADD.W           R2, R6, R3,LSL#1
+LDRB            R0, [R2,#1]
+LDRB.W          R2, [R6,R3,LSL#1]
+ORR.W           R2, R2, R0,LSL#8
+VMOV            S15, R2
+VCVT.F32.U32    S15, S15
+STRH.W          R2, [R1,R3,LSL#1]
+VADD.F32        S14, S14, S15
+ADDS            R3, #1
+B               loc_8074D42" }
+node: { title: "4" label: "VLDR            S15, =0.001
+VMUL.F32        S14, S14, S15
+MOVS            R3, #1
+STRB.W          R3, [R4,#0x36]
+VSTR            S14, [R1,#0x14]
+LDR             R2, [R4,#8]
+STR             R7, [R2,#0x24]
+LDR             R2, [R4,#8]
+STRB.W          R3, [R2,#0x41]" }
+node: { title: "5" label: "LDR             R2, [R4,#8]
+LDR             R1, =0x4C4B40
+LDR             R3, [R2,#0x24]
+SUBS            R3, R7, R3
+CMP             R3, R1
+MOV.W           R3, #0
+BLS             loc_8074D9E" }
+node: { title: "6" label: "STRB.W          R3, [R2,#0x41]" }
+node: { title: "7" label: "ADD             SP, SP, #0x14
+POP             {R4-R7,PC}" }
+node: { title: "8" label: "STR             R3, [SP,#0x28+var_28]
+MOV             R2, R6
+MOVS            R3, #4
+MOVS            R1, #0x2A ; '*'
+MOV             R0, R4
+BL              sub_8074C90
+CMP             R0, #4
+BNE             loc_8074DCE" }
+node: { title: "9" label: "VLDR            S15, [SP,#0x28+var_20]
+VLDR            S13, =1000.0
+LDR             R3, [R4,#8]
+VCVT.F32.S32    S15, S15
+VNEG.F32        S15, S15
+VDIV.F32        S14, S15, S13
+VSTR            S14, [R3,#0x18]
+LDR             R3, [R4,#8]
+STR             R7, [R3,#0x24]" }
+node: { title: "10" label: "MOV             R0, R4
+BL              sub_80AE8BC
+MOV             R0, R4
+BL              sub_80AE948
+MOVS            R3, #0
+STR             R3, [SP,#0x28+var_28]
+MOV             R2, R6
+MOVS            R3, #6
+MOVS            R1, #0x23 ; '#'
+MOV             R0, R4
+BL              sub_8074C90
+CMP             R0, #6
+BNE             loc_8074DFC" }
+node: { title: "11" label: "LDRB.W          R2, [R4,#0x37]
+CMP             R2, #5
+BLE             loc_8074E0A" }
+node: { title: "12" label: "LDR             R3, =0x20005E54
+MOVS            R2, #1
+STRB            R2, [R3,#0x1A]" }
+node: { title: "13" label: "MOV             R0, R4
+BL              sub_80AE8E0
+MOV             R0, R4
+BL              sub_80AE924
+B               loc_8074D9A" }
+node: { title: "14" label: "LDRB.W          R3, [SP,#0x28+var_20+1]
+ANDS.W          R3, R3, #8
+ITTEE EQ
+LDREQ           R2, =0x20005E54
+STRBEQ.W        R3, [R4,#0x37]
+ADDNE           R2, #1
+STRBNE.W        R2, [R4,#0x37]
+IT EQ
+STRBEQ          R3, [R2,#0x1A]
+B               loc_8074DFC" }
+// node 0
+edge: { sourcename: "0" targetname: "1" label: "false" color: red }
+edge: { sourcename: "0" targetname: "5" label: "true" color: darkgreen }
+// node 1
+edge: { sourcename: "1" targetname: "2" }
+// node 2
+edge: { sourcename: "2" targetname: "3" label: "false" color: red }
+edge: { sourcename: "2" targetname: "4" label: "true" color: darkgreen }
+// node 3
+edge: { sourcename: "3" targetname: "2" }
+// node 4
+edge: { sourcename: "4" targetname: "5" }
+// node 5
+edge: { sourcename: "5" targetname: "6" label: "false" color: red }
+edge: { sourcename: "5" targetname: "8" label: "true" color: darkgreen }
+// node 6
+edge: { sourcename: "6" targetname: "7" }
+// node 7
+// node 8
+edge: { sourcename: "8" targetname: "9" label: "false" color: red }
+edge: { sourcename: "8" targetname: "10" label: "true" color: darkgreen }
+// node 9
+edge: { sourcename: "9" targetname: "10" }
+// node 10
+edge: { sourcename: "10" targetname: "11" label: "false" color: red }
+edge: { sourcename: "10" targetname: "13" label: "true" color: darkgreen }
+// node 11
+edge: { sourcename: "11" targetname: "12" label: "false" color: red }
+edge: { sourcename: "11" targetname: "14" label: "true" color: darkgreen }
+// node 12
+edge: { sourcename: "12" targetname: "13" }
+// node 13
+edge: { sourcename: "13" targetname: "7" }
+// node 14
+edge: { sourcename: "14" targetname: "13" }
+}

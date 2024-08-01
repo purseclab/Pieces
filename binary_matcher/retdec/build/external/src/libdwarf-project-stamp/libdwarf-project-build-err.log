@@ -1,0 +1,23 @@
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libelf/lib/version.c: In function ‘elf_version’:
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libelf/lib/version.c:31:14: warning: implicit declaration of function ‘getenv’; did you mean ‘seterr’? [-Wimplicit-function-declaration]
+     if ((s = getenv("LIBELF_SANITY_CHECKS"))) {
+              ^~~~~~
+              seterr
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libelf/lib/version.c:31:12: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     if ((s = getenv("LIBELF_SANITY_CHECKS"))) {
+            ^
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libelf/lib/version.c:32:28: warning: implicit declaration of function ‘strtol’; did you mean ‘strcmp’? [-Wimplicit-function-declaration]
+  _elf_sanity_checks = (int)strtol(s, (char**)NULL, 0);
+                            ^~~~~~
+                            strcmp
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libdwarf/libdwarf/dwarf_tsearchhash.c: In function ‘print_entry’:
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libdwarf/libdwarf/dwarf_tsearchhash.c:233:9: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+         (unsigned)t,
+         ^
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libdwarf/libdwarf/dwarf_tsearchhash.c:234:9: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+         (unsigned)t->keyptr,
+         ^
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libdwarf/libdwarf/dwarf_tsearchhash.c: In function ‘dumptree_inner’:
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project/libdwarf/libdwarf/dwarf_tsearchhash.c:252:9: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+         (unsigned)h,
+         ^

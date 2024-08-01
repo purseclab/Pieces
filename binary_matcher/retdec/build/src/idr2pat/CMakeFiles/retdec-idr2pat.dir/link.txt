@@ -1,0 +1,1 @@
+/usr/bin/c++   -fvisibility-inlines-hidden -Wall -Wextra -Wcast-align -Wcast-qual -Wswitch-default -Wuninitialized -Wold-style-cast -Wno-unused-parameter -O3 -DNDEBUG   CMakeFiles/retdec-idr2pat.dir/idr2pat.cpp.o  -o retdec-idr2pat -Wl,-rpath,:::::::::::::: ../utils/libretdec-utils.a ../../deps/whereami/libwhereami.a ../../external/src/yaramod-project-build/src/libyaramod.a 

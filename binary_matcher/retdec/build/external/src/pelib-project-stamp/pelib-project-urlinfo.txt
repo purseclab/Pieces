@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://github.com/avast-tl/pelib/archive/3bf330d2012ed230c56daa088974a31125e32ba7.zip'
+tag='SHA256=a0433c3d868cb913fae30e1b3fc3f17881e5a9c5ef61697478fde23af15564fa'

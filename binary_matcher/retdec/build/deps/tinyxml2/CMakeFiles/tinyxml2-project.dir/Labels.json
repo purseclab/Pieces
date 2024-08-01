@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/tinyxml2/CMakeFiles/tinyxml2-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/tinyxml2/CMakeFiles/tinyxml2-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/tinyxml2/CMakeFiles/tinyxml2-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"tinyxml2-project"
+		],
+		"name" : "tinyxml2-project"
+	}
+}

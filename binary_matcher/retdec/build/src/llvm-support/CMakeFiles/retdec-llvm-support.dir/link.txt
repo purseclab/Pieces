@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-llvm-support.a  CMakeFiles/retdec-llvm-support.dir/diagnostics.cpp.o
+/usr/bin/ranlib libretdec-llvm-support.a

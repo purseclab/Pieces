@@ -1,0 +1,15 @@
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/yaramod.zip'
+   timeout='none'
+-- Using src='https://github.com/avast/yaramod/archive/v2.5.0.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/yaramod.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/yaramod.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/yaramod-project'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done

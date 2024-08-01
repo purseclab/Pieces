@@ -1,0 +1,15 @@
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp.zip'
+   timeout='none'
+-- Using src='https://github.com/open-source-parsers/jsoncpp/archive/1.8.4.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done

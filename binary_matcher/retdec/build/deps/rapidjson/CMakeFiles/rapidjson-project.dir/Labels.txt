@@ -1,0 +1,13 @@
+# Target labels
+ rapidjson-project
+# Source files and their labels
+/home/sloan/dispatch/linux/retdec/build/deps/rapidjson/CMakeFiles/rapidjson-project
+/home/sloan/dispatch/linux/retdec/build/deps/rapidjson/CMakeFiles/rapidjson-project.rule
+/home/sloan/dispatch/linux/retdec/build/deps/rapidjson/CMakeFiles/rapidjson-project-complete.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-install.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-mkdir.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-download.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-update.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-patch.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-configure.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-build.rule

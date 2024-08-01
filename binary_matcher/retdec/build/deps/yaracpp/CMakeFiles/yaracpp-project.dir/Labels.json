@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/yaracpp/CMakeFiles/yaracpp-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/yaracpp/CMakeFiles/yaracpp-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/yaracpp/CMakeFiles/yaracpp-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/yaracpp-project-stamp/yaracpp-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"yaracpp-project"
+		],
+		"name" : "yaracpp-project"
+	}
+}

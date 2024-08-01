@@ -1,0 +1,45 @@
+Control_model;Function;Function_address;Controller;Controller_type;Start_address;Current;Reference;Error;Output;p;i;d;ff;End_address;Groundtruth
+Copter;AC_PosControl::run_xy_controller;805c6a8;sqrt - xy pos;P;805c5dc;805c8c2,805c8ca;805c8c6,805c8de;805c8da,805c8ea;805c92c,805c930;805c91a;-;-;-;805c684;POS_X,POS_Y
+Copter;AC_PosControl::run_z_controller;805ba58;sqrt - z pos;P;805a6d8;805ba64;805ba68;805ba88;805bae6;805bacc;-;-;-;805a77c;POS_Z
+Copter;AC_PosControl::run_xy_controller;805c6a8;PID - xy vel;PID;805c6e0;805c70e,805c716;805c712,805c71e;805c722,805c72e;805c7a4,805c7a8;805e260;805e276;805e3e8;-;805c7a8;VEL_X,VEL_Y
+Copter;AC_PosControl::run_z_controller;805ba58;P - z vel;P;805dea8;805bb54;805bae6;805bbbc;805bbce;805bbb8;-;-;-;805deb0;VEL_Z
+Copter;AC_PosControl::run_z_controller;805ba58;PID - z acc;PID;805bbea;805bcce;805bbce;805bbee;805bc9e;805df5c;805df6c;805dfe8;-;805bca6;ACC_Z
+Copter;rate_target_to_motor_roll;805a48c;PIDFF - roll rate;PIDFF;805a48c;S0~~arg;S1~~arg;805a494;805a52c;805df5c;805df6c;805dfe8;805dffc;805a540;ANGRATE_ROLL
+Copter;rate_target_to_motor_pitch;805a560;PIDFF - pitch rate;PIDFF;805a560;S0~~arg;S1~~arg;805a568;805a600;805df5c;805df6c;805dfe8;805dffc;805a614;ANGRATE_PITCH
+Copter;rate_target_to_motor_yaw;8059bd8;PIDFF - yaw rate;PIDFF;8059bd8;S0~~arg;S1~~arg;8059be0;8059c78;805df5c;805df6c;805dfe8;805dffc;8059c8c;ANGRATE_YAW
+Copter;update_ang_vel_target_from_att_error;805a908;sqrt - roll;P;805a6d8;-;-;805a95e;805a966;805a952;-;-;-;805a77c;ANG_ROLL
+Copter;update_ang_vel_target_from_att_error;805a908;sqrt - pitch;P;805a6d8;-;-;805a9aa;805a9b2;805a9a6;-;-;-;805a77c;ANG_PITCH
+Copter;update_ang_vel_target_from_att_error;805a908;sqrt - yaw;P;805a6d8;-;-;805a9f4;805a9fc;805a9f0;-;-;-;805a77c;ANG_YAW
+Heli;AC_PosControl::run_xy_controller;80598c0;sqrt - xy pos;P;80597f4;8059ada,8059ae2;8059ade,8059af6;8059af2,8059b02;8059b44,8059b48;8059b32;-;-;-;805989c;POS_X,POS_Y
+Heli;AC_PosControl::run_z_controller;8058c70;sqrt - z pos;P;8057a40;8058c7c;8058c80;8058ca0;8058cfe;8058ce4;-;-;-;8057ae4;POS_Z
+Heli;AC_PosControl::run_xy_controller;80598c0;PID - xy vel;PID;80598f8;8059926,805992e;805992a,8059936;805993a,8059946;80599bc,80599c0;805b664;805b67a;805b7ec;-;80599c0;VEL_X,VEL_Y
+Heli;AC_PosControl::run_z_controller;8058c70;P - z vel;P;805b3f8;8058d6c;8058cfe;8058dd4;8058de6;8058dd0;-;-;-;805b408;VEL_Z
+Heli;AC_PosControl::run_z_controller;8058c70;PID - z acc;PID;8058e02;8058ee6;8058de6;8058e06;8058eb6;805b3fc;805b40c;805b488;-;8058ebe;ACC_Z
+Heli;rate_bf_to_motor_roll_pitch;8056d2c;PIDFF - roll rate;PIDFF;8056d2c;8056d32;S0~~arg;8056d54;8056e64;805b3fc;805b40c;805b488;805b49c;8056e64;ANGRATE_ROLL
+Heli;rate_bf_to_motor_roll_pitch;8056d2c;PIDFF - pitch rate;PIDFF;8056d2c;8056d36;S1~~arg;8056d62;8056e78;805b3fc;805b40c;805b488;805b49c;8056e78;ANGRATE_PITCH
+Heli;Heli:::rate_target_to_motor_yaw;80568d8;PIDFF - yaw rate;PIDFF;80568d8;S0~~arg;S1~~arg;80568ec;8056976;805b3fc;805b40c;805b488;805b49c;8056982;ANGRATE_YAW
+Heli;update_ang_vel_target_from_att_error;8057c70;sqrt - roll;P;8057a40;-;-;8057cc6;8057cce;8057cba;-;-;-;8057ae4;ANG_ROLL
+Heli;update_ang_vel_target_from_att_error;8057c70;sqrt - pitch;P;8057a40;-;-;8057d12;8057d1a;8057d0e;-;-;-;8057ae4;ANG_PITCH
+Heli;update_ang_vel_target_from_att_error;8057c70;sqrt - yaw;P;8057a40;-;-;8057d5c;8057d64;8057d58;-;-;-;8057ae4;ANG_YAW
+Plane;AC_PosControl::run_xy_controller;805dcc8;sqrt - xy pos;P;805dbfc;805dee2,805deea;805dee6,805defe;805defa,805df0a;805df4c,805df50;805df3a;-;-;-;805dca4;POS_X,POS_Y
+Plane;AC_PosControl::run_z_controller;805d1fc;sqrt - z pos;P;805c1f0;805d208;805d20c;805d22c;805d28a;805d270;-;-;-;805c294;POS_Z
+Plane;AC_PosControl::run_xy_controller;805dcc8;PID - xy vel;PID;805dd00;805dd2e,805dd36;805dd32,805dd3e;805dd42,805dd4e;805ddc4,805ddc8;8060870;8060886;80609f8;-;805ddc8;VEL_X,VEL_Y
+Plane;AC_PosControl::run_z_controller;805d1fc;P - z vel;P;80604f4;805d2f8;805d28a;805d360;805d372;805d35c;-;-;-;80604fc;VEL_Z
+Plane;AC_PosControl::run_z_controller;805d1fc;PID - z acc;PID;805d38e;805d472;805d372;805d392;805d442;80605a0;80605b0;806062c;-;805d44a;ACC_Z
+Plane;rate_target_to_motor_roll;805c018;PIDFF - roll rate;PIDFF;805c018;S0~~arg;S1~~arg;805c020;805c0b8;80605a0;80605b0;806062c;8060640;805c0cc;ANGRATE_ROLL
+Plane;rate_target_to_motor_pitch;805c0ec;PIDFF - pitch rate;PIDFF;805c0ec;S0~~arg;S1~~arg;805c0f4;805c18c;80605a0;80605b0;806062c;8060640;805c1a0;ANGRATE_PITCH
+Plane;rate_target_to_motor_yaw;805b6f4;PIDFF - yaw rate;PIDFF;805b6f4;S0~~arg;S1~~arg;805b6fc;805b794;80605a0;80605b0;806062c;8060640;805b7a8;ANGRATE_YAW
+Plane;update_ang_vel_target_from_att_error;805c420;sqrt - roll;P;805c1f0;-;-;805c476;805c47e;805c46a;-;-;-;805c294;ANG_ROLL
+Plane;update_ang_vel_target_from_att_error;805c420;sqrt - pitch;P;805c1f0;-;-;805c4c2;805c4ca;805c4be;-;-;-;805c294;ANG_PITCH
+Plane;update_ang_vel_target_from_att_error;805c420;sqrt - yaw;P;805c1f0;-;-;805c50c;805c514;805c508;-;-;-;805c294;ANG_YAW
+Sub;AC_PosControl::run_xy_controller;804803c;sqrt - xy pos;P;8047f70;8048256,804825e;804825a,8048272;804826e,804827e;80482c0,80482c4;80482ae;-;-;-;8048018;POS_X,POS_Y
+Sub;AC_PosControl::run_z_controller;804746c;sqrt - z pos;P;804652c;8047478;804747c;804749c;80474fa;80474e0;-;-;-;80465d0;POS_Z
+Sub;AC_PosControl::run_xy_controller;804803c;PID - xy vel;PID;8048074;80480a2,80480aa;80480a6,80480b2;80480b6,80480c2;8048138,804813c;8048e18;8048e2e;8048fa0;-;804813c;VEL_X,VEL_Y
+Sub;AC_PosControl::run_z_controller;804746c;P - z vel;P;8048a9c;8047568;80474fa;80475d0;80475e2;80475cc;-;-;-;8048aa4;VEL_Z
+Sub;AC_PosControl::run_z_controller;804746c;PID - z acc;PID;80475fe;80476e2;80475e2;8047602;80476b2;8048b48;8048b58;8048bd4;-;80476ba;ACC_Z
+Sub;rate_target_to_motor_roll;8046354;PIDFF - roll rate;PIDFF;8046354;S0~~arg;S1~~arg;804635c;80463f4;8048b48;8048b58;8048bd4;8048be8;8046408;ANGRATE_ROLL
+Sub;rate_target_to_motor_pitch;8046428;PIDFF - pitch rate;PIDFF;8046428;S0~~arg;S1~~arg;8046430;80464c8;8048b48;8048b58;8048bd4;8048be8;80464dc;ANGRATE_PITCH
+Sub;rate_target_to_motor_yaw;8045b04;PIDFF - yaw rate;PIDFF;8045b04;S0~~arg;S1~~arg;8045b0c;8045ba4;8048b48;8048b58;8048bd4;8048be8;8045bb8;ANGRATE_YAW
+Sub;update_ang_vel_target_from_att_error;8046684;sqrt - roll;P;804652c;-;-;80466da;80466e2;80466ce;-;-;-;80465d0;ANG_ROLL
+Sub;update_ang_vel_target_from_att_error;8046684;sqrt - pitch;P;804652c;-;-;8046726;804672e;8046722;-;-;-;80465d0;ANG_PITCH
+Sub;update_ang_vel_target_from_att_error;8046684;sqrt - yaw;P;804652c;-;-;8046770;8046778;804676c;-;-;-;80465d0;ANG_YAW

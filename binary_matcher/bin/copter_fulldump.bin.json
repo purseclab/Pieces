@@ -1,0 +1,199 @@
+{
+	"architecture" : 
+	{
+		"bitSize" : 32,
+		"name" : "unknown machine type (0)"
+	},
+	"classes" : [],
+	"date" : "2024-07-29",
+	"decompParams" : 
+	{
+		"abiPaths" : [],
+		"frontendFunctions" : [],
+		"keepAllFuncs" : false,
+		"libraryTypeInfoPaths" : [],
+		"outputFile" : "",
+		"selectedDecodeOnly" : false,
+		"selectedFunctions" : [],
+		"selectedNotFoundFncs" : [],
+		"selectedRanges" : [],
+		"staticSignPaths" : [],
+		"userStaticSignPaths" : [],
+		"verboseOut" : false
+	},
+	"fileFormat" : "coff64",
+	"fileType" : "object",
+	"functions" : [],
+	"globals" : [],
+	"inputFile" : "/home/sloan/testing/dispatch/bin/copter_fulldump.bin",
+	"languages" : [],
+	"patterns" : 
+	[
+		{
+			"description" : "Crypton_kp (32-bit, little endian)",
+			"endian" : "little",
+			"matches" : 
+			[
+				{
+					"address" : "0xdcf6f609",
+					"entrySize" : 4,
+					"offset" : "0x49388",
+					"size" : 16,
+					"type" : "integral"
+				}
+			],
+			"name" : "Crypton_kp",
+			"type" : "crypto",
+			"yaraRule" : "Crypton_kp__32_lil_16_"
+		},
+		{
+			"description" : "zinflate_lengthExtraBits (8-bit)",
+			"endian" : "unknown",
+			"matches" : 
+			[
+				{
+					"address" : "0x1648a306",
+					"entrySize" : 1,
+					"offset" : "0xef520",
+					"size" : 29,
+					"type" : "integral"
+				}
+			],
+			"name" : "zinflate_lengthExtraBits",
+			"type" : "crypto",
+			"yaraRule" : "zinflate_lengthExtraBits__8_byt_29_"
+		},
+		{
+			"description" : "zinflate_lengthStarts (16-bit, little endian)",
+			"endian" : "little",
+			"matches" : 
+			[
+				{
+					"address" : "0x1648a2ca",
+					"entrySize" : 2,
+					"offset" : "0xef4e4",
+					"size" : 58,
+					"type" : "integral"
+				}
+			],
+			"name" : "zinflate_lengthStarts",
+			"type" : "crypto",
+			"yaraRule" : "zinflate_lengthStarts__16_lil_58_"
+		},
+		{
+			"description" : "zinflate_distanceStarts (16-bit, little endian)",
+			"endian" : "little",
+			"matches" : 
+			[
+				{
+					"address" : "0x1648a33a",
+					"entrySize" : 2,
+					"offset" : "0xef554",
+					"size" : 60,
+					"type" : "integral"
+				}
+			],
+			"name" : "zinflate_distanceStarts",
+			"type" : "crypto",
+			"yaraRule" : "zinflate_distanceStarts__16_lil_60_"
+		},
+		{
+			"description" : "CRC_8_ATM_poly_0x07 (8-bit)",
+			"endian" : "unknown",
+			"matches" : 
+			[
+				{
+					"address" : "0x1647de12",
+					"entrySize" : 1,
+					"offset" : "0xe302c",
+					"size" : 256,
+					"type" : "integral"
+				}
+			],
+			"name" : "CRC_8_ATM_poly_0x07",
+			"type" : "crypto",
+			"yaraRule" : "CRC_8_ATM_poly_0x07__8_byt_refl_False_"
+		},
+		{
+			"description" : "CRC_16_CCITT_poly_0x1021 (16-bit, little endian)",
+			"endian" : "little",
+			"matches" : 
+			[
+				{
+					"address" : "0x16472c72",
+					"entrySize" : 2,
+					"offset" : "0xd7e8c",
+					"size" : 512,
+					"type" : "integral"
+				},
+				{
+					"address" : "0x1648ab12",
+					"entrySize" : 2,
+					"offset" : "0xefd2c",
+					"size" : 512,
+					"type" : "integral"
+				}
+			],
+			"name" : "CRC_16_CCITT_poly_0x1021",
+			"type" : "crypto",
+			"yaraRule" : "CRC_16_CCITT_poly_0x1021__16_lil_refl_False_"
+		},
+		{
+			"description" : "CRC_32_IEEE_802_3_poly_0x04C11DB7 (32-bit, little endian)",
+			"endian" : "little",
+			"matches" : 
+			[
+				{
+					"address" : "0x1647df12",
+					"entrySize" : 4,
+					"offset" : "0xe312c",
+					"size" : 1024,
+					"type" : "integral"
+				}
+			],
+			"name" : "CRC_32_IEEE_802_3_poly_0x04C11DB7",
+			"type" : "crypto",
+			"yaraRule" : "CRC_32_IEEE_802_3_poly_0x04C11DB7__32_lil_refl_True_"
+		},
+		{
+			"description" : "SHA256_Hash_constant_words_K__0x428a2f98_ (32-bit, little endian)",
+			"endian" : "little",
+			"matches" : 
+			[
+				{
+					"address" : "0x164776aa",
+					"entrySize" : 4,
+					"offset" : "0xdc8c4",
+					"size" : 256,
+					"type" : "integral"
+				}
+			],
+			"name" : "SHA256_Hash_constant_words_K__0x428a2f98_",
+			"type" : "crypto",
+			"yaraRule" : "SHA256_Hash_constant_words_K__0x428a2f98___32_lil_256_"
+		},
+		{
+			"description" : "zinflate_distanceExtraBits (8-bit)",
+			"endian" : "unknown",
+			"matches" : 
+			[
+				{
+					"address" : "0x1648a376",
+					"entrySize" : 1,
+					"offset" : "0xef590",
+					"size" : 30,
+					"type" : "integral"
+				}
+			],
+			"name" : "zinflate_distanceExtraBits",
+			"type" : "crypto",
+			"yaraRule" : "zinflate_distanceExtraBits__8_byt_30_"
+		}
+	],
+	"registers" : [],
+	"segments" : [],
+	"structures" : [],
+	"time" : "11:21:32",
+	"tools" : [],
+	"vtables" : []
+}

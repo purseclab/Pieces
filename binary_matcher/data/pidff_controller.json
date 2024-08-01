@@ -1,0 +1,18 @@
+{
+    "num_inst_min": 50,
+    "num_inst_max": 100,
+    "num_bb_min": 5, 
+    "num_bb_max": 20,
+    "div_min": 1,
+    "div_max": 3, 
+    "add_min": 4, 
+    "add_max": 8, 
+    "sub_min": 0, 
+    "sub_max": 3,
+    "mul_min": 4, 
+    "mul_max": 10,
+    "branch_min": 10, 
+    "branch_max": 40,
+    "loop_min": 0,
+    "loop_max": 0
+}

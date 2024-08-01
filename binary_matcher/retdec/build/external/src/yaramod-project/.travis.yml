@@ -1,0 +1,69 @@
+language: cpp
+
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      dist: trusty
+      compiler: gcc-5
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - build-essential
+            - coreutils
+            - gcc-5
+            - g++-5
+            - python3.4
+            - python3.4-venv
+            - cmake
+            - flex
+            - bison
+      env:
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && NPROC=$(nproc)"
+        - DEPLOY_TO_PYPI=true  # Deploy to PyPI only from Linux build.
+    - os: osx
+      osx_image: xcode8.3
+      env:
+        - MATRIX_EVAL="NPROC=$(sysctl -n hw.physicalcpu)"
+
+install:
+  # We need to install newer versions of Flex and Bison on MacOS X.
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install flex bison gnu-sed && brew upgrade python; fi
+
+before_script:
+  - eval "${MATRIX_EVAL}"
+  # We need to use newer versions of Flex and Bison on MacOS X (the ones from Homebrew).
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export CMAKE_INCLUDE_PATH="/usr/local/opt/flex/include"; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export CMAKE_LIBRARY_PATH="/usr/local/opt/flex/lib;/usr/local/opt/bison/lib"; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH="/usr/local/opt/flex/bin:/usr/local/opt/bison/bin:$PATH"; fi
+
+script:
+  - ./setup_env.sh
+  - source env/bin/activate
+  - python setup.py build --with-unit-tests
+  - python setup.py install
+  - build/tests/cpp/yaramod_tests
+  - pytest -v tests/python
+
+deploy:
+  provider: pypi
+  skip_cleanup: true
+  user: metthal
+  password:
+    secure: geoBr7JSbETmhDDC7BkrsQnbDakHqQ7edN1wyCGL3maUSgv9TlYdWYksvW39WA2XBqfBmZ819hSTdHQrGs/ZW6xZzjTXSxuo2MiwCgiNWYSzN/epo84DaKgzqJQTUxzbmpfTjBp1u6wWnEog9DcnOmRjUWiVH1mY0U2RGdiOuiC0KK88i0F0Y9Y1kws0C/Tu7wBUWiohIEq+amMMv7vLqh63hFR5vqrdjwrUR8tEt+qLh8OapC6KLHVs2Jym8pShMhdsH8Uhr/8ZNO1BrRWY+Oc3pUp1eTFgH8JGfVcWeLf42pAfuahGHfHIRti8c9bJxxiKRLXLC9sGOoXU5SSg/8Y0PT3Bsh2O1Z5bCy5SwSLiJLEH2eiASMYQM4k64VMclHa2aMmA1rJELfSgME+csyU755bFb9xxiRtFpLFbWCfcWV980MFbxGMAjn779xWXeR06+Orwke9h5COokuRFIMwVv1JjTkKvI2QF5JjjNt/fUO7abPQ4zrCSRo32adxNoE0vrhgGcsBd6Slf0Sbk2o3n/EmX1xwO2sPGr290rC3+0XZgLug0q9nA24P6rqAisZMmyG4hVhWDlKtl0/MSR642LJUzYkkYTPGJOw79DwCqBo+wA6WbncDDkCJznEQzcJKTwRpYLwoKVR0Jdx9f0ZK4PG81gMRVDXPBJGHvEtw=
+  on:
+    tags: true
+    condition: $DEPLOY_TO_PYPI = true
+
+branches:
+  only:
+    # Pushes and PRs to the master branch.
+    - master
+    # Version tags.
+    - /^v?\d+\.\d+.*$/
+
+notifications:
+  email:
+    on_success: never

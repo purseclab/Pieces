@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-rtti-finder.a  CMakeFiles/retdec-rtti-finder.dir/rtti/rtti_gcc_parser.cpp.o CMakeFiles/retdec-rtti-finder.dir/rtti/rtti_msvc_parser.cpp.o CMakeFiles/retdec-rtti-finder.dir/vtable/vtable_finder.cpp.o CMakeFiles/retdec-rtti-finder.dir/rtti_finder.cpp.o
+/usr/bin/ranlib libretdec-rtti-finder.a

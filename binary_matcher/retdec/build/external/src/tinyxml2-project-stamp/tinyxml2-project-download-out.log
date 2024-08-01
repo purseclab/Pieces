@@ -1,0 +1,15 @@
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2.zip'
+   timeout='none'
+-- Using src='https://github.com/leethomason/tinyxml2/archive/cc1745b552dd12bb1297a99f82044f83b06729e0.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done

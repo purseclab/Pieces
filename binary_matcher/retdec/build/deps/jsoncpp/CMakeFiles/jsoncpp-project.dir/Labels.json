@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/jsoncpp/CMakeFiles/jsoncpp-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/jsoncpp/CMakeFiles/jsoncpp-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/jsoncpp/CMakeFiles/jsoncpp-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/jsoncpp-project-stamp/jsoncpp-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"jsoncpp-project"
+		],
+		"name" : "jsoncpp-project"
+	}
+}

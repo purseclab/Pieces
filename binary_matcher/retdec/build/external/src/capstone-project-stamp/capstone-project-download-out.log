@@ -1,0 +1,15 @@
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/capstone.zip'
+   timeout='none'
+-- Using src='https://github.com/aquynh/capstone/archive/f9c6a90489be7b3637ff1c7298e45efafe7cf1b9.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/capstone.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/capstone.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done

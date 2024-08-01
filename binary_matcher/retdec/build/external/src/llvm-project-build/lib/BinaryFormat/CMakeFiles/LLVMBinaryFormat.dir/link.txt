@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libLLVMBinaryFormat.a  CMakeFiles/LLVMBinaryFormat.dir/AMDGPUMetadataVerifier.cpp.o CMakeFiles/LLVMBinaryFormat.dir/Dwarf.cpp.o CMakeFiles/LLVMBinaryFormat.dir/Magic.cpp.o CMakeFiles/LLVMBinaryFormat.dir/MsgPackReader.cpp.o CMakeFiles/LLVMBinaryFormat.dir/MsgPackTypes.cpp.o CMakeFiles/LLVMBinaryFormat.dir/MsgPackWriter.cpp.o CMakeFiles/LLVMBinaryFormat.dir/Wasm.cpp.o
+/usr/bin/ranlib ../libLLVMBinaryFormat.a

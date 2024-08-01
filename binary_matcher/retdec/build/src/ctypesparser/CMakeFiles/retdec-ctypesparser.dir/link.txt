@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-ctypesparser.a  CMakeFiles/retdec-ctypesparser.dir/ctypes_parser.cpp.o CMakeFiles/retdec-ctypesparser.dir/json_ctypes_parser.cpp.o CMakeFiles/retdec-ctypesparser.dir/ast_ctypes_parser.cpp.o CMakeFiles/retdec-ctypesparser.dir/borland_ast_ctypes_parser.cpp.o CMakeFiles/retdec-ctypesparser.dir/ms_ast_ctypes_parser.cpp.o CMakeFiles/retdec-ctypesparser.dir/itanium_ast_ctypes_parser.cpp.o CMakeFiles/retdec-ctypesparser.dir/type_config.cpp.o
+/usr/bin/ranlib libretdec-ctypesparser.a

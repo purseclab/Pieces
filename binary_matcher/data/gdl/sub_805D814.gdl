@@ -1,0 +1,174 @@
+graph: {
+title: "sub_805D814"
+manhattan_edges: yes
+layoutalgorithm: mindepth
+finetuning: no
+layout_downfactor: 100
+layout_upfactor: 0
+layout_nearfactor: 0
+xlspace: 12
+yspace: 30
+// IDA palette
+colorentry 32: 0 0 0
+colorentry 33: 255 255 0
+colorentry 34: 255 255 255
+colorentry 35: 128 128 128
+colorentry 36: 128 128 128
+colorentry 37: 192 192 192
+colorentry 38: 192 192 192
+colorentry 39: 255 255 0
+colorentry 40: 0 255 0
+colorentry 41: 192 192 192
+colorentry 42: 0 255 0
+colorentry 43: 0 255 0
+colorentry 44: 0 255 255
+colorentry 45: 255 0 0
+colorentry 46: 0 128 0
+colorentry 47: 0 128 128
+colorentry 48: 255 0 0
+colorentry 49: 0 128 128
+colorentry 50: 255 0 0
+colorentry 51: 128 128 128
+colorentry 52: 255 255 255
+colorentry 53: 255 255 0
+colorentry 54: 255 0 255
+colorentry 55: 128 128 128
+colorentry 56: 0 255 255
+colorentry 57: 192 192 192
+colorentry 58: 192 192 192
+colorentry 59: 255 255 0
+colorentry 60: 128 0 128
+colorentry 61: 0 255 0
+colorentry 62: 0 255 0
+colorentry 63: 0 255 255
+colorentry 64: 192 192 192
+colorentry 65: 192 192 192
+colorentry 66: 255 0 255
+colorentry 67: 255 255 0
+colorentry 68: 192 192 192
+colorentry 69: 255 255 0
+colorentry 70: 255 255 0
+colorentry 71: 255 255 0
+colorentry 72: 0 0 0
+colorentry 73: 0 0 0
+colorentry 74: 0 0 0
+colorentry 75: 0 255 255
+colorentry 76: 192 192 192
+colorentry 77: 128 128 0
+colorentry 78: 192 192 192
+colorentry 79: 192 192 192
+colorentry 80: 128 0 0
+colorentry 81: 255 255 0
+colorentry 82: 255 255 0
+colorentry 83: 0 0 0
+colorentry 84: 0 255 0
+node: { title: "0" label: "58sub_805D81431:
+PUSH            {R4-R6,LR}
+VPUSH           {D8}
+LDRB            R3, [R0,#0x10]
+LSLS            R3, R3, #0x1E
+SUB             SP, SP, #0x20
+MOV             R4, R0
+MOV             R5, R1
+MOV             R6, R2
+VMOV.F32        S17, S0
+BPL             loc_805D830" vertical_order: 0 }
+node: { title: "1" label: "LDRB            R3, [R0,#0x1D]
+CBNZ            R3, loc_805D838" }
+node: { title: "2" label: "ADD             SP, SP, #0x20 ; ' '
+VPOP            {D8}
+POP             {R4-R6,PC}" }
+node: { title: "3" label: "LDRSH.W         R3, [R0,#0x12]
+VLDR            S16, =0.0
+VMOV            S15, R3
+VCVT.F32.S32    S15, S15
+VCMPE.F32       S15, S16
+VMRS            APSR_nzcv, FPSCR
+BLS             loc_805D830" }
+node: { title: "4" label: "VCMPE.F32       S17, #0.0
+VMRS            APSR_nzcv, FPSCR
+BLS             loc_805D830" }
+node: { title: "5" label: "ADD             R3, SP, #0x38+var_24
+ADD             R2, SP, #0x38+var_2C
+ADD             R1, SP, #0x38+var_30
+STR             R3, [SP,#0x38+var_38]
+ADD             R3, SP, #0x38+var_28
+VSTR            S16, [SP,#0x38+var_30]
+VSTR            S16, [SP,#0x38+var_2C]
+VSTR            S16, [SP,#0x38+var_28]
+VSTR            S16, [SP,#0x38+var_24]
+BL              sub_805D700
+VLDR            S15, [SP,#0x38+var_2C]
+VLDR            S14, [SP,#0x38+var_30]
+VLDR            S12, [SP,#0x38+var_24]
+LDRSH.W         R3, [R4,#0x12]
+VLDR            S13, =4500.0
+VADD.F32        S14, S14, S15
+VLDR            S15, [SP,#0x38+var_28]
+VADD.F32        S15, S15, S12
+VMOV            S0, R3
+VMUL.F32        S14, S14, S13
+VMUL.F32        S15, S15, S13
+VMOV.F32        S2, #0.75
+VMOV.F32        S1, S16
+VMUL.F32        S2, S17, S2
+VCVT.F32.S32    S0, S0
+VSTR            S14, [SP,#0x38+var_20]
+VSTR            S15, [SP,#0x38+var_1C]
+BL              sub_8031210
+ADD             R0, SP, #0x38+var_20
+VMOV.F32        S16, S0
+BL              sub_803365C
+VCMPE.F32       S16, S0
+VMRS            APSR_nzcv, FPSCR
+BPL             loc_805D8E0" }
+node: { title: "6" label: "VDIV.F32        S0, S16, S0
+ADD             R0, SP, #0x38+var_20
+BL              sub_80336C8" }
+node: { title: "7" label: "ADD             R0, SP, #0x38+var_20
+VLDR            S14, [R5]
+VLDR            S15, [SP,#0x38+var_20]
+VADD.F32        S15, S15, S14
+VLDR            S14, [R6]
+VSTR            S15, [SP,#0x38+var_20]
+VLDR            S15, [SP,#0x38+var_1C]
+VADD.F32        S15, S15, S14
+VSTR            S15, [SP,#0x38+var_1C]
+BL              sub_803365C
+VCMPE.F32       S17, S0
+VMRS            APSR_nzcv, FPSCR
+BPL             loc_805D91A" }
+node: { title: "8" label: "VDIV.F32        S0, S17, S0
+ADD             R0, SP, #0x38+var_20
+BL              sub_80336C8" }
+node: { title: "9" label: "LDR             R3, [SP,#0x38+var_20]
+STR             R3, [R5]
+LDR             R3, [SP,#0x38+var_1C]
+STR             R3, [R6]
+B               loc_805D830" }
+// node 0
+edge: { sourcename: "0" targetname: "1" label: "false" color: red }
+edge: { sourcename: "0" targetname: "2" label: "true" color: darkgreen }
+// node 1
+edge: { sourcename: "1" targetname: "2" label: "false" color: red }
+edge: { sourcename: "1" targetname: "3" label: "true" color: darkgreen }
+// node 2
+// node 3
+edge: { sourcename: "3" targetname: "2" label: "true" color: darkgreen }
+edge: { sourcename: "3" targetname: "4" label: "false" color: red }
+// node 4
+edge: { sourcename: "4" targetname: "2" label: "true" color: darkgreen }
+edge: { sourcename: "4" targetname: "5" label: "false" color: red }
+// node 5
+edge: { sourcename: "5" targetname: "6" label: "false" color: red }
+edge: { sourcename: "5" targetname: "7" label: "true" color: darkgreen }
+// node 6
+edge: { sourcename: "6" targetname: "7" }
+// node 7
+edge: { sourcename: "7" targetname: "8" label: "false" color: red }
+edge: { sourcename: "7" targetname: "9" label: "true" color: darkgreen }
+// node 8
+edge: { sourcename: "8" targetname: "9" }
+// node 9
+edge: { sourcename: "9" targetname: "2" }
+}

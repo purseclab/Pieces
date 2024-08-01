@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-unpacker.a  CMakeFiles/retdec-unpacker.dir/decompression/lzma/lzma_data.cpp.o CMakeFiles/retdec-unpacker.dir/decompression/nrv/nrv2d_data.cpp.o CMakeFiles/retdec-unpacker.dir/decompression/nrv/nrv2b_data.cpp.o CMakeFiles/retdec-unpacker.dir/decompression/nrv/nrv2e_data.cpp.o CMakeFiles/retdec-unpacker.dir/decompression/lzmat/lzmat_data.cpp.o CMakeFiles/retdec-unpacker.dir/signature.cpp.o
+/usr/bin/ranlib libretdec-unpacker.a

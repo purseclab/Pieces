@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-patterngen.a  CMakeFiles/retdec-patterngen.dir/pattern_extractor/pattern_extractor.cpp.o CMakeFiles/retdec-patterngen.dir/pattern_extractor/types/symbol_pattern.cpp.o
+/usr/bin/ranlib libretdec-patterngen.a

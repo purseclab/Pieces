@@ -1,0 +1,1566 @@
+		============= Start of GT: POS_X,POS_Y w/ func: 0x55e5732707e8
+
+
+	 word: 805c8c2,805c8ca for func: function_805c6a8
+[INFO] binIRInit: function_805c6a8
+PHI inst   %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ] at addrstr: 805c6f6
+PHI inst   %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ] at new addr: 805c6f6
+PHI inst   %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ] at addrstr: 805c6e0
+PHI inst   %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ] at new addr: 805c6f8
+PHI inst   %v2_805c716.pre-phi = phi i32* [ %v3_805c952, %dec_label_pc_805c93a ], [ %.pre4, %dec_label_pc_805c708 ] at addrstr: 805c716
+PHI inst   %v2_805c716.pre-phi = phi i32* [ %v3_805c952, %dec_label_pc_805c93a ], [ %.pre4, %dec_label_pc_805c708 ] at new addr: 805c716
+PHI inst   %v2_805c70e.pre-phi = phi i32* [ %v3_805c946, %dec_label_pc_805c93a ], [ %.pre2, %dec_label_pc_805c708 ] at addrstr: 805c70e
+PHI inst   %v2_805c70e.pre-phi = phi i32* [ %v3_805c946, %dec_label_pc_805c93a ], [ %.pre2, %dec_label_pc_805c708 ] at new addr: 805c718
+ 		keyvec: 27
+ 		wordvec: 805c8c2
+ 		 init v:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2 at func: function_805c6a8
+		 recursive sv:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2
+	Keyvec: 27
+	KIND: cur
+	 > v:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2 at idx: 27 at func: function_805c6a8
+	 > ptr:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2 at idx: 27 at func: function_805c6a8
+ 		keyvec: 267
+ 		wordvec: 805c8ca
+ 		 init v:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120 at func: function_805c6a8
+	Keyvec: 267
+	KIND: cur
+	 > v:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120 at idx: 267 at func: function_805c6a8
+	 > ptr:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120 at idx: 267 at func: function_805c6a8
+
+
+	 word: 805c8c6,805c8de for func: function_805c6a8
+ 		keyvec: 263
+ 		wordvec: 805c8c6
+ 		 init v:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 at func: function_805c6a8
+	Keyvec: 263
+	KIND: ref
+	 > v:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 at idx: 263 at func: function_805c6a8
+	 > ptr:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 at idx: 263 at func: function_805c6a8
+ 		keyvec: 280
+ 		wordvec: 805c8de
+ 		 init v:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at func: function_805c6a8
+	Keyvec: 280
+	KIND: ref
+	 > v:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at idx: 280 at func: function_805c6a8
+	 > ptr:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at idx: 280 at func: function_805c6a8
+
+
+	 word: 805c8da,805c8ea for func: function_805c6a8
+ 		keyvec: 276
+ 		wordvec: 805c8da
+ 		 init v:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+ 		 func: function_805c6a8
+
+[INFO]: initBackwardDstPoint:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 at func: function_805c6a8
+	Keyvec: 276
+	KIND: err
+	 > v:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 at idx: 276 at func: function_805c6a8
+	 > ptr:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 at idx: 276 at func: function_805c6a8
+ 		keyvec: 285
+ 		wordvec: 805c8ea
+ 		 init v:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+ 		 func: function_805c6a8
+
+[INFO]: initBackwardDstPoint:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128 at func: function_805c6a8
+	Keyvec: 285
+	KIND: err
+	 > v:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128 at idx: 285 at func: function_805c6a8
+	 > ptr:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128 at idx: 285 at func: function_805c6a8
+
+
+	 word: 805c92c,805c930 for func: function_805c6a8
+ 		keyvec: 318
+ 		wordvec: 805c92c
+ 		 init v:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32*
+ 		 func: function_805c6a8
+	Keyvec: 318
+	KIND: out
+	 > v:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32* at idx: 318 at func: function_805c6a8
+	 > ptr:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32* at idx: 318 at func: function_805c6a8
+ 		keyvec: 322
+ 		wordvec: 805c930
+ 		 init v:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32*
+ 		 func: function_805c6a8
+	Keyvec: 322
+	KIND: out
+	 > v:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32* at idx: 322 at func: function_805c6a8
+	 > ptr:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32* at idx: 322 at func: function_805c6a8
+		============= End of GT: POS_X,POS_Y
+
+		============= Start of GT: POS_Z w/ func: 0x55e57326e808
+
+
+	 word: 805ba64 for func: function_805ba58
+[INFO] binIRInit: function_805ba58
+PHI inst   %v3_805bb94.pre-phi = phi i32* [ %v5_805bb66, %bb197 ], [ %.pre75, %dec_label_pc_805bcb6 ], [ %v5_805bb66, %.critedge6 ] at addrstr: 805bb94
+PHI inst   %v3_805bb94.pre-phi = phi i32* [ %v5_805bb66, %bb197 ], [ %.pre75, %dec_label_pc_805bcb6 ], [ %v5_805bb66, %.critedge6 ] at new addr: 805bb94
+PHI inst   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] at addrstr: 805bbbc
+PHI inst   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] at new addr: 805bbbc
+PHI inst   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ] at addrstr: 805bbee
+PHI inst   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ] at new addr: 805bbee
+ 		keyvec: 18
+ 		wordvec: 805ba64
+ 		 init v:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3
+ 		 func: function_805ba58
+
+[INFO]: initForwardSrcPoint:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3 at func: function_805ba58
+	Keyvec: 18
+	KIND: cur
+	 > v:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3 at idx: 18 at func: function_805ba58
+	 > ptr:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3 at idx: 18 at func: function_805ba58
+
+
+	 word: 805ba68 for func: function_805ba58
+ 		keyvec: 22
+ 		wordvec: 805ba68
+ 		 init v:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+ 		 func: function_805ba58
+
+[INFO]: initForwardSrcPoint:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5 at func: function_805ba58
+	Keyvec: 22
+	KIND: ref
+	 > v:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5 at idx: 22 at func: function_805ba58
+	 > ptr:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5 at idx: 22 at func: function_805ba58
+
+
+	 word: 805ba88 for func: function_805ba58
+ 		keyvec: 41
+ 		wordvec: 805ba88
+ 		 init v:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+ 		 func: function_805ba58
+
+[INFO]: initBackwardDstPoint:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13 at func: function_805ba58
+	Keyvec: 41
+	KIND: err
+	 > v:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13 at idx: 41 at func: function_805ba58
+	 > ptr:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13 at idx: 41 at func: function_805ba58
+
+
+	 word: 805bae6 for func: function_805ba58
+ 		keyvec: 101
+ 		wordvec: 805bae6
+ 		 init v:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+ 		 func: function_805ba58
+	Keyvec: 101
+	KIND: out
+	 > v:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at idx: 101 at func: function_805ba58
+	 > ptr:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at idx: 101 at func: function_805ba58
+		============= End of GT: POS_Z
+
+		============= Start of GT: VEL_X,VEL_Y w/ func: 0x55e5732707e8
+
+
+	 word: 805c70e,805c716 for func: function_805c6a8
+ 		keyvec: 84
+ 		wordvec: 805c70e
+ 		 init v:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26 at func: function_805c6a8
+		 recursive sv:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26
+	Keyvec: 84
+	KIND: cur
+	 > v:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26 at idx: 84 at func: function_805c6a8
+	 > ptr:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26 at idx: 84 at func: function_805c6a8
+ 		keyvec: 86
+ 		wordvec: 805c716
+ 		 init v:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27 at func: function_805c6a8
+		 recursive sv:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27
+	Keyvec: 86
+	KIND: cur
+	 > v:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27 at idx: 86 at func: function_805c6a8
+	 > ptr:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27 at idx: 86 at func: function_805c6a8
+
+
+	 word: 805c712,805c71e for func: function_805c6a8
+ 		keyvec: 52
+ 		wordvec: 805c712
+ 		 init v:   %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ]
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ] at func: function_805c6a8
+		 recursive sv:   %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ]
+		 recursive sv:   %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32*
+	Keyvec: 52
+	KIND: ref
+	 > v:   %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ] at idx: 52 at func: function_805c6a8
+	 > ptr:   %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32* at idx: 45 at func: function_805c6a8
+ 		keyvec: 51
+ 		wordvec: 805c71e
+ 		 init v:   %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ]
+ 		 func: function_805c6a8
+
+[INFO]: initForwardSrcPoint:   %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ] at func: function_805c6a8
+		 recursive sv:   %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ]
+		 recursive sv:   %v3_805c6dc = inttoptr i32 %v2_805c6dc to i32*
+	Keyvec: 51
+	KIND: ref
+	 > v:   %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ] at idx: 51 at func: function_805c6a8
+	 > ptr:   %v3_805c6dc = inttoptr i32 %v2_805c6dc to i32* at idx: 48 at func: function_805c6a8
+
+
+	 word: 805c722,805c72e for func: function_805c6a8
+ 		keyvec: 101
+ 		wordvec: 805c722
+ 		 init v:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+ 		 func: function_805c6a8
+
+[INFO]: initBackwardDstPoint:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 at func: function_805c6a8
+	Keyvec: 101
+	KIND: err
+	 > v:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 at idx: 101 at func: function_805c6a8
+	 > ptr:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 at idx: 101 at func: function_805c6a8
+ 		keyvec: 107
+ 		wordvec: 805c72e
+ 		 init v:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+ 		 func: function_805c6a8
+
+[INFO]: initBackwardDstPoint:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 at func: function_805c6a8
+	Keyvec: 107
+	KIND: err
+	 > v:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 at idx: 107 at func: function_805c6a8
+	 > ptr:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 at idx: 107 at func: function_805c6a8
+
+
+	 word: 805c7a4,805c7a8 for func: function_805c6a8
+ 		keyvec: 155
+ 		wordvec: 805c7a4
+ 		 init v:   %v2_805c7a4 = call float @__asm_vmul.f32(float %v2_805c794, float %v1_805c6b8), !addr !60
+ 		 func: function_805c6a8
+	Keyvec: 155
+	KIND: out
+	 > v:   %v2_805c7a4 = call float @__asm_vmul.f32(float %v2_805c794, float %v1_805c6b8), !addr !60 at idx: 155 at func: function_805c6a8
+	 > ptr:   %v2_805c7a4 = call float @__asm_vmul.f32(float %v2_805c794, float %v1_805c6b8), !addr !60 at idx: 155 at func: function_805c6a8
+ 		keyvec: 156
+ 		wordvec: 805c7a8
+ 		 init v:   %v2_805c7a8 = call float @__asm_vmul.f32(float %v2_805c798, float %v1_805c6b8), !addr !61
+ 		 func: function_805c6a8
+	Keyvec: 156
+	KIND: out
+	 > v:   %v2_805c7a8 = call float @__asm_vmul.f32(float %v2_805c798, float %v1_805c6b8), !addr !61 at idx: 156 at func: function_805c6a8
+	 > ptr:   %v2_805c7a8 = call float @__asm_vmul.f32(float %v2_805c798, float %v1_805c6b8), !addr !61 at idx: 156 at func: function_805c6a8
+		============= End of GT: VEL_X,VEL_Y
+
+		============= Start of GT: VEL_Z w/ func: 0x55e57326e808
+
+
+	 word: 805bb54 for func: function_805ba58
+ 		keyvec: 84
+ 		wordvec: 805bb54
+ 		 init v:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33
+ 		 func: function_805ba58
+
+[INFO]: initForwardSrcPoint:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33 at func: function_805ba58
+	Keyvec: 84
+	KIND: cur
+	 > v:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33 at idx: 84 at func: function_805ba58
+	 > ptr:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33 at idx: 84 at func: function_805ba58
+
+
+	 word: 805bae6 for func: function_805ba58
+ 		keyvec: 101
+ 		wordvec: 805bae6
+ 		 init v:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+ 		 func: function_805ba58
+
+[INFO]: initForwardSrcPoint:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at func: function_805ba58
+	Keyvec: 101
+	KIND: ref
+	 > v:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at idx: 101 at func: function_805ba58
+	 > ptr:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at idx: 101 at func: function_805ba58
+
+
+	 word: 805bbbc for func: function_805ba58
+ 		keyvec: 227
+ 		wordvec: 805bbbc
+ 		 init v:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+ 		 func: function_805ba58
+
+[INFO]: initBackwardDstPoint:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] at func: function_805ba58
+	Keyvec: 227
+	KIND: err
+	 > v:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] at idx: 227 at func: function_805ba58
+	 > ptr:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] at idx: 227 at func: function_805ba58
+
+
+	 word: 805bbce for func: function_805ba58
+ 		keyvec: 241
+ 		wordvec: 805bbce
+ 		 init v:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+ 		 func: function_805ba58
+	Keyvec: 241
+	KIND: out
+	 > v:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at idx: 241 at func: function_805ba58
+	 > ptr:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at idx: 241 at func: function_805ba58
+		============= End of GT: VEL_Z
+
+		============= Start of GT: ACC_Z w/ func: 0x55e57326e808
+
+
+	 word: 805bcce for func: function_805ba58
+ 		keyvec: 366
+ 		wordvec: 805bcce
+ 		 init v:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160
+ 		 func: function_805ba58
+
+[INFO]: initForwardSrcPoint:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160 at func: function_805ba58
+	Keyvec: 366
+	KIND: cur
+	 > v:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160 at idx: 366 at func: function_805ba58
+	 > ptr:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160 at idx: 366 at func: function_805ba58
+
+
+	 word: 805bbce for func: function_805ba58
+ 		keyvec: 241
+ 		wordvec: 805bbce
+ 		 init v:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+ 		 func: function_805ba58
+
+[INFO]: initForwardSrcPoint:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at func: function_805ba58
+	Keyvec: 241
+	KIND: ref
+	 > v:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at idx: 241 at func: function_805ba58
+	 > ptr:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at idx: 241 at func: function_805ba58
+
+
+	 word: 805bbee for func: function_805ba58
+ 		keyvec: 265
+ 		wordvec: 805bbee
+ 		 init v:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ]
+ 		 func: function_805ba58
+
+[INFO]: initBackwardDstPoint:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ] at func: function_805ba58
+	Keyvec: 265
+	KIND: err
+	 > v:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ] at idx: 265 at func: function_805ba58
+	 > ptr:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ] at idx: 265 at func: function_805ba58
+
+
+	 word: 805bc9e for func: function_805ba58
+ 		keyvec: 343
+ 		wordvec: 805bc9e
+ 		 init v:   %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150
+ 		 func: function_805ba58
+	Keyvec: 343
+	KIND: out
+	 > v:   %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150 at idx: 343 at func: function_805ba58
+	 > ptr:   %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150 at idx: 343 at func: function_805ba58
+		============= End of GT: ACC_Z
+
+		============= Start of GT: ANGRATE_ROLL w/ func: 0x55e57326cdc8
+
+
+	 word: S0~~arg for func: function_805a48c
+[INFO] binIRInit: function_805a48c
+PHI inst   %v2_805a500.pre-phi = phi i32* [ %v2_805a49a, %dec_label_pc_805a4f2 ], [ %.pre1, %dec_label_pc_805a544 ], [ %v2_805a49a, %dec_label_pc_805a4e8 ], [ %v2_805a49a, %dec_label_pc_805a4fc.critedge ] at addrstr: 805a500
+PHI inst   %v2_805a500.pre-phi = phi i32* [ %v2_805a49a, %dec_label_pc_805a4f2 ], [ %.pre1, %dec_label_pc_805a544 ], [ %v2_805a49a, %dec_label_pc_805a4e8 ], [ %v2_805a49a, %dec_label_pc_805a4fc.critedge ] at new addr: 805a500
+ 		keyvec: -79
+ 		wordvec: 0
+begin - - - -
+[INFO] binIRInit: function_80599ec
+[INFO] binIRInit: function_8059bd8
+PHI inst   %v2_8059c4c.pre-phi = phi i32* [ %v2_8059be6, %dec_label_pc_8059c3e ], [ %.pre1, %dec_label_pc_8059c90 ], [ %v2_8059be6, %dec_label_pc_8059c34 ] at addrstr: 8059c4c
+PHI inst   %v2_8059c4c.pre-phi = phi i32* [ %v2_8059be6, %dec_label_pc_8059c3e ], [ %.pre1, %dec_label_pc_8059c90 ], [ %v2_8059be6, %dec_label_pc_8059c34 ] at new addr: 8059c4c
+	Keyvec: s0
+	KIND: cur
+	 > v:   call void @__asm_vstr(float %tmp2, i32 %tmp18), !addr !5 at idx: 0 at func: function_805a48c
+	 > ptr:   call void @__asm_vstr(float %tmp2, i32 %tmp18), !addr !5 at idx: 0 at func: function_805a48c
+
+
+	 word: S1~~arg for func: function_805a48c
+ 		keyvec: -80
+ 		wordvec: 0
+	Keyvec: s1
+	KIND: ref
+	 > v:   %tmp11 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_805a48c
+	 > ptr:   %tmp11 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_805a48c
+
+
+	 word: 805a494 for func: function_805a48c
+ 		keyvec: 10
+ 		wordvec: 805a494
+ 		 init v:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+ 		 func: function_805a48c
+
+[INFO]: initBackwardDstPoint:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at func: function_805a48c
+	Keyvec: 10
+	KIND: err
+	 > v:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at idx: 10 at func: function_805a48c
+	 > ptr:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at idx: 10 at func: function_805a48c
+
+
+	 word: 805a52c for func: function_805a48c
+ 		keyvec: 79
+ 		wordvec: 805a52c
+ 		 init v:   %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37
+ 		 func: function_805a48c
+	Keyvec: 79
+	KIND: out
+	 > v:   %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37 at idx: 79 at func: function_805a48c
+	 > ptr:   %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37 at idx: 79 at func: function_805a48c
+		============= End of GT: ANGRATE_ROLL
+
+		============= Start of GT: ANGRATE_PITCH w/ func: 0x55e57326ceb8
+
+
+	 word: S0~~arg for func: function_805a560
+[INFO] binIRInit: function_805a560
+PHI inst   %v2_805a5d4.pre-phi = phi i32* [ %v2_805a56e, %dec_label_pc_805a5c6 ], [ %.pre1, %dec_label_pc_805a618 ], [ %v2_805a56e, %dec_label_pc_805a5bc ], [ %v2_805a56e, %dec_label_pc_805a5d0.critedge ] at addrstr: 805a5d4
+PHI inst   %v2_805a5d4.pre-phi = phi i32* [ %v2_805a56e, %dec_label_pc_805a5c6 ], [ %.pre1, %dec_label_pc_805a618 ], [ %v2_805a56e, %dec_label_pc_805a5bc ], [ %v2_805a56e, %dec_label_pc_805a5d0.critedge ] at new addr: 805a5d4
+ 		keyvec: -79
+ 		wordvec: 0
+	Keyvec: s0
+	KIND: cur
+	 > v:   %tmp12 = call float @__decompiler_undefined_function_3() at idx: 2 at func: function_805a560
+	 > ptr:   %tmp12 = call float @__decompiler_undefined_function_3() at idx: 2 at func: function_805a560
+
+
+	 word: S1~~arg for func: function_805a560
+ 		keyvec: -80
+ 		wordvec: 0
+	Keyvec: s1
+	KIND: ref
+	 > v:   %tmp11 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_805a560
+	 > ptr:   %tmp11 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_805a560
+
+
+	 word: 805a568 for func: function_805a560
+ 		keyvec: 10
+ 		wordvec: 805a568
+ 		 init v:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+ 		 func: function_805a560
+
+[INFO]: initBackwardDstPoint:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at func: function_805a560
+	Keyvec: 10
+	KIND: err
+	 > v:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at idx: 10 at func: function_805a560
+	 > ptr:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at idx: 10 at func: function_805a560
+
+
+	 word: 805a600 for func: function_805a560
+ 		keyvec: 79
+ 		wordvec: 805a600
+ 		 init v:   %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37
+ 		 func: function_805a560
+	Keyvec: 79
+	KIND: out
+	 > v:   %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37 at idx: 79 at func: function_805a560
+	 > ptr:   %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37 at idx: 79 at func: function_805a560
+		============= End of GT: ANGRATE_PITCH
+
+		============= Start of GT: ANGRATE_YAW w/ func: 0x55e57326c288
+
+
+	 word: S0~~arg for func: function_8059bd8
+ 		keyvec: -79
+ 		wordvec: 0
+	Keyvec: s0
+	KIND: cur
+	 > v:   %tmp12 = call float @__decompiler_undefined_function_3() at idx: 2 at func: function_8059bd8
+	 > ptr:   %tmp12 = call float @__decompiler_undefined_function_3() at idx: 2 at func: function_8059bd8
+
+
+	 word: S1~~arg for func: function_8059bd8
+ 		keyvec: -80
+ 		wordvec: 0
+	Keyvec: s1
+	KIND: ref
+	 > v:   %tmp11 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_8059bd8
+	 > ptr:   %tmp11 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_8059bd8
+
+
+	 word: 8059be0 for func: function_8059bd8
+ 		keyvec: 10
+ 		wordvec: 8059be0
+ 		 init v:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+ 		 func: function_8059bd8
+
+[INFO]: initBackwardDstPoint:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at func: function_8059bd8
+	Keyvec: 10
+	KIND: err
+	 > v:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at idx: 10 at func: function_8059bd8
+	 > ptr:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 at idx: 10 at func: function_8059bd8
+
+
+	 word: 8059c78 for func: function_8059bd8
+ 		keyvec: 81
+ 		wordvec: 8059c78
+ 		 init v:   %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39
+ 		 func: function_8059bd8
+	Keyvec: 81
+	KIND: out
+	 > v:   %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39 at idx: 81 at func: function_8059bd8
+	 > ptr:   %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39 at idx: 81 at func: function_8059bd8
+		============= End of GT: ANGRATE_YAW
+
+		============= Start of GT: ANG_ROLL w/ func: 0x55e57326d458
+
+
+	 word: - for func: function_805a908
+ 		keyvec: -1
+ 		wordvec: 0
+
+[INFO]: init Empty: 
+	Keyvec: -1
+	KIND: cur
+	 > NULL
+
+
+	 word: - for func: function_805a908
+ 		keyvec: -1
+ 		wordvec: 0
+
+[INFO]: init Empty: 
+	Keyvec: -1
+	KIND: ref
+	 > NULL
+
+
+	 word: 805a95e for func: function_805a908
+[INFO] binIRInit: function_805a908
+ 		keyvec: 40
+ 		wordvec: 805a95e
+ 		 init v:   %v1_805a95e = call float @__asm_vmov.f32(float %v1_805a91a), !addr !19
+ 		 func: function_805a908
+
+[INFO]: initBackwardDstPoint:   %v1_805a95e = call float @__asm_vmov.f32(float %v1_805a91a), !addr !19 at func: function_805a908
+	Keyvec: 40
+	KIND: err
+	 > v:   %v1_805a95e = call float @__asm_vmov.f32(float %v1_805a91a), !addr !19 at idx: 40 at func: function_805a908
+	 > ptr:   %tmp14 = call float @__decompiler_undefined_function_3() at idx: 2 at func: function_805a908
+
+
+	 word: 805a966 for func: function_805a908
+ 		keyvec: 42
+ 		wordvec: 805a966
+ 		 init v:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20
+ 		 func: function_805a908
+	Keyvec: 42
+	KIND: out
+	 > v:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20 at idx: 42 at func: function_805a908
+	 > ptr:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20 at idx: 42 at func: function_805a908
+		============= End of GT: ANG_ROLL
+
+		============= Start of GT: ANG_PITCH w/ func: 0x55e57326d458
+
+
+	 word: - for func: function_805a908
+ 		keyvec: -1
+ 		wordvec: 0
+
+[INFO]: init Empty: 
+	Keyvec: -1
+	KIND: cur
+	 > NULL
+
+
+	 word: - for func: function_805a908
+ 		keyvec: -1
+ 		wordvec: 0
+
+[INFO]: init Empty: 
+	Keyvec: -1
+	KIND: ref
+	 > NULL
+
+
+	 word: 805a9aa for func: function_805a908
+ 		keyvec: 73
+ 		wordvec: 805a9aa
+ 		 init v:   %v1_805a9aa = call float @__asm_vmov.f32(float %v1_805a91e), !addr !36
+ 		 func: function_805a908
+
+[INFO]: initBackwardDstPoint:   %v1_805a9aa = call float @__asm_vmov.f32(float %v1_805a91e), !addr !36 at func: function_805a908
+	Keyvec: 73
+	KIND: err
+	 > v:   %v1_805a9aa = call float @__asm_vmov.f32(float %v1_805a91e), !addr !36 at idx: 73 at func: function_805a908
+	 > ptr:   %tmp13 = call float @__decompiler_undefined_function_3() at idx: 1 at func: function_805a908
+
+
+	 word: 805a9b2 for func: function_805a908
+ 		keyvec: 75
+ 		wordvec: 805a9b2
+ 		 init v:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37
+ 		 func: function_805a908
+	Keyvec: 75
+	KIND: out
+	 > v:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37 at idx: 75 at func: function_805a908
+	 > ptr:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37 at idx: 75 at func: function_805a908
+		============= End of GT: ANG_PITCH
+
+		============= Start of GT: ANG_YAW w/ func: 0x55e57326d458
+
+
+	 word: - for func: function_805a908
+ 		keyvec: -1
+ 		wordvec: 0
+
+[INFO]: init Empty: 
+	Keyvec: -1
+	KIND: cur
+	 > NULL
+
+
+	 word: - for func: function_805a908
+ 		keyvec: -1
+ 		wordvec: 0
+
+[INFO]: init Empty: 
+	Keyvec: -1
+	KIND: ref
+	 > NULL
+
+
+	 word: 805a9f4 for func: function_805a908
+ 		keyvec: 106
+ 		wordvec: 805a9f4
+ 		 init v:   %v1_805a9f4 = call float @__asm_vmov.f32(float %v1_805a922), !addr !53
+ 		 func: function_805a908
+
+[INFO]: initBackwardDstPoint:   %v1_805a9f4 = call float @__asm_vmov.f32(float %v1_805a922), !addr !53 at func: function_805a908
+	Keyvec: 106
+	KIND: err
+	 > v:   %v1_805a9f4 = call float @__asm_vmov.f32(float %v1_805a922), !addr !53 at idx: 106 at func: function_805a908
+	 > ptr:   %tmp12 = call float @__decompiler_undefined_function_3() at idx: 0 at func: function_805a908
+
+
+	 word: 805a9fc for func: function_805a908
+ 		keyvec: 108
+ 		wordvec: 805a9fc
+ 		 init v:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54
+ 		 func: function_805a908
+	Keyvec: 108
+	KIND: out
+	 > v:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54 at idx: 108 at func: function_805a908
+	 > ptr:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54 at idx: 108 at func: function_805a908
+		============= End of GT: ANG_YAW
+
+
+
+
+	 >>> Step1: Preprocessing
+
+
+*********CallGraph Stats***************
+################ (program : copter_augdump)###############
+-------------------------------------------------------
+TotalNode           8014
+TotalCycle          26
+MaxNodeInCycle      3
+NodeInCycle         31
+TotalEdge           84118
+CalRetPairInCycle   33
+#######################################################
+
+*********General Stats***************
+################ (program : copter_augdump)###############
+BBWith2Succ         16627
+BBWith3Succ         441
+BitCastNumber       291
+TotalPTAPAGEdges    74662
+TotalCallSite       84118
+LocalVarInRecur     25
+IndCallSites        0
+ReturnsNum          15795
+CallsNum            39698
+GepsNum             747
+CopysNum            106161
+StoresNum           31321
+LoadsNum            41102
+AddrsNum            30560
+NonPtrObj           10460
+ConstArrayObj       0
+ConstStructObj      0
+VarArrayObj         0
+VarStructObj        0
+FSObjNum            10687
+FIObjNum            0
+StackObjs           2442
+HeapObjs            1
+GlobalObjs          230
+FunctionObjs        8014
+TotalPAGEdges       890356
+MaxStructSize       0
+TotalFieldObjects   0
+TotalObjects        10688
+TotalPointers       399228
+-------------------------------------------------------
+#######################################################
+
+*********Constraint Graph Stats***************
+################ (program : copter_augdump)###############
+-------------------------------------------------------
+AvgIn/OutCopyEdge   0.642909
+AvgIn/OutLoadEdge   0.000853149
+AvgIn/OutAddrEdge   0.263452
+AvgIn/OutEdge       0.910432
+NumOfCGNode         417932
+TotalValidNode      82049
+TotalValidObjNode   10687
+NumOfCGEdge         53084
+NumOfAddrs          21616
+NumOfCopys          52003
+NumOfGeps           747
+NumOfLoads          70
+NumOfStores         264
+MaxInCopyEdge       180
+MaxOutCopyEdge      47470
+MaxInLoadEdge       1
+MaxOutLoadEdge      18
+MaxInStoreEdge      7
+MaxOutStoreEdge     15
+AvgIn/OutStoreEdge  0
+MaxInAddrEdge       1
+MaxOutAddrEdge      10930
+#######################################################
+
+*********Andersen Pointer Analysis Stats***************
+################ (program : copter_augdump)###############
+-------------------------------------------------------
+CollapseTime        0
+AvgTopLvlPtsSize    0.349904
+AvgPtsSetSize       0.0601126
+UpdateCGTime        0
+CopyGepTime         1.232
+LoadStoreTime       0.024
+SCCMergeTime        0.178
+SCCDetectTime       1.144
+TotalTime           3.266
+PointsToConstPtr    8696
+PointsToBlkPtr      0
+NullPointer         34034
+MaxNodesInSCC       0
+NodesInCycles       0
+TotalPWCCycleNum    0
+TotalCycleNum       0
+NumOfSCCDetect      2
+IndEdgeSolved       0
+IndCallSites        0
+MaxPtsSetSize       93
+DYFieldObjs         0
+MemObjects          10688
+DYFieldPtrs         0
+NumOfFieldExpand    0
+NumOfSFRs           0
+GepProcessed        747
+CopyProcessed       2938
+StoreProcessed      252
+LoadProcessed       68
+AddrProcessed       21616
+TotalObjects        10688
+TotalPointers       399228
+Pointers            399228
+Iterations          2
+#######################################################
+[DEBUG]: target var:   call void @__asm_vstr(float %tmp2, i32 %tmp18), !addr !5
+	  call void @__asm_vstr(float %tmp2, i32 %tmp18), !addr !5
+[DEBUG]: target var:   %tmp12 = call float @__decompiler_undefined_function_3()
+	  %tmp12 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %tmp12 = call float @__decompiler_undefined_function_3()
+	  %tmp12 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3
+	  %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3
+[DEBUG]: target var:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33
+	  %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33
+[DEBUG]: target var:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160
+	  %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160
+[DEBUG]: target var:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2
+	  %v2_805c6b2 = load i32, i32* %v1_805c6b2, align 4, !addr !2
+	  %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2
+[DEBUG]: target var:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26
+	  %v2_805c70e.pre-phi = phi i32* [ %v3_805c946, %dec_label_pc_805c93a ], [ %.pre2, %dec_label_pc_805c708 ]
+	  %.pre2 = inttoptr i32 %.pre to i32*, !addr !26
+[DEBUG]: target var:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27
+	  %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27
+	  %v2_805c716.pre-phi = phi i32* [ %v3_805c952, %dec_label_pc_805c93a ], [ %.pre4, %dec_label_pc_805c708 ]
+[DEBUG]: target var:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120
+	  %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120
+[DEBUG]: target var:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+	  %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+[DEBUG]: target var:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+	  %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+[DEBUG]: target var:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+	  %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+[DEBUG]: target var:   %tmp12 = call float @__decompiler_undefined_function_3()
+	  %tmp12 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %tmp13 = call float @__decompiler_undefined_function_3()
+	  %tmp13 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %tmp14 = call float @__decompiler_undefined_function_3()
+	  %tmp14 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+	  %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+[DEBUG]: target var:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+	  %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+[DEBUG]: target var:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ]
+	  %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ]
+[DEBUG]: target var:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+	  %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+[DEBUG]: target var:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+	  %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+[DEBUG]: target var:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+	  %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+[DEBUG]: target var:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+	  %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+[DEBUG]: target var:   %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39
+	  %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39
+[DEBUG]: target var:   %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37
+	  %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37
+[DEBUG]: target var:   %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37
+	  %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37
+[DEBUG]: target var:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20
+	  %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20
+[DEBUG]: target var:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37
+	  %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37
+[DEBUG]: target var:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54
+	  %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54
+[DEBUG]: target var:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+	  %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+[DEBUG]: target var:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+	  %v3_805bbfc = load i32, i32* %v3_805bbce, align 4, !addr !111
+	  %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+[DEBUG]: target var:   %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150
+	  %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150
+[DEBUG]: target var:   %v2_805c7a4 = call float @__asm_vmul.f32(float %v2_805c794, float %v1_805c6b8), !addr !60
+	  %v2_805c7a4 = call float @__asm_vmul.f32(float %v2_805c794, float %v1_805c6b8), !addr !60
+[DEBUG]: target var:   %v2_805c7a8 = call float @__asm_vmul.f32(float %v2_805c798, float %v1_805c6b8), !addr !61
+	  %v2_805c7a8 = call float @__asm_vmul.f32(float %v2_805c798, float %v1_805c6b8), !addr !61
+[DEBUG]: target var:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32*
+	  %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ]
+	  %v3_805c92c = inttoptr i32 %v2_805c92c to i32*
+[DEBUG]: target var:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32*
+	  %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ]
+	  %v3_805c930 = inttoptr i32 %v2_805c930 to i32*
+[DEBUG]: target var:   %tmp11 = call float @__decompiler_undefined_function_3()
+	  %tmp11 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %tmp11 = call float @__decompiler_undefined_function_3()
+	  %tmp11 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %tmp11 = call float @__decompiler_undefined_function_3()
+	  %tmp11 = call float @__decompiler_undefined_function_3()
+[DEBUG]: target var:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+	  %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+[DEBUG]: target var:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+	  %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+[DEBUG]: target var:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+	  %v3_805bbfc = load i32, i32* %v3_805bbce, align 4, !addr !111
+	  %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+[DEBUG]: target var:   %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32*
+	  %v2_805c6e0.pre-phi = phi i32* [ %v3_805c92c, %dec_label_pc_805c90e ], [ %v3_805c6d8, %dec_label_pc_805c6d8 ]
+	  %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32*
+[DEBUG]: target var:   %v3_805c6dc = inttoptr i32 %v2_805c6dc to i32*
+	  %v2_805c6f6.pre-phi = phi i32* [ %v3_805c930, %dec_label_pc_805c90e ], [ %v3_805c6dc, %dec_label_pc_805c6d8 ]
+	  %v3_805c6dc = inttoptr i32 %v2_805c6dc to i32*
+[DEBUG]: target var:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+	  %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+[DEBUG]: target var:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+	  %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+
+
+
+	 >>> Step2: Inner Function Role Identification
+
+ > (No Valid Dst) Dep From: 10 in Func: function_8059bd8
+
+ > (No Valid Dst) Dep From: 10 in Func: function_805a48c
+
+ > (No Valid Dst) Dep From: 10 in Func: function_805a560
+
+ > (No Valid Dst) Dep From: 0 in Func: function_805a908
+
+ > (No Valid Dst) Dep From: 1 in Func: function_805a908
+
+ > (No Valid Dst) Dep From: 2 in Func: function_805a908
+
+	> Dep Check From: 41 to 101 in Func: function_805ba58
+	  Dst:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 Idx: 101
+		 > Renewed Dst at '92' :   %v4_805bad8 = call float @__asm_vldr(i32 %v3_805bad8), !addr !35
+	  Src:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13 Idx: 41
+		 > Renewed Src at '41' :   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+[INFO] binIRInit: function_805a6d8
+	> -> Adjusted Dep Analysis From: 41 to 92 in Func: function_805ba58
+ > (Detected) Dep From: 41 to 101 in Func: function_805ba58
+	Src:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13 at 41
+	Dst:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at 101
+
+	> Dep Check From: 227 to 241 in Func: function_805ba58
+	  Dst:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 Idx: 241
+		 > Renewed Dst at '239' :   %v2_805bbca = call float @__asm_vadd.f32(float %v4_805bbc4, float %v4_805bbbc), !addr !96
+	  Src:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] Idx: 227
+		 > Renewed Src at '227' :   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+[INFO] binIRInit: function_805dea8
+	> -> Adjusted Dep Analysis From: 227 to 239 in Func: function_805ba58
+ > (Detected) Dep From: 227 to 241 in Func: function_805ba58
+	Src:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] at 227
+	Dst:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at 241
+
+ > (No Valid Dst) Dep From: 265 in Func: function_805ba58
+
+	> Dep Check From: 101 to 263 in Func: function_805c6a8
+	  Dst:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 Idx: 263
+		 > Renewed Dst at '295' :   %v2_805c8fe = call float @__asm_vadd.f32(float %v4_805c8f6, float %v3_805c8c2), !addr !132
+	  Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 Idx: 101
+		 > Renewed Src at '101' :   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+[INFO] binIRInit: function_805e1d8
+PHI inst   %v1_805e248.pre-phi = phi i32* [ %.pre, %dec_label_pc_805e208.dec_label_pc_805e222_crit_edge ], [ %v1_805e21e, %dec_label_pc_805e214 ] at addrstr: 805e248
+PHI inst   %v1_805e248.pre-phi = phi i32* [ %.pre, %dec_label_pc_805e208.dec_label_pc_805e222_crit_edge ], [ %v1_805e21e, %dec_label_pc_805e214 ] at new addr: 805e248
+[INFO] binIRInit: function_805e25c
+[INFO] binIRInit: function_805e270
+[INFO] binIRInit: function_805e3e8
+[INFO] binIRInit: function_804498c
+[INFO] binIRInit: function_8044888
+[INFO] binIRInit: function_80448a4
+[INFO] binIRInit: function_8044988
+[INFO] binIRInit: function_805a6a8
+[INFO] binIRInit: function_805bd7c
+[INFO] binIRInit: function_80c5b08
+[INFO] binIRInit: function_805c57c
+[INFO] binIRInit: function_805be1c
+	> -> Adjusted Dep Analysis From: 101 to 295 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 101 to 263 in Func: function_805c6a8
+	Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 at 101
+	Dst:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 at 263
+
+	> Dep Check From: 101 to 280 in Func: function_805c6a8
+	  Dst:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 Idx: 280
+		 > Renewed Dst at '296' :   %v2_805c902 = call float @__asm_vadd.f32(float %v4_805c8fa, float %v4_805c8ca), !addr !133
+	  Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 Idx: 101
+		 > Renewed Src at '101' :   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+	> -> Adjusted Dep Analysis From: 101 to 296 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 101 to 280 in Func: function_805c6a8
+	Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 at 101
+	Dst:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at 280
+
+	> Dep Check From: 101 to 322 in Func: function_805c6a8
+	  Dst:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32* Idx: 322
+		 > Renewed Dst at '310' :   %v4_805c91a = call float @__asm_vldr(i32 %v3_805c91a), !addr !138
+	  Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 Idx: 101
+		 > Renewed Src at '101' :   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+[INFO] binIRInit: function_805c454
+[INFO] binIRInit: function_805c5dc
+	> -> Adjusted Dep Analysis From: 101 to 310 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 101 to 322 in Func: function_805c6a8
+	Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 at 101
+	Dst:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32* at 322
+
+	> Dep Check From: 107 to 263 in Func: function_805c6a8
+	  Dst:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 Idx: 263
+		 > Renewed Dst at '295' :   %v2_805c8fe = call float @__asm_vadd.f32(float %v4_805c8f6, float %v3_805c8c2), !addr !132
+	  Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 Idx: 107
+		 > Renewed Src at '107' :   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+	> -> Adjusted Dep Analysis From: 107 to 295 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 107 to 263 in Func: function_805c6a8
+	Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 at 107
+	Dst:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 at 263
+
+	> Dep Check From: 107 to 280 in Func: function_805c6a8
+	  Dst:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 Idx: 280
+		 > Renewed Dst at '296' :   %v2_805c902 = call float @__asm_vadd.f32(float %v4_805c8fa, float %v4_805c8ca), !addr !133
+	  Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 Idx: 107
+		 > Renewed Src at '107' :   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+	> -> Adjusted Dep Analysis From: 107 to 296 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 107 to 280 in Func: function_805c6a8
+	Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 at 107
+	Dst:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at 280
+
+	> Dep Check From: 107 to 318 in Func: function_805c6a8
+	  Dst:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32* Idx: 318
+		 > Renewed Dst at '315' :   %v1_805c924 = call float @__asm_vmov.f32(float %v2_805c6c6), !addr !140
+	  Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 Idx: 107
+		 > Renewed Src at '107' :   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+	> -> Adjusted Dep Analysis From: 107 to 315 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 107 to 318 in Func: function_805c6a8
+	Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 at 107
+	Dst:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32* at 318
+
+	> Dep Check From: 276 to 280 in Func: function_805c6a8
+	  Dst:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 Idx: 280
+		 > Renewed Dst at '296' :   %v2_805c902 = call float @__asm_vadd.f32(float %v4_805c8fa, float %v4_805c8ca), !addr !133
+	  Src:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 Idx: 276
+		 > Renewed Src at '276' :   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+	> -> Adjusted Dep Analysis From: 276 to 296 in Func: function_805c6a8
+ > (NOT Detected) Dep From: 276 to 280 in Func: function_805c6a8
+	Src:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 at 276
+	Dst:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at 280
+
+	> Dep Check From: 276 to 318 in Func: function_805c6a8
+	  Dst:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32* Idx: 318
+		 > Renewed Dst at '315' :   %v1_805c924 = call float @__asm_vmov.f32(float %v2_805c6c6), !addr !140
+	  Src:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 Idx: 276
+		 > Renewed Src at '276' :   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+	> -> Adjusted Dep Analysis From: 276 to 315 in Func: function_805c6a8
+ > (Detected) Dep From: 276 to 318 in Func: function_805c6a8
+	Src:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 at 276
+	Dst:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32* at 318
+
+	> Dep Check From: 285 to 322 in Func: function_805c6a8
+	  Dst:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32* Idx: 322
+		 > Renewed Dst at '310' :   %v4_805c91a = call float @__asm_vldr(i32 %v3_805c91a), !addr !138
+	  Src:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128 Idx: 285
+		 > Renewed Src at '285' :   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+	> -> Adjusted Dep Analysis From: 285 to 310 in Func: function_805c6a8
+ > (Detected) Dep From: 285 to 322 in Func: function_805c6a8
+	Src:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128 at 285
+	Dst:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32* at 322
+
+
+
+ ---------------- Dep Summary (ori)--------------------- 
+
+DEP
+	From idx: 41 =   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+	To idx: 101 =   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+
+DEP
+	From idx: 227 =   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+	To idx: 241 =   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+
+DEP
+	From idx: 276 =   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+	To idx: 318 =   %v3_805c92c = inttoptr i32 %v2_805c92c to i32*
+
+DEP
+	From idx: 285 =   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+	To idx: 322 =   %v3_805c930 = inttoptr i32 %v2_805c930 to i32*
+
+
+ ---------------- Intermediate Result Summary ---------------------
+
+==================================================================
+	[idx: 41] Src:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13 / from func: function_805ba58
+		FROM Conn: NULL
+		TO Conn
+			[idx: 101] Succ Ref:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 / from func: function_805ba58
+==================================================================
+	[idx: 10] Src:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 / from func: function_805a48c
+		FROM Conn: NULL
+		TO Conn: NULL
+==================================================================
+	[idx: 10] Src:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 / from func: function_805a560
+		FROM Conn: NULL
+		TO Conn: NULL
+==================================================================
+	[idx: 227] Src:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ] / from func: function_805ba58
+		FROM Conn
+			[idx: 22] Pred Ref:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5 / from func: function_805ba58
+		TO Conn
+			[idx: 241] Succ Ref:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 / from func: function_805ba58
+==================================================================
+	[idx: 265] Src:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ] / from func: function_805ba58
+		FROM Conn
+			[idx: 101] Pred Ref:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 / from func: function_805ba58
+		TO Conn: NULL
+==================================================================
+	[idx: 101] Src:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31 / from func: function_805c6a8
+	[idx: 107] Src:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34 / from func: function_805c6a8
+		FROM Conn
+			[idx: 263] Pred Ref:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 / from func: function_805c6a8
+			[idx: 280] Pred Ref:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 / from func: function_805c6a8
+		TO Conn: NULL
+==================================================================
+	[idx: 276] Src:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124 / from func: function_805c6a8
+	[idx: 285] Src:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128 / from func: function_805c6a8
+		FROM Conn: NULL
+		TO Conn
+			[idx: 45] Succ Ref:   %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32* / from func: function_805c6a8
+			[idx: 48] Succ Ref:   %v3_805c6dc = inttoptr i32 %v2_805c6dc to i32* / from func: function_805c6a8
+==================================================================
+	[idx: 0] Src:   %tmp12 = call float @__decompiler_undefined_function_3() / from func: function_805a908
+		FROM Conn: NULL
+		TO Conn: NULL
+==================================================================
+	[idx: 10] Src:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1 / from func: function_8059bd8
+		FROM Conn: NULL
+		TO Conn: NULL
+==================================================================
+	[idx: 2] Src:   %tmp14 = call float @__decompiler_undefined_function_3() / from func: function_805a908
+		FROM Conn: NULL
+		TO Conn: NULL
+==================================================================
+	[idx: 1] Src:   %tmp13 = call float @__decompiler_undefined_function_3() / from func: function_805a908
+		FROM Conn: NULL
+		TO Conn: NULL
+
+
+
+
+	 >>> Step3: Unconnected Dependency Ref Input Alias
+
+[INFO] # of ctrlset: 11 from unconnectedRefAliasDetect
+[Unconn] Ctrl:  Ref alias:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5 from   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5 at func: function_805ba58
+	Ori ref:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+[Unconn] Ctrl:  Ref alias:   %v2_8059a04 = inttoptr i32 %v1_8059a04 to i32*, !addr !2 from   %tmp11 = call float @__decompiler_undefined_function_3() at func: function_805a48c
+	Ori ref:   %tmp11 = call float @__decompiler_undefined_function_3()
+[Unconn] Ctrl:  Ref alias:   %v2_8059a1c = inttoptr i32 %v1_8059a1c to i32*, !addr !7 from   %tmp11 = call float @__decompiler_undefined_function_3() at func: function_805a560
+	Ori ref:   %tmp11 = call float @__decompiler_undefined_function_3()
+[Conn] Ctrl:  Ref alias:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38 at func: function_805ba58
+[Conn] Ctrl:  Ref alias:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97 at func: function_805ba58
+[Conn] Ctrl:  Ref alias:   %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32* at func: function_805c6a8
+[Unconn] Ctrl:  Ref alias:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 from   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119 at func: function_805c6a8
+	Ori ref:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+[Unconn] Ctrl:  Ref alias:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 from   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125 at func: function_805c6a8
+	Ori ref:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+[INFO] binIRInit: function_805aa3c
+[Transition] Ctrl function_805a908
+[Unconn] Ctrl:  Ref alias:   %v2_8059a34 = inttoptr i32 %v1_8059a34 to i32*, !addr !11 from   %tmp11 = call float @__decompiler_undefined_function_3() at func: function_8059bd8
+	Ori ref:   %tmp11 = call float @__decompiler_undefined_function_3()
+[Transition] Ctrl function_805a908
+[Transition] Ctrl function_805a908
+
+
+
+	 >>> Step4: Cascading Transition Identification
+
+[INFO]: Transition candidate func: function_805be1c
+
+
+
+	 >>> Step5: Inter Function Role Identification
+
+[DEBUG] inset Entry: function_805ba58 input Ref:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+   >> GroundTruth: POS_Z
+[DEBUG] inset Entry: function_805a48c input Ref:   %v2_8059a04 = inttoptr i32 %v1_8059a04 to i32*, !addr !2
+   >> GroundTruth: ANGRATE_ROLL
+[DEBUG] outset Entry: function_805a48c mathoutv:   %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37
+   >> GroundTruth: ANGRATE_ROLL
+[DEBUG] inset Entry: function_805a560 input Ref:   %v2_8059a1c = inttoptr i32 %v1_8059a1c to i32*, !addr !7
+   >> GroundTruth: ANGRATE_PITCH
+[DEBUG] outset Entry: function_805a560 mathoutv:   %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37
+   >> GroundTruth: ANGRATE_PITCH
+[DEBUG] outset Entry: function_805ba58 mathoutv:   %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150
+   >> GroundTruth: ACC_Z
+[DEBUG] inset Entry: function_805c6a8 input Ref:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+   >> GroundTruth: POS_X,POS_Y
+[DEBUG] inset Entry: function_805c6a8 input Ref:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+   >> GroundTruth: POS_X,POS_Y
+[DEBUG] inset Entry: function_805a908 input Ref: NULL
+   >> GroundTruth: ANG_YAW
+[DEBUG] outset Entry: function_805a908 mathoutv:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54
+   >> GroundTruth: ANG_YAW
+[DEBUG] inset Entry: function_8059bd8 input Ref:   %v2_8059a34 = inttoptr i32 %v1_8059a34 to i32*, !addr !11
+   >> GroundTruth: ANGRATE_YAW
+[DEBUG] outset Entry: function_8059bd8 mathoutv:   %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39
+   >> GroundTruth: ANGRATE_YAW
+[DEBUG] outset Entry: function_805a908 mathoutv:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20
+   >> GroundTruth: ANG_ROLL
+[DEBUG] outset Entry: function_805a908 mathoutv:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37
+   >> GroundTruth: ANG_PITCH
+1: Cur target potentially problematic func: function_8059bd8 for off: 0
+	> dv:   %tmp11 = call float @__decompiler_undefined_function_3() at  func: function_8059bd8
+		> idx: 1
+	> tv:   %v2_8059a34 = inttoptr i32 %v1_8059a34 to i32*, !addr !11 at  func: function_80599ec
+	> dv:   %tmp11 = call float @__decompiler_undefined_function_3() at  func: function_8059bd8
+		> idx: 40
+		> off: 120
+1: Cur target potentially problematic func: function_805a48c for off: 0
+	> dv:   %tmp11 = call float @__decompiler_undefined_function_3() at  func: function_805a48c
+		> idx: 1
+	> tv:   %v2_8059a04 = inttoptr i32 %v1_8059a04 to i32*, !addr !2 at  func: function_80599ec
+	> dv:   %tmp11 = call float @__decompiler_undefined_function_3() at  func: function_805a48c
+		> idx: 15
+		> off: 112
+1: Cur target potentially problematic func: function_805a560 for off: 0
+	> dv:   %tmp11 = call float @__decompiler_undefined_function_3() at  func: function_805a560
+		> idx: 1
+	> tv:   %v2_8059a1c = inttoptr i32 %v1_8059a1c to i32*, !addr !7 at  func: function_80599ec
+	> dv:   %tmp11 = call float @__decompiler_undefined_function_3() at  func: function_805a560
+		> idx: 29
+		> off: 116
+[DEBUG] outset sz: 7
+[DEBUG] inset sz: 6
+[DEBUG] offset sz: 6
+	>>offset: 112
+	>>offset: 116
+	>>offset: 120
+	>>offset: 244
+	>>offset: 248
+	>>offset: 252
+		From (out)   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20  =>  To (in)   call void @__asm_vstr(float %v4_805aa7e, i32 %v4_805aa94), !addr !11
+			Out func function_805a908 in func function_805a48c
+				>> (Out) GroundTruth: ANG_ROLL
+				>> (In) GroundTruth: ANGRATE_ROLL
+		--------------------------------
+		From (out)   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37  =>  To (in)   call void @__asm_vstr(float %v4_805aa82, i32 %v4_805aa98), !addr !12
+			Out func function_805a908 in func function_805a560
+				>> (Out) GroundTruth: ANG_PITCH
+				>> (In) GroundTruth: ANGRATE_PITCH
+		--------------------------------
+		From (out)   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54  =>  To (in)   call void @__asm_vstr(float %v4_805aa86, i32 %v4_805aa9c), !addr !13
+			Out func function_805a908 in func function_8059bd8
+				>> (Out) GroundTruth: ANG_YAW
+				>> (In) GroundTruth: ANGRATE_YAW
+		--------------------------------
+[INFO] binIRInit: function_805c40c
+[INFO] binIRInit: function_800e954
+
+
+
+	 >>> Step6: Role Confirmation
+
+   >> outconn: VEL_Z
+   >> inconn: ANG_ROLL
+   >> inconn: ANG_PITCH
+   >> outconn: ACC_Z
+   >> inconn: POS_Z
+   >> inconn: VEL_Z
+   >> inconn: POS_X,POS_Y
+   >> outtrans: ANG_ROLL
+   >> outtrans: ANG_PITCH
+> xy: VEL_X,VEL_Y
+   >> outconn: VEL_X,VEL_Y
+   >> outconn: ANGRATE_YAW
+   >> inconn: ANG_YAW
+   >> outconn: ANGRATE_ROLL
+   >> intrans: VEL_X,VEL_Y
+> arp: ANG_ROLL
+   >> outconn: ANGRATE_PITCH
+   >> intrans: VEL_X,VEL_Y
+> arp: ANG_PITCH
+Perfect!
+-----------
+> ci: z_p w/ refs sz: 1
+ > REF PTR	:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+[DEBUG]: VLDR Inner:   %v2_805ba68 = inttoptr i32 %v1_805ba68 to i32*, !addr !5
+	> Float Inst	:   %v4_805ba68 = call float @__asm_vldr(i32 %v3_805ba68), !addr !5
+> ci: z_p w/ curs sz: 1
+ > Unknown	:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3 at func: function_805ba58
+[DEBUG]: VLDR Inner:   %v2_805ba64 = inttoptr i32 %v1_805ba64 to i32*, !addr !3
+> ci: z_p w/ errs sz: 1
+ > ERR	:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+[DEBUG]: VLDR Inner:   %v3_805ba88 = inttoptr i32 %v2_805ba88 to i32*, !addr !13
+	> Float Inst	:   %v4_805baa6 = call float @__asm_vldr(i32 %v3_805baa6), !addr !22
+- OUT -
+ > OUT REF	:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+[DEBUG]: VSTR Inner:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+	> Float Inst	:   call void @__asm_vstr(float %v4_805bad8, i32 %v4_805bae6), !addr !38
+-----------
+> ci: ar_v w/ refs sz: 1
+ > Unknown	:   %tmp11 = call float @__decompiler_undefined_function_3()
+[DEBUG]: arg:   %tmp11 = call float @__decompiler_undefined_function_3() -> vldr:   %v2_8059a04 = inttoptr i32 %v1_8059a04 to i32*, !addr !2
+	> Float Inst	:   %v2_8059a04 = inttoptr i32 %v1_8059a04 to i32*, !addr !2
+> ci: ar_v w/ curs sz: 1
+ > Unknown	:   call void @__asm_vstr(float %tmp2, i32 %tmp18), !addr !5 at func: function_80599ec
+> ci: ar_v w/ errs sz: 1
+ > ERR	:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+	> Norm Inst	:   %v2_805a494 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+- OUT -
+ > MATH OUT Unknown	:   %v2_805a52c = call float @__asm_vadd.f32(float %v2_805a51e, float %v1_805a524), !addr !37
+-----------
+> ci: ap_v w/ refs sz: 1
+ > Unknown	:   %tmp11 = call float @__decompiler_undefined_function_3()
+[DEBUG]: arg:   %tmp11 = call float @__decompiler_undefined_function_3() -> vldr:   %v2_8059a1c = inttoptr i32 %v1_8059a1c to i32*, !addr !7
+	> Float Inst	:   %v2_8059a1c = inttoptr i32 %v1_8059a1c to i32*, !addr !7
+> ci: ap_v w/ curs sz: 1
+ > Unknown	:   %tmp12 = call float @__decompiler_undefined_function_3() at func: function_805a560
+[DEBUG]: step2-1 cssetsz: 1
+[DEBUG]: step2 arg:   %tmp12 = call float @__decompiler_undefined_function_3() / func: function_805a560
+[DEBUG]: step2.1 csarg:   %v4_8059a20 = call float @__asm_vldr(i32 %tmp20), !addr !8 / func: function_80599ec
+	> Float Inst	:   %v4_8059a20 = call float @__asm_vldr(i32 %tmp20), !addr !8
+> ci: ap_v w/ errs sz: 1
+ > ERR	:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+	> Norm Inst	:   %v2_805a568 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+- OUT -
+ > MATH OUT Unknown	:   %v2_805a600 = call float @__asm_vadd.f32(float %v2_805a5f2, float %v1_805a5f8), !addr !37
+-----------
+> ci: z_v w/ refs sz: 1
+ > REF	:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+[DEBUG]: VLDR Inner:   %v3_805bae6 = inttoptr i32 %v2_805bae6 to i32*, !addr !38
+	> Float Inst	:   %v4_805bb04 = call float @__asm_vldr(i32 %v3_805bb04), !addr !46
+> ci: z_v w/ curs sz: 1
+ > Unknown	:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33 at func: function_805ba58
+[DEBUG]: VLDR Inner:   %v2_805bad0 = inttoptr i32 %v1_805bad0 to i32*, !addr !33
+	> Float Inst	:   %v4_805bad0 = call float @__asm_vldr(i32 %v3_805bad0), !addr !33
+> ci: z_v w/ errs sz: 1
+ > ERR	:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+[DEBUG]: VLDR Inner:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+	> Norm Inst	:   %v2_805bbbc.pre-phi = phi i32* [ %v3_805bcc8, %dec_label_pc_805bcbc ], [ %v3_805bba4, %dec_label_pc_805bba4 ]
+- OUT -
+ > OUT REF	:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+[DEBUG]: VSTR Inner:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+	> Float Inst	:   call void @__asm_vstr(float %v2_805bbca, i32 %v4_805bbce), !addr !97
+-----------
+> ci: z_a w/ refs sz: 1
+ > REF	:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+[DEBUG]: VLDR Inner:   %v3_805bbce = inttoptr i32 %v2_805bbce to i32*, !addr !97
+	> Float Inst	:   call void @__asm_vstr(float %v2_805bbca, i32 %v4_805bbce), !addr !97
+> ci: z_a w/ curs sz: 1
+ > Unknown	:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160 at func: function_805ba58
+[DEBUG]: VLDR Inner:   %v2_805bcce = inttoptr i32 %v1_805bcce to i32*, !addr !160
+	> Float Inst	:   %v4_805bcce = call float @__asm_vldr(i32 %v3_805bcce), !addr !160
+> ci: z_a w/ errs sz: 1
+ > ERR	:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ]
+[DEBUG]: VLDR Inner:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ]
+	> Norm Inst	:   %v2_805bbee.pre-phi = phi i32* [ %v3_805bce6, %dec_label_pc_805bcce ], [ %v3_805bbe4, %dec_label_pc_805bbe0 ]
+- OUT -
+ > MATH OUT Unknown	:   %v3_805bc9e = call float @__asm_vfma.f32(float %s0.0, float %v2_805bc92, float %v1_805bc98), !addr !150
+-----------
+> ci: xy_v w/ refs sz: 2
+ > REF	:   %v3_805c6d8 = inttoptr i32 %v2_805c6d8 to i32*
+	> Float Inst	:   %v4_805c712 = call float @__asm_vldr(i32 %v3_805c712), !addr !28
+ > REF	:   %v3_805c6dc = inttoptr i32 %v2_805c6dc to i32*
+	> Float Inst	:   %v4_805c71e = call float @__asm_vldr(i32 %v3_805c71e), !addr !30
+> ci: xy_v w/ curs sz: 2
+ > Unknown	:   %.pre2 = inttoptr i32 %.pre to i32*, !addr !26 at func: function_805c6a8
+	> Float Inst	:   %v4_805c70e = call float @__asm_vldr(i32 %v3_805c70e), !addr !26
+ > Unknown	:   %.pre4 = inttoptr i32 %.pre3 to i32*, !addr !27 at func: function_805c6a8
+	> Float Inst	:   %v4_805c716 = call float @__asm_vldr(i32 %v3_805c716), !addr !27
+> ci: xy_v w/ errs sz: 2
+ > ERR	:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+[DEBUG]: VLDR Inner:   %v3_805c722 = inttoptr i32 %v2_805c722 to i32*, !addr !31
+	> Float Inst	:   call void @__asm_vstr(float %v2_805c71a, i32 %v4_805c722), !addr !31
+ > ERR	:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+[DEBUG]: VLDR Inner:   %v3_805c72e = inttoptr i32 %v2_805c72e to i32*, !addr !34
+	> Float Inst	:   call void @__asm_vstr(float %v2_805c726, i32 %v4_805c72e), !addr !34
+- OUT -
+ > MATH OUT Unknown	:   %v2_805c7a4 = call float @__asm_vmul.f32(float %v2_805c794, float %v1_805c6b8), !addr !60
+ > MATH OUT Unknown	:   %v2_805c7a8 = call float @__asm_vmul.f32(float %v2_805c798, float %v1_805c6b8), !addr !61
+-----------
+> ci: xy_p w/ refs sz: 2
+ > REF PTR	:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+[DEBUG]: VLDR Inner:   %v2_805c8c6 = inttoptr i32 %v1_805c8c6 to i32*, !addr !119
+	> Float Inst	:   %v4_805c8c6 = call float @__asm_vldr(i32 %v3_805c8c6), !addr !119
+ > REF PTR	:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+[DEBUG]: VLDR Inner:   %v2_805c8de = inttoptr i32 %v1_805c8de to i32*, !addr !125
+	> Float Inst	:   %v4_805c8de = call float @__asm_vldr(i32 %v3_805c8de), !addr !125
+> ci: xy_p w/ curs sz: 2
+ > Unknown	:   %v1_805c6b2 = inttoptr i32 %v3_805c6b0 to i32*, !addr !2 at func: function_805c6a8
+	> Float Inst	:   %v3_805c8c2 = call float @__asm_vldr(i32 %v2_805c8c2), !addr !118
+ > Unknown	:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120 at func: function_805c6a8
+[DEBUG]: VLDR Inner:   %v2_805c8ca = inttoptr i32 %v1_805c8ca to i32*, !addr !120
+	> Float Inst	:   %v4_805c8ca = call float @__asm_vldr(i32 %v3_805c8ca), !addr !120
+> ci: xy_p w/ errs sz: 2
+ > ERR	:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+[DEBUG]: VLDR Inner:   %v3_805c8da = inttoptr i32 %v1_805c8d6 to i32*, !addr !124
+	> Float Inst	:   %v4_805c8f6 = call float @__asm_vldr(i32 %v3_805c8f6), !addr !130
+ > ERR	:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+[DEBUG]: VLDR Inner:   %v3_805c8ea = inttoptr i32 %v1_805c8e6 to i32*, !addr !128
+	> Float Inst	:   %v4_805c8fa = call float @__asm_vldr(i32 %v3_805c8fa), !addr !131
+- OUT -
+ > OUT Unknown	:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32*
+[DEBUG]: VSTR Inner:   %v3_805c92c = inttoptr i32 %v2_805c92c to i32*
+	> Float Inst	:   call void @__asm_vstr(float %v1_805c924, i32 %v4_805c92c), !addr !141
+ > OUT Unknown	:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32*
+[DEBUG]: VSTR Inner:   %v3_805c930 = inttoptr i32 %v2_805c930 to i32*
+	> Float Inst	:   call void @__asm_vstr(float %v4_805c91a, i32 %v4_805c930), !addr !142
+-----------
+> ci: ay_p w/ refs sz: 0
+> ci: ay_p w/ curs sz: 0
+> ci: ay_p w/ errs sz: 1
+ > ERR	:   %tmp12 = call float @__decompiler_undefined_function_3()
+[DEBUG]: step2-1 cssetsz: 1
+[DEBUG]: step2 arg:   %tmp12 = call float @__decompiler_undefined_function_3() / func: function_805a908
+[DEBUG]: step2.1 csarg:   %v4_805aa86 = call float @__asm_vldr(i32 0), !addr !9 / func: function_805aa3c
+	> Float Inst	:   %v4_805aa86 = call float @__asm_vldr(i32 0), !addr !9
+- OUT -
+ > MATH OUT Unknown	:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54
+[DEBUG]: VSTR Inner:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54
+[DEBUG]: out:   %v1_805a9fc = call float @__asm_vmov.f32(float %v1_805a9f4), !addr !54 -> vstr:   call void @__asm_vstr(float %v4_805aa86, i32 %v4_805aa9c), !addr !13
+	> Float Inst	:   call void @__asm_vstr(float %v4_805aa86, i32 %v4_805aa9c), !addr !13
+-----------
+> ci: ay_v w/ refs sz: 1
+ > Unknown	:   %tmp11 = call float @__decompiler_undefined_function_3()
+[DEBUG]: arg:   %tmp11 = call float @__decompiler_undefined_function_3() -> vldr:   %v2_8059a34 = inttoptr i32 %v1_8059a34 to i32*, !addr !11
+	> Float Inst	:   %v2_8059a34 = inttoptr i32 %v1_8059a34 to i32*, !addr !11
+> ci: ay_v w/ curs sz: 1
+ > Unknown	:   %tmp12 = call float @__decompiler_undefined_function_3() at func: function_8059bd8
+[DEBUG]: step2-1 cssetsz: 1
+[DEBUG]: step2 arg:   %tmp12 = call float @__decompiler_undefined_function_3() / func: function_8059bd8
+[DEBUG]: step2.1 csarg:   %v4_8059a3a = call float @__asm_vldr(i32 %tmp19), !addr !13 / func: function_80599ec
+	> Float Inst	:   %v4_8059a3a = call float @__asm_vldr(i32 %tmp19), !addr !13
+> ci: ay_v w/ errs sz: 1
+ > ERR	:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+	> Norm Inst	:   %v2_8059be0 = call float @__asm_vsub.f32(float %tmp11, float %tmp12), !addr !1
+- OUT -
+ > MATH OUT Unknown	:   %v2_8059c78 = call float @__asm_vadd.f32(float %v2_8059c6a, float %v1_8059c70), !addr !39
+-----------
+> ci: ar_p w/ refs sz: 1
+ > Unknown	: i32 %arg2
+[DEBUG]: step2-1 cssetsz: 2
+[DEBUG]: step2 arg: i32 %arg2 / func: function_805be1c
+[DEBUG]: step2.1 csarg:   %v1_805c8b0 = add i32 %arg1, 236, !addr !115 / func: function_805c6a8
+	> step2.1.2 t vstr:   call void @__asm_vstr(float %v2_805be84, i32 %arg2), !addr !24
+	> Float Inst	:   call void @__asm_vstr(float %v2_805be84, i32 %arg2), !addr !24
+> ci: ar_p w/ curs sz: 0
+> ci: ar_p w/ errs sz: 1
+ > ERR	:   %tmp14 = call float @__decompiler_undefined_function_3()
+[DEBUG]: step2-1 cssetsz: 1
+[DEBUG]: step2 arg:   %tmp14 = call float @__decompiler_undefined_function_3() / func: function_805a908
+[DEBUG]: step2.1 csarg:   %v4_805aa7e = call float @__asm_vldr(i32 %v3_805aa7e), !addr !7 / func: function_805aa3c
+	> Float Inst	:   %v4_805aa7e = call float @__asm_vldr(i32 %v3_805aa7e), !addr !7
+- OUT -
+ > MATH OUT Unknown	:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20
+[DEBUG]: VSTR Inner:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20
+[DEBUG]: out:   %v1_805a966 = call float @__asm_vmov.f32(float %v1_805a95e), !addr !20 -> vstr:   call void @__asm_vstr(float %v4_805aa7e, i32 %v4_805aa94), !addr !11
+	> Float Inst	:   call void @__asm_vstr(float %v3_805aaac, i32 %v4_805aaba), !addr !19
+-----------
+> ci: ap_p w/ refs sz: 1
+ > Unknown	: i32 %arg3
+[DEBUG]: step2-1 cssetsz: 2
+[DEBUG]: step2 arg: i32 %arg3 / func: function_805be1c
+[DEBUG]: step2.1 csarg:   %v1_805c8ac = add i32 %arg1, 240, !addr !114 / func: function_805c6a8
+	> step2.1.2 t vstr:   call void @__asm_vstr(float %v2_805be5c, i32 %arg3), !addr !16
+	> Float Inst	:   call void @__asm_vstr(float %v2_805be5c, i32 %arg3), !addr !16
+> ci: ap_p w/ curs sz: 0
+> ci: ap_p w/ errs sz: 1
+ > ERR	:   %tmp13 = call float @__decompiler_undefined_function_3()
+[DEBUG]: step2-1 cssetsz: 1
+[DEBUG]: step2 arg:   %tmp13 = call float @__decompiler_undefined_function_3() / func: function_805a908
+[DEBUG]: step2.1 csarg:   %v4_805aa82 = call float @__asm_vldr(i32 0), !addr !8 / func: function_805aa3c
+	> Float Inst	:   %v4_805aa82 = call float @__asm_vldr(i32 0), !addr !8
+- OUT -
+ > MATH OUT Unknown	:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37
+[DEBUG]: VSTR Inner:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37
+[DEBUG]: out:   %v1_805a9b2 = call float @__asm_vmov.f32(float %v1_805a9aa), !addr !37 -> vstr:   call void @__asm_vstr(float %v4_805aa82, i32 %v4_805aa98), !addr !12
+	> Float Inst	:   call void @__asm_vstr(float %v3_805aac6, i32 %v4_805aace), !addr !24
+------------------
+POS_X
+>> ref: 0x805c8c6
+>> cur: 0x805c8c2
+>> err: 0x805c8f6
+>> out: 0x805c92c
+>> p: 0x805c91a
+
+
+POS_Y
+>> ref: 0x805c8de
+>> cur: 0x805c8ca
+>> err: 0x805c8fa
+>> out: 0x805c930
+>> p: 0x805c91a
+
+
+VEL_X
+>> ref: 0x805c712
+>> cur: 0x805c70e
+>> err: 0x805c722
+>> out: 0x805c7a4
+>> p: 0x805e260
+	>> cxt cs: 0x805c744
+>> i: 0x805e276
+	>> cxt cs: 0x805c76c
+>> d: 0x805e3e8
+	>> cxt cs: 0x805c782
+
+
+VEL_Y
+>> ref: 0x805c71e
+>> cur: 0x805c716
+>> err: 0x805c72e
+>> out: 0x805c7a8
+>> p: 0x805e260
+	>> cxt cs: 0x805c744
+>> i: 0x805e276
+	>> cxt cs: 0x805c76c
+>> d: 0x805e3e8
+	>> cxt cs: 0x805c782
+
+
+ANG_YAW
+>> err: 0x805aa86
+>> out: 0x805aa9c
+>> p: 0x805a9f0
+
+
+ANG_ROLL
+>> ref: 0x805be8c
+>> err: 0x805aa7e
+>> out: 0x805aaba
+>> p: 0x805a952
+
+
+ANG_PITCH
+>> ref: 0x805be64
+>> err: 0x805aa82
+>> out: 0x805aace
+>> p: 0x805a9a6
+
+
+POS_Z
+>> ref: 0x805ba68
+>> cur: 0x805ba64
+>> err: 0x805baa6
+>> out: 0x805bae6
+>> p: 0x805bacc
+
+
+VEL_Z
+>> ref: 0x805bb04
+>> cur: 0x805bad0
+>> err: 0x805bbbc
+>> out: 0x805bbce
+>> p: 0x805bbb8
+
+
+ACC_Z
+>> ref: 0x805bbce
+>> cur: 0x805bcce
+>> err: 0x805bbee
+>> out: 0x805bc9e
+>> p: 0x805df5c
+	>> cxt cs: 0x805bc04
+>> i: 0x805df6c
+	>> cxt cs: 0x805bc7a
+>> d: 0x805dfe8
+	>> cxt cs: 0x805bc84
+
+
+ANGRATE_ROLL
+>> ref: 0x8059a04
+>> cur: 0x8059a10
+>> err: 0x805a494
+>> out: 0x805a52c
+>> p: 0x805df5c
+	>> cxt cs: 0x805a504
+>> i: 0x805df6c
+	>> cxt cs: 0x805a54c
+>> d: 0x805dfe8
+	>> cxt cs: 0x805a514
+>> ff: 0x805dffc
+	>> cxt cs: 0x805a528
+
+
+ANGRATE_PITCH
+>> ref: 0x8059a1c
+>> cur: 0x8059a20
+>> err: 0x805a568
+>> out: 0x805a600
+>> p: 0x805df5c
+	>> cxt cs: 0x805a5d8
+>> i: 0x805df6c
+	>> cxt cs: 0x805a620
+>> d: 0x805dfe8
+	>> cxt cs: 0x805a5e8
+>> ff: 0x805dffc
+	>> cxt cs: 0x805a5fc
+
+
+ANGRATE_YAW
+>> ref: 0x8059a34
+>> cur: 0x8059a3a
+>> err: 0x8059be0
+>> out: 0x8059c78
+>> p: 0x805df5c
+	>> cxt cs: 0x8059c50
+>> i: 0x805df6c
+	>> cxt cs: 0x8059c98
+>> d: 0x805dfe8
+	>> cxt cs: 0x8059c60
+>> ff: 0x805dffc
+	>> cxt cs: 0x8059c74
+
+
+--------------------------------
+[NOTE]: Worked to the end (DisPatch)

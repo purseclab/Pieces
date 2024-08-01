@@ -1,0 +1,4 @@
+Scanning dependencies of target tinyxml2_static
+[ 50%] Building CXX object CMakeFiles/tinyxml2_static.dir/tinyxml2.cpp.o
+[100%] Linking CXX static library libtinyxml2.a
+[100%] Built target tinyxml2_static

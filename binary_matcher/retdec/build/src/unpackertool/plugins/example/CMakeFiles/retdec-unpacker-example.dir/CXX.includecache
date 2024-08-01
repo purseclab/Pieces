@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/retdec/unpacker/plugin.h
+iostream
+-
+memory
+-
+sstream
+-
+string
+-
+retdec/unpacker/unpacker_exception.h
+../include/retdec/unpacker/retdec/unpacker/unpacker_exception.h
+
+../include/retdec/unpacker/unpacker_exception.h
+exception
+-
+sstream
+-
+string
+-
+
+../src/unpackertool/plugins/example/example.h
+retdec/unpacker/plugin.h
+../src/unpackertool/plugins/example/retdec/unpacker/plugin.h
+retdec/unpacker/unpacker_exception.h
+../src/unpackertool/plugins/example/retdec/unpacker/unpacker_exception.h
+
+/home/sloan/dispatch/linux/retdec/src/unpackertool/plugins/example/example.cpp
+retdec/unpacker/plugin.h
+/home/sloan/dispatch/linux/retdec/src/unpackertool/plugins/example/retdec/unpacker/plugin.h
+retdec/unpacker/unpacker_exception.h
+/home/sloan/dispatch/linux/retdec/src/unpackertool/plugins/example/retdec/unpacker/unpacker_exception.h
+unpackertool/plugins/example/example.h
+/home/sloan/dispatch/linux/retdec/src/unpackertool/plugins/example/unpackertool/plugins/example/example.h
+

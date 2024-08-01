@@ -1,0 +1,13 @@
+# Target labels
+ libdwarf-project
+# Source files and their labels
+/home/sloan/dispatch/linux/retdec/build/deps/libdwarf/CMakeFiles/libdwarf-project
+/home/sloan/dispatch/linux/retdec/build/deps/libdwarf/CMakeFiles/libdwarf-project.rule
+/home/sloan/dispatch/linux/retdec/build/deps/libdwarf/CMakeFiles/libdwarf-project-complete.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-install.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-mkdir.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-download.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-update.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-patch.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-configure.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-build.rule

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-stacofin.a  CMakeFiles/retdec-stacofin.dir/stacofin.cpp.o
+/usr/bin/ranlib libretdec-stacofin.a

@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/rapidjson/CMakeFiles/rapidjson-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/rapidjson/CMakeFiles/rapidjson-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/rapidjson/CMakeFiles/rapidjson-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/rapidjson-project-stamp/rapidjson-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"rapidjson-project"
+		],
+		"name" : "rapidjson-project"
+	}
+}

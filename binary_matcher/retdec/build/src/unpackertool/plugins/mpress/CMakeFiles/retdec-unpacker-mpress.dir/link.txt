@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-unpacker-mpress.a  CMakeFiles/retdec-unpacker-mpress.dir/mpress.cpp.o
+/usr/bin/ranlib libretdec-unpacker-mpress.a

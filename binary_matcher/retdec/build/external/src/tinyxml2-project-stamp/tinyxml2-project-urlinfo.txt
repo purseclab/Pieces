@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://github.com/leethomason/tinyxml2/archive/cc1745b552dd12bb1297a99f82044f83b06729e0.zip'
+tag='SHA256=de255ce39ba1efe20cbffdebd3eea2d08f1269d03440a4fd60e142b0481c3f00'

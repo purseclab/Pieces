@@ -1,0 +1,15 @@
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/pelib.zip'
+   timeout='none'
+-- Using src='https://github.com/avast-tl/pelib/archive/3bf330d2012ed230c56daa088974a31125e32ba7.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/pelib.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/pelib.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/pelib-project'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done

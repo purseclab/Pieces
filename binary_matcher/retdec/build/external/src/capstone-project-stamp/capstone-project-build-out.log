@@ -1,0 +1,36 @@
+Scanning dependencies of target capstone-static
+[  2%] Building C object CMakeFiles/capstone-static.dir/cs.c.o
+[  5%] Building C object CMakeFiles/capstone-static.dir/MCInst.c.o
+[  8%] Building C object CMakeFiles/capstone-static.dir/MCInstrDesc.c.o
+[ 11%] Building C object CMakeFiles/capstone-static.dir/MCRegisterInfo.c.o
+[ 14%] Building C object CMakeFiles/capstone-static.dir/SStream.c.o
+[ 17%] Building C object CMakeFiles/capstone-static.dir/utils.c.o
+[ 20%] Building C object CMakeFiles/capstone-static.dir/arch/ARM/ARMDisassembler.c.o
+[ 23%] Building C object CMakeFiles/capstone-static.dir/arch/ARM/ARMInstPrinter.c.o
+[ 26%] Building C object CMakeFiles/capstone-static.dir/arch/ARM/ARMMapping.c.o
+[ 29%] Building C object CMakeFiles/capstone-static.dir/arch/ARM/ARMModule.c.o
+[ 32%] Building C object CMakeFiles/capstone-static.dir/arch/AArch64/AArch64BaseInfo.c.o
+[ 35%] Building C object CMakeFiles/capstone-static.dir/arch/AArch64/AArch64Disassembler.c.o
+[ 38%] Building C object CMakeFiles/capstone-static.dir/arch/AArch64/AArch64InstPrinter.c.o
+[ 41%] Building C object CMakeFiles/capstone-static.dir/arch/AArch64/AArch64Mapping.c.o
+[ 44%] Building C object CMakeFiles/capstone-static.dir/arch/AArch64/AArch64Module.c.o
+[ 47%] Building C object CMakeFiles/capstone-static.dir/arch/Mips/MipsDisassembler.c.o
+[ 50%] Building C object CMakeFiles/capstone-static.dir/arch/Mips/MipsInstPrinter.c.o
+[ 52%] Building C object CMakeFiles/capstone-static.dir/arch/Mips/MipsMapping.c.o
+[ 55%] Building C object CMakeFiles/capstone-static.dir/arch/Mips/MipsModule.c.o
+[ 58%] Building C object CMakeFiles/capstone-static.dir/arch/PowerPC/PPCDisassembler.c.o
+[ 61%] Building C object CMakeFiles/capstone-static.dir/arch/PowerPC/PPCInstPrinter.c.o
+[ 64%] Building C object CMakeFiles/capstone-static.dir/arch/PowerPC/PPCMapping.c.o
+[ 67%] Building C object CMakeFiles/capstone-static.dir/arch/PowerPC/PPCModule.c.o
+[ 70%] Building C object CMakeFiles/capstone-static.dir/arch/X86/X86Disassembler.c.o
+[ 73%] Building C object CMakeFiles/capstone-static.dir/arch/X86/X86DisassemblerDecoder.c.o
+[ 76%] Building C object CMakeFiles/capstone-static.dir/arch/X86/X86IntelInstPrinter.c.o
+[ 79%] Building C object CMakeFiles/capstone-static.dir/arch/X86/X86Mapping.c.o
+[ 82%] Building C object CMakeFiles/capstone-static.dir/arch/X86/X86Module.c.o
+[ 85%] Building C object CMakeFiles/capstone-static.dir/arch/X86/X86ATTInstPrinter.c.o
+[ 88%] Building C object CMakeFiles/capstone-static.dir/arch/EVM/EVMDisassembler.c.o
+[ 91%] Building C object CMakeFiles/capstone-static.dir/arch/EVM/EVMInstPrinter.c.o
+[ 94%] Building C object CMakeFiles/capstone-static.dir/arch/EVM/EVMMapping.c.o
+[ 97%] Building C object CMakeFiles/capstone-static.dir/arch/EVM/EVMModule.c.o
+[100%] Linking C static library libcapstone.a
+[100%] Built target capstone-static

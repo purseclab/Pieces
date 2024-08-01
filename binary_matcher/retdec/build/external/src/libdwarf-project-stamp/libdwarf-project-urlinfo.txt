@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://github.com/avast/libdwarf/archive/85465d5e235cc2d2f90d04016d6aca1a452d0e73.zip'
+tag='SHA256=2864aa7b46529778476190e90359669eb35799ad273233c4df2203bec7db0738'

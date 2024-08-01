@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/libdwarf/CMakeFiles/libdwarf-project"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/libdwarf/CMakeFiles/libdwarf-project.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/deps/libdwarf/CMakeFiles/libdwarf-project-complete.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-install.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-mkdir.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-download.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-update.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-patch.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-configure.rule"
+		},
+		{
+			"file" : "/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project-stamp/libdwarf-project-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"libdwarf-project"
+		],
+		"name" : "libdwarf-project"
+	}
+}

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libLLVMPasses.a  CMakeFiles/LLVMPasses.dir/PassBuilder.cpp.o CMakeFiles/LLVMPasses.dir/PassPlugin.cpp.o CMakeFiles/LLVMPasses.dir/StandardInstrumentations.cpp.o
+/usr/bin/ranlib ../libLLVMPasses.a

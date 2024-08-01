@@ -1,0 +1,3 @@
+repository='external project URL'
+module='https://github.com/avast/yaracpp/archive/3417c9e855ebb06096571f54175e33c5efb0f774.zip'
+tag='SHA256=5f37f7a3638351bd4ba24d1e7fcaa2aa74ad3c41151377ede99ccbd5fc5e079b'

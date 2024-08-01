@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-unpacker-example.a  CMakeFiles/retdec-unpacker-example.dir/example.cpp.o
+/usr/bin/ranlib libretdec-unpacker-example.a

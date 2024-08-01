@@ -1,0 +1,15 @@
+-- Downloading...
+   dst='/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf.zip'
+   timeout='none'
+-- Using src='https://github.com/avast/libdwarf/archive/85465d5e235cc2d2f90d04016d6aca1a452d0e73.zip'
+-- verifying file...
+       file='/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf.zip'
+-- Downloading... done
+-- extracting...
+     src='/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf.zip'
+     dst='/home/sloan/dispatch/linux/retdec/build/external/src/libdwarf-project'
+-- extracting... [tar xfz]
+-- extracting... [analysis]
+-- extracting... [rename]
+-- extracting... [clean up]
+-- extracting... done

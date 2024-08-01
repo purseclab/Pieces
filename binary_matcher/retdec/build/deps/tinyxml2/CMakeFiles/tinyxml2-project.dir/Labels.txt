@@ -1,0 +1,13 @@
+# Target labels
+ tinyxml2-project
+# Source files and their labels
+/home/sloan/dispatch/linux/retdec/build/deps/tinyxml2/CMakeFiles/tinyxml2-project
+/home/sloan/dispatch/linux/retdec/build/deps/tinyxml2/CMakeFiles/tinyxml2-project.rule
+/home/sloan/dispatch/linux/retdec/build/deps/tinyxml2/CMakeFiles/tinyxml2-project-complete.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-install.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-mkdir.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-download.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-update.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-patch.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-configure.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/tinyxml2-project-stamp/tinyxml2-project-build.rule

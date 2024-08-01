@@ -1,0 +1,13 @@
+# Target labels
+ capstone-project
+# Source files and their labels
+/home/sloan/dispatch/linux/retdec/build/deps/capstone/CMakeFiles/capstone-project
+/home/sloan/dispatch/linux/retdec/build/deps/capstone/CMakeFiles/capstone-project.rule
+/home/sloan/dispatch/linux/retdec/build/deps/capstone/CMakeFiles/capstone-project-complete.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-install.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-mkdir.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-download.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-update.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-patch.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-configure.rule
+/home/sloan/dispatch/linux/retdec/build/external/src/capstone-project-stamp/capstone-project-build.rule

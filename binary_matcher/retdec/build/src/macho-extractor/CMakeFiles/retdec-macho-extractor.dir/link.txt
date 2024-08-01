@@ -1,0 +1,2 @@
+/usr/bin/ar qc libretdec-macho-extractor.a  CMakeFiles/retdec-macho-extractor.dir/break_fat.cpp.o
+/usr/bin/ranlib libretdec-macho-extractor.a

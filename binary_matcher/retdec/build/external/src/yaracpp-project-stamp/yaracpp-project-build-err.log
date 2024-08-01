@@ -1,0 +1,26 @@
+configure.ac:20: installing 'build-aux/ar-lib'
+configure.ac:20: installing 'build-aux/compile'
+configure.ac:28: installing 'build-aux/config.guess'
+configure.ac:28: installing 'build-aux/config.sub'
+configure.ac:8: installing 'build-aux/install-sh'
+configure.ac:8: installing 'build-aux/missing'
+Makefile.am: installing 'build-aux/depcomp'
+parallel-tests: installing 'build-aux/test-driver'
+configure.ac: installing 'build-aux/ylwrap'
+configure: WARNING:
+
+*****************************************************************
+  Could not find OpenSSL library. Some features in "pe" module
+  have been disabled. If you want to enable all features please
+  install OpenSSL and run this script again.
+*****************************************************************
+
+configure: WARNING:
+
+*****************************************************************
+  Could not find alternative APIs for hash functions. The "hash"
+  module has been disabled.
+*****************************************************************
+            
+make[6]: warning: -jN forced in submake: disabling jobserver mode.
+ar: `u' modifier ignored since `D' is the default (see `U')
