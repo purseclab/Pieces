@@ -7,10 +7,6 @@ import os
 import csv
 import sys
 import json
-import logging
-
-
-logging.basicConfig(filename="testing.log", filemode='w', level=logging.NOTSET)
 
 
 def get_all_function_features() -> list:
@@ -93,19 +89,19 @@ if __name__ == "__main__":
     try:
         with open('./data/p_ctrl.json', 'r') as ctrl_json:
             p_ctrl_heuristics = json.load(ctrl_json)
-            logging.debug(f"P controller heuristics: {p_ctrl_heuristics}")
+            # logging.debug(f"P controller heuristics: {p_ctrl_heuristics}")
         with open('./data/p2_ctrl.json', 'r') as ctrl_json:
             p2_ctrl_heuristics = json.load(ctrl_json)
-            logging.debug(f"P2 controller heuristics: {p2_ctrl_heuristics}")
+            # logging.debug(f"P2 controller heuristics: {p2_ctrl_heuristics}")
         with open('./data/i_ctrl.json', 'r') as ctrl_json:
             i_ctrl_heuristics = json.load(ctrl_json)
-            logging.debug(f"I controller heuristics: {i_ctrl_heuristics}")
+            # logging.debug(f"I controller heuristics: {i_ctrl_heuristics}")
         with open('./data/pid_controller.json', 'r') as ctrl_json:
             pid_ctrl_heuristics = json.load(ctrl_json)
-            logging.debug(f"PID controller heuristics: {pid_ctrl_heuristics}")
+            # logging.debug(f"PID controller heuristics: {pid_ctrl_heuristics}")
         with open('./data/pidff_controller.json', 'r') as ctrl_json:
             pidff_ctrl_heuristics = json.load(ctrl_json)
-            logging.debug(f"PIDFF controller heuristics: {pidff_ctrl_heuristics}")
+            # logging.debug(f"PIDFF controller heuristics: {pidff_ctrl_heuristics}")
         
         all_functions = get_all_function_features()
         with open(f"{idaapi.get_input_file_path()}_all.csv", "w") as f:
@@ -113,7 +109,7 @@ if __name__ == "__main__":
             writer.writeheader()
         
             for function_features in all_functions:
-                logging.debug(f"{function_features}")
+                # logging.debug(f"{function_features}")
                 is_controller_function = \
                     matches_ctrl_features(function_features, p_ctrl_heuristics) or \
                     matches_ctrl_features(function_features, p2_ctrl_heuristics) or \
@@ -121,7 +117,7 @@ if __name__ == "__main__":
                     matches_ctrl_features(function_features, pid_ctrl_heuristics) or \
                     matches_ctrl_features(function_features, pidff_ctrl_heuristics)
                 if is_controller_function:
-                    logging.debug(f"Matching controller: {function_features['name']}")
+                    # logging.debug(f"Matching controller: {function_features['name']}")
                     # generate GDLs
                     generate_func_gdl(function_features)
                     # setup BB extract
@@ -129,7 +125,7 @@ if __name__ == "__main__":
                     writer.writerow(function_features)
             
     except Exception as e:
-        logging.error(e)
+        # logging.error(e)
         idaapi.qexit(2)
     finally:
         idaapi.qexit(0)
