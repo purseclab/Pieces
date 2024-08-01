@@ -60,54 +60,60 @@ map<Type* , Value *> class_vtable_map; // Class Type -> Vtable
 map<Type *, vector<Function *>> class_virtual_funs; //Class Name->Virtual Functions
 Type* getInnermostPointedToType(Type* type);
 
+std::vector< StructType * >  IdentifiedTypes;
+bool init_type_map = false;
 Type * getTypeFromName(Module *m, string name) {
-	auto types = m->getIdentifiedStructTypes (); 
-	for (auto ty : types) {
-			if (ty->hasName() && ty->getName().str() == name) {
-					return ty;
-			}
-	}
-	return NULL;
+		
+		if (!init_type_map) {
+				IdentifiedTypes = m->getIdentifiedStructTypes(); 
+		}
+		auto types = IdentifiedTypes;
+		for (auto ty : types) {
+				if (ty->hasName() && ty->getName().str() == name) {
+						return ty;
+				}
+		}
+		return NULL;
 }
 
 
 bool isSubFunction(Type * FuncParentTy, Type* FuncChildTy) {
 
-	if (auto FuncParent = dyn_cast<FunctionType>(FuncParentTy)) {
-			if (auto FuncChild = dyn_cast<FunctionType>(FuncChildTy)) {
-	// Check return types
-    if (FuncParent->getReturnType() != FuncChild->getReturnType())
-        return false;
+		if (auto FuncParent = dyn_cast<FunctionType>(FuncParentTy)) {
+				if (auto FuncChild = dyn_cast<FunctionType>(FuncChildTy)) {
+						// Check return types
+						if (FuncParent->getReturnType() != FuncChild->getReturnType())
+								return false;
 
-    // Check number of arguments
-    if (FuncParent->getNumParams() != FuncChild->getNumParams())
-        return false;
+						// Check number of arguments
+						if (FuncParent->getNumParams() != FuncChild->getNumParams())
+								return false;
 
-    // Check argument types
-    auto ArgParent = FuncParent->param_begin();
-    auto ArgChild  = FuncChild->param_begin();
-    for (; ArgParent != FuncParent->param_end() && ArgChild != FuncChild->param_end(); ++ArgParent, ++ArgChild) {
-        if ((*ArgParent) != (*ArgChild)){
-			if (auto pType = dyn_cast<StructType>(getInnermostPointedToType((*ArgParent)))) {
-					if (auto cType = dyn_cast<StructType>(getInnermostPointedToType((*ArgChild)))) {
-							if (vContains(classH[pType->getName().str()], cType->getName()))
-									continue;
-					}
+						// Check argument types
+						auto ArgParent = FuncParent->param_begin();
+						auto ArgChild  = FuncChild->param_begin();
+						for (; ArgParent != FuncParent->param_end() && ArgChild != FuncChild->param_end(); ++ArgParent, ++ArgChild) {
+								if ((*ArgParent) != (*ArgChild)){
+										if (auto pType = dyn_cast<StructType>(getInnermostPointedToType((*ArgParent)))) {
+												if (auto cType = dyn_cast<StructType>(getInnermostPointedToType((*ArgChild)))) {
+														if (vContains(classH[pType->getName().str()], cType->getName()))
+																continue;
+												}
 
-			}
-            return false;
+										}
+										return false;
+								}
+						}
+
+						return true;
+				}
 		}
-    }
-
-	return true;
-			}
-	}
-//TODO: Fix this mess
-	return false;
+		//TODO: Fix this mess
+		return false;
 }
 
 llvm::PipelineTuningOptions::PipelineTuningOptions() {
-	return;
+		return;
 }
 llvm::PassBuilder::PassBuilder(bool, llvm::TargetMachine*, llvm::PipelineTuningOptions, llvm::Optional<llvm::PGOOptions>, llvm::PassInstrumentationCallbacks*)
 {
@@ -204,7 +210,7 @@ int crt_intertask(vector<string>& thread_funcs_vec, vector<string>& kernel_funcs
 
 int find_vtables(vector<Value*> &vtables) {
 		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
-				if ((*G)->getName().startswith("_ZTV")) {
+				if ((*G)->getName().startswith("_ZTV") && (*G)->hasInitializer()) {
 						cerr << "Found vtable: " << (*G)->getName().str() << "\n";
 						vtables.push_back((*G));
 				}
@@ -506,9 +512,9 @@ vector<Value *> cloneFuncs;
 vector<Value *> secrets;
 vector<Value *> vtables;
 Type* getInnermostPointedToType(Type* type);
-void forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions, vector<Function *> &compat) {
+bool forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions, vector<Function *> &compat) {
 		if (visitedFunctions.count(F) > 0 || vContains(compat, F) || F->isIntrinsic())
-				return;
+				return false;
 		visitedFunctions.insert(F);
 
 		for (BasicBlock &BB : *F) {
@@ -528,72 +534,55 @@ void forward_slice_crt(Function *F, SmallPtrSet<Function*, 16> &visitedFunctions
 
 										for (auto vfun: class_virtual_funs[CI->getFunctionType()->getParamType(0)]) {
 												if (static_cast<Type *>(getInnermostPointedToType(vfun->getType())) == 
-													static_cast<Type *>(getInnermostPointedToType(CI->getFunctionType()))) {
-														cerr<<"OverApproximating Trace"<<endl;
+																static_cast<Type *>(getInnermostPointedToType(CI->getFunctionType()))) {
 														cerr<<"Target Function: "<<vfun->getName().str()<<endl;
-														forward_slice_crt(vfun, visitedFunctions, compat);
 
+														//If already done, no need to walk vtable
+														if (forward_slice_crt(vfun, visitedFunctions, compat)) {
+																//Go down in class hierarchy
+																if (auto st = dyn_cast<StructType>(getInnermostPointedToType(CI->getFunctionType()->getParamType(0)))) 
+																{
+																		auto name = st->getName().str();
+																		for (auto child: classH[name]) {
+																				auto child_type = getTypeFromName(ll_mod, child);
+																				child_type->dump();
 
-														//Go down in class hierarchy
-														if (auto st = dyn_cast<StructType>(getInnermostPointedToType(CI->getFunctionType()->getParamType(0)))) 
-														{
-															auto name = st->getName().str();
-															for (auto child: classH[name]) {
-																auto child_type = getTypeFromName(ll_mod, child);
-																child_type->dump();
-
-																for (auto vfun1: class_virtual_funs[child_type->getPointerTo()]) {
-																		cerr<<"Came inside"<<endl;
-																		// isSubFunction(parent, child)
-																		if (isSubFunction(getInnermostPointedToType(CI->getFunctionType()), 
-                                                                                        getInnermostPointedToType(vfun1->getType()))) {
-																				cerr<<"Target Function (OverAppx): "<<vfun1->getName().str()<<endl;
-																				forward_slice_crt(vfun1, visitedFunctions, compat);
-																		} else {
-																				cerr<<"Didn't match any target function for child"<<endl;
-
-							                                                    vfun1->getType()->dump();
-                            							                        getInnermostPointedToType(CI->getFunctionType())->dump();
+																				for (auto vfun1: class_virtual_funs[child_type->getPointerTo()]) {
+																						// isSubFunction(parent, child)
+																						if (isSubFunction(getInnermostPointedToType(CI->getFunctionType()), 
+																												getInnermostPointedToType(vfun1->getType()))) {
+																								cerr<<"Target Function (OverAppx): "<<vfun1->getName().str()<<endl;
+																								forward_slice_crt(vfun1, visitedFunctions, compat);
+																						}
+																				}
 																		}
 																}
-															}
 														}
-														
-												} else {
-													cerr<<"Didn't match any target function"<<endl;
-													vfun->getType()->dump();
-													getInnermostPointedToType(CI->getFunctionType())->dump();
+
 												}
 										}
 
 
-										
+
 #if 0
-										 
+
 										if (auto li = dyn_cast<LoadInst>(los)) {
-											auto pt = li->getPointerOperand();
-											cerr<<printPts(fspta, los)<<endl;
-											li->getPointerOperandType ()->dump();
-											li->getType()->dump();
-											pt->dump();
+												auto pt = li->getPointerOperand();
+												cerr<<printPts(fspta, los)<<endl;
+												li->getPointerOperandType ()->dump();
+												li->getType()->dump();
+												pt->dump();
 										}
 #endif 
 								}
 						}
 				}
 		}
+
+		//Added new functions 
+		return true;
 }
 
-Type* getInnermostPointedToType(Type* type) {
-		while (type->isArrayTy() || type->isPointerTy()) {
-				if (type->isArrayTy()) {
-						type = cast<ArrayType>(type)->getElementType();
-				} else if (type->isPointerTy()) {
-						type = cast<PointerType>(type)->getElementType();
-				}
-		}
-		return type;
-}
 bool isVolatile(Value * v) {
 		// See if variable is used as IO var
 		bool isIO = true;
@@ -649,35 +638,35 @@ bool isIOStruct(llvm::Value * stmt) {
 }
 
 Value * getTaskFromTaskStruct(Value * elem) {
-																		//Get Task from task struct
-                                                                        if (auto str2 = dyn_cast<llvm::ConstantStruct>(elem)) {
-                                                                            auto functor = str2->getOperand(0);
-                                                                            if (auto str3 = dyn_cast<llvm::ConstantStruct>(functor)) {
-                                                                                    auto task = str3->getOperand(1);
-                                                                                    return task;
-                                                                            }
-                                                                        }
-																		return NULL;
+		//Get Task from task struct
+		if (auto str2 = dyn_cast<llvm::ConstantStruct>(elem)) {
+				auto functor = str2->getOperand(0);
+				if (auto str3 = dyn_cast<llvm::ConstantStruct>(functor)) {
+						auto task = str3->getOperand(1);
+						return task;
+				}
+		}
+		return NULL;
 }
 
 Function * getEnclosingFunction(User * val) {
 		if(auto ins = dyn_cast<Instruction>(val)) {
 				cerr<<"Instruction Type"<<endl;
-                        return ins->getParent()->getParent();
-        }
+				return ins->getParent()->getParent();
+		}
 		else if (auto cexpr = dyn_cast<Operator>(val)){
-                        cerr<<"Operator Type"<<endl;
-						//Just pick the first user
-						if (cexpr->getNumUses ()) {
-							auto op_use = cexpr->use_begin();
-							return getEnclosingFunction(op_use->getUser());
-						} else {
-							//TODO: Why does this happen, investigate later!
-							return NULL;
-						}
-        }  
-                        cerr<<"Incomplete Enclosing Function"<<endl;
+				cerr<<"Operator Type"<<endl;
+				//Just pick the first user
+				if (cexpr->getNumUses ()) {
+						auto op_use = cexpr->use_begin();
+						return getEnclosingFunction(op_use->getUser());
+				} else {
+						//TODO: Why does this happen, investigate later!
 						return NULL;
+				}
+		}  
+		cerr<<"Incomplete Enclosing Function"<<endl;
+		return NULL;
 }
 int compartmentalize(char * argv[]) {
 		ofstream debug;
@@ -1073,12 +1062,12 @@ int compartmentalize(char * argv[]) {
 										if (ioTypes.count(getInnermostPointedToType(gep->getSourceElementType()))) {
 												cout<<"IO Local Variable"<<endl;
 												if  (isAccessed(gep) && isVolatile(gep)) {
-													dbgs() << "Use in Function: " << fun->getName().str() << "\n";
-													auto ioInfo = ioTypes[getInnermostPointedToType(gep->getSourceElementType())];
-													for (int addr = ioInfo.base; addr < ioInfo.end; addr += 0x1000) {
-														fdevmap << fun->getName().str() << "##";
-    	                                                fdevmap << std::hex <<"0x"<<addr <<endl;
-													}
+														dbgs() << "Use in Function: " << fun->getName().str() << "\n";
+														auto ioInfo = ioTypes[getInnermostPointedToType(gep->getSourceElementType())];
+														for (int addr = ioInfo.base; addr < ioInfo.end; addr += 0x1000) {
+																fdevmap << fun->getName().str() << "##";
+																fdevmap << std::hex <<"0x"<<addr <<endl;
+														}
 												}
 										}
 								}
@@ -1142,95 +1131,95 @@ int compartmentalize(char * argv[]) {
 
 #ifdef ARDU
 		ofstream threads;
-        vector<llvm::Value *> thread_vec;
-        threads.open("./threads");
+		vector<llvm::Value *> thread_vec;
+		threads.open("./threads");
 #if 0
-        for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
-                Function *fun = *F;
-                Value * val = (Value *)fun;
-                //Ardupilot uses the functor class to bind class methods as wrappers, this should be a good first level filter.
-                if (fun->getName().contains("Functor") && fun->getName().contains("method_wrapper")) {
-                        std::string demangledName = llvm::demangle(fun->getName().str());
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+				Function *fun = *F;
+				Value * val = (Value *)fun;
+				//Ardupilot uses the functor class to bind class methods as wrappers, this should be a good first level filter.
+				if (fun->getName().contains("Functor") && fun->getName().contains("method_wrapper")) {
+						std::string demangledName = llvm::demangle(fun->getName().str());
 						auto args = demangledName.substr(demangledName.find('>') + 1);
 						args = args.substr(args.find('>') + 1);
-//						threads<<demangledName <<endl;
-//						threads<<args<<endl;
-//						threads<<"______"<<endl;
-                        size_t pos = args.find('(');
-                        size_t pos_end = args.find(')');
-                        std::stringstream ss(args.substr(pos +1, pos_end -1));
-                        std::vector<std::string> tokens;
-                        std::string token;
+						//						threads<<demangledName <<endl;
+						//						threads<<args<<endl;
+						//						threads<<"______"<<endl;
+						size_t pos = args.find('(');
+						size_t pos_end = args.find(')');
+						std::stringstream ss(args.substr(pos +1, pos_end -1));
+						std::vector<std::string> tokens;
+						std::string token;
 
-                        // Tokenize the string based on commas
-                        while (std::getline(ss, token, ',')) {
-                            tokens.push_back(token);
-                        }
+						// Tokenize the string based on commas
+						while (std::getline(ss, token, ',')) {
+								tokens.push_back(token);
+						}
 
-                        int num_args = tokens.size();
-//						threads<< tokens[0] <<" $$$$$$ "<<fun->getName().str()<<endl;
-                        if ( (num_args == 1) &&  (tokens[0]=="void*")) {
-							//We passed our filter, lets extract the name of the method with class
-							std::string demangledName = llvm::demangle(fun->getName().str());
-							auto template_args = demangledName.substr(demangledName.find('<') + 1);
-							auto args = template_args.substr(template_args.find('<') );
-							size_t pos = args.find('<');
-							size_t pos_end = args.find('>');
-							std::stringstream ss(args.substr(pos +1, pos_end -1));
-	                        std::vector<std::string> tokens;
-    	                    std::string token;
-							// Tokenize the string based on commas
-	                        while (std::getline(ss, token, ',')) {
-    	                        tokens.push_back(token);
-        	                }
-							auto name_fun = tokens[1].substr(tokens[1].find("&"));
-							//Name mangling approach.
-                            threads<<name_fun<<endl;
-                            thread_vec.push_back(fun);
-                        }
-                }
-        }
+						int num_args = tokens.size();
+						//						threads<< tokens[0] <<" $$$$$$ "<<fun->getName().str()<<endl;
+						if ( (num_args == 1) &&  (tokens[0]=="void*")) {
+								//We passed our filter, lets extract the name of the method with class
+								std::string demangledName = llvm::demangle(fun->getName().str());
+								auto template_args = demangledName.substr(demangledName.find('<') + 1);
+								auto args = template_args.substr(template_args.find('<') );
+								size_t pos = args.find('<');
+								size_t pos_end = args.find('>');
+								std::stringstream ss(args.substr(pos +1, pos_end -1));
+								std::vector<std::string> tokens;
+								std::string token;
+								// Tokenize the string based on commas
+								while (std::getline(ss, token, ',')) {
+										tokens.push_back(token);
+								}
+								auto name_fun = tokens[1].substr(tokens[1].find("&"));
+								//Name mangling approach.
+								threads<<name_fun<<endl;
+								thread_vec.push_back(fun);
+						}
+				}
+		}
 #endif 
 
 #if 1
 		auto types = ll_mod->getIdentifiedStructTypes();
 		cout<< "Length of identified structures" << types.size()<<endl;
 		for (auto ty : types) {
-			if (auto st = dyn_cast<StructType>(ty)) {
-					if (st->isOpaque() || !isa<StructType>(st->getElementType(0))) {
-							continue;
-					}
-					cerr<<"Derived Type:"<<endl;
-					auto derived_structure_type = st;
-					for (int i =0; i< st->getNumElements(); i++) {
-							cerr<<i<<endl;
-							if (auto elem = dyn_cast<StructType>(st->getElementType(i))) {
-									if (elem->hasName()) {
-										cerr<<"Parent Type:";
-										st->getElementType(i)->dump();
-										auto parent_structure_type = elem;
-										auto parent_structure_name = parent_structure_type->getName().str();
-										if (parent_structure_type->getName().find("class")!= llvm::StringRef::npos 
-											&& derived_structure_type->getName().find("class")!= llvm::StringRef::npos) { 
-											if (!vContains(classH[parent_structure_name], derived_structure_type->getName().str())) {
-												classH[parent_structure_name].push_back(derived_structure_type->getName().str());
-												classHType[parent_structure_type].push_back(derived_structure_type);
-											}
+				if (auto st = dyn_cast<StructType>(ty)) {
+						if (st->isOpaque() || !st->getNumElements() || isa<StructType>(st->getElementType(0))) {
+								continue;
+						}
+						cerr<<"Derived Type:"<<endl;
+						auto derived_structure_type = st;
+						for (int i =0; i< st->getNumElements(); i++) {
+								cerr<<i<<endl;
+								if (auto elem = dyn_cast<StructType>(st->getElementType(i))) {
+										if (elem->hasName()) {
+												cerr<<"Parent Type:";
+												st->getElementType(i)->dump();
+												auto parent_structure_type = elem;
+												auto parent_structure_name = parent_structure_type->getName().str();
+												if (parent_structure_type->getName().find("class")!= llvm::StringRef::npos 
+																&& derived_structure_type->getName().find("class")!= llvm::StringRef::npos) { 
+														if (!vContains(classH[parent_structure_name], derived_structure_type->getName().str())) {
+																classH[parent_structure_name].push_back(derived_structure_type->getName().str());
+																classHType[parent_structure_type].push_back(derived_structure_type);
+														}
+												}
 										}
-									}
-									else {
-											break;
-									}
-							} else {
-									break;
-							}
-					}
-			}
+										else {
+												break;
+										}
+								} else {
+										break;
+								}
+						}
+				}
 #if 0
-			if (ty->getName().str() == "struct.AP_Scheduler::Task") {
-					//task_type = ty;
-					break;
-			}
+				if (ty->getName().str() == "struct.AP_Scheduler::Task") {
+						//task_type = ty;
+						break;
+				}
 #endif 
 		}
 #endif 
@@ -1247,134 +1236,146 @@ int compartmentalize(char * argv[]) {
 		}
 
 		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
-                auto glob = &*G;
+				auto glob = &*G;
 
 				auto go = *glob;
 				auto ty = go->getType();
 				auto ity = getInnermostPointedToType(ty);
-						if (auto str = dyn_cast<llvm::StructType>(ity)) 
-						{
-							if (str->getNumElements() == 5) {
-							cerr<<"Struct Type"<<endl;
-							if (str->isLiteral()) {
-									cerr<<"Literal Type" <<endl;
-									if (auto str1 = dyn_cast<llvm::StructType>(str->getElementType((unsigned int ) 0))) {
-											//Match signature of Task types
-											if (!str1->isLiteral() && str1->getStructName().contains("Functor")) {
-												if (str->getElementType(1)->isPointerTy() &&
-									                str->getElementType(2)->isFloatTy() &&
-									                str->getElementType(3)->isIntegerTy(16) &&
-									                str->getElementType(4)->isIntegerTy(8)) {
-														if (go->hasInitializer()) {
-																auto init = go->getInitializer();
-																if (init->getType()->isArrayTy()) {
-																	unsigned NumElements = init->getNumOperands();
-																	for (unsigned i = 0; i < NumElements; ++i) {
-																			auto elem = init->getOperand(i);
-																			//Get Task from task struct
-																			auto task = getTaskFromTaskStruct(elem);
-																			cerr<<"Adding a new task"<<endl;
-																			task->dump();
-																			threads<<task->getName().str()<<endl;
-												                            thread_vec.push_back(task);
+				if (auto str = dyn_cast<llvm::StructType>(ity)) 
+				{
+						if (str->getNumElements() == 5) {
+								cerr<<"Struct Type"<<endl;
+								if (str->isLiteral()) {
+										cerr<<"Literal Type" <<endl;
+										if (auto str1 = dyn_cast<llvm::StructType>(str->getElementType((unsigned int ) 0))) {
+												//Match signature of Task types
+												if (!str1->isLiteral() && str1->getStructName().contains("Functor")) {
+														if (str->getElementType(1)->isPointerTy() &&
+																		str->getElementType(2)->isFloatTy() &&
+																		str->getElementType(3)->isIntegerTy(16) &&
+																		str->getElementType(4)->isIntegerTy(8)) {
+																if (go->hasInitializer()) {
+																		auto init = go->getInitializer();
+																		if (init->getType()->isArrayTy()) {
+																				unsigned NumElements = init->getNumOperands();
+																				for (unsigned i = 0; i < NumElements; ++i) {
+																						auto elem = init->getOperand(i);
+																						//Get Task from task struct
+																						auto task = getTaskFromTaskStruct(elem);
+																						cerr<<"Adding a new task"<<endl;
+																						task->dump();
+																						threads<<task->getName().str()<<endl;
+																						thread_vec.push_back(task);
 
-																	}
-																} else if (ty->isPointerTy()) {
-																		//TODO: Test this path
+																				}
+																		} else if (ty->isPointerTy()) {
+																				//TODO: Test this path
 
-																} else {
-																		//TODO: Test this path
-																		auto task = getTaskFromTaskStruct(go);
-																		task->dump();
-																		threads<<task->getName().str()<<endl;
-																		thread_vec.push_back(task);
+																		} else {
+																				//TODO: Test this path
+																				auto task = getTaskFromTaskStruct(go);
+																				task->dump();
+																				threads<<task->getName().str()<<endl;
+																				thread_vec.push_back(task);
+																		}
 																}
 														}
 												}
-											}
-									}
+										}
 								}
-							}
-						} 
+						}
+				} 
 		}
 		std::string pag_str = "pag";
 		//fspta->getPAG()->dump(pag_str);
 		cerr << pag_str<<endl;
+		if (fspta) {
 		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
-			Function *fun = *F;
-                Value * val = (Value *)fun;
+				Function *fun = *F;
+				Value * val = (Value *)fun;
 				fun->getType()->dump();
-                if (val->getName().str().compare("main")==0 ) {
+				if (val->getName().str().compare("main")==0 ) {
 						thread_vec.push_back(val);
 						threads<<fun->getName().str()<<endl;
 
 						for (auto bb=fun->begin();bb!=fun->end();bb++) {
-	                        for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
-									cerr<<endl<<"The statement:";
-									stmt->dump();
-									Value* val = &(*stmt);
-									cerr<<"Points to"<<endl<<printPts(fspta, val) << "=======>>>>>>>"<<endl;
-            	            }
-                		}
+								for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
+										cerr<<endl<<"The statement:";
+										stmt->dump();
+										Value* val = &(*stmt);
+										cerr<<"Points to"<<endl<<printPts(fspta, val) << "=======>>>>>>>"<<endl;
+								}
+						}
 
 				}
+		}
 		}
 
 		find_vtables(vtables);
 
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) { 
+				auto fun = *F;
+				for (auto bb=fun->begin();bb!=fun->end();bb++) {
+						cerr<<bb->getName().str()<<endl;
+						for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
+						}
+				}
+		}
+
 		//Def-use for vtables
 		for (auto table: vtables) {
-			cerr<<"For Vtable:"; table->dump();
-			for (auto const user: table->users()) {
-					auto fun = getEnclosingFunction(user);
-					if (fun) {
-							cerr<<fun->getName().str()<<endl;
-							auto type = fun->getArg(0)->getType();
-							class_vtable_map[type] = table;
-							break;
-					} else {
-							cerr<<"Couldn't find enclosing function"<<endl;
-					}
-			}
+				cerr<<"For Vtable:"; table->dump();
+				for (auto const user: table->users()) {
+						auto fun = getEnclosingFunction(user);
+						if (fun) {
+								cerr<<fun->getName().str()<<endl;
+								auto type = fun->getArg(0)->getType();
+								class_vtable_map[type] = table;
+								break;
+						} else {
+								cerr<<"Couldn't find enclosing function"<<endl;
+						}
+				}
 		}
 
 		cerr<<"VTable Mapping:"<<endl;
 		for (const auto& pair : class_vtable_map) {
-     	   pair.first->dump(); //Class Type
-		   cerr<< ":	" << pair.second->getName().str() << std::endl; //Vtable
-		   cerr<<"Virtual Functions"<<endl;
-		   if (auto gv = dyn_cast<GlobalVariable>(pair.second)) {
-		       Constant *Initializer =  gv->getInitializer();
-			   if (!Initializer) {
-     			   outs() << "Global variable has no initializer.\n";
-			   }
-			   if (auto *C = dyn_cast<ConstantStruct>(Initializer)) {
-     			   for (unsigned i = 0; i < C->getNumOperands(); ++i) {
-			            Type *OperandType = C->getOperand(i)->getType();
-						if (OperandType->isArrayTy()) {
-								if (auto *CA = dyn_cast<ConstantArray>(C->getOperand(i))) {
-										Type *ElementType = CA->getType()->getElementType();
-										//TODO: Make recursive
-								        for (auto operand: CA->operand_values()) {
-											if (auto *bc = dyn_cast<CastInst>(operand)) {
-													if (bc->getSrcTy()->isFunctionTy()) {
-															while(1);
-//															class_virtual_funs[pair.first].push_back(vfun);
-													}
-											} else if (auto *op = dyn_cast<Operator>(operand)) {
-													if (auto vfun = dyn_cast<Function>(op->getOperand(0))) {
-															//Vfuns
-															class_virtual_funs[pair.first].push_back(vfun);
-													}
-											}
-									    }
+				pair.first->dump(); //Class Type
+				cerr<< ":	" << pair.second->getName().str() << std::endl; //Vtable
+				cerr<<"Virtual Functions"<<endl;
+				if (auto gv = dyn_cast<GlobalVariable>(pair.second)) {
 
+						Constant *Initializer =  gv->getInitializer();
+						if (!Initializer) {
+								outs() << "Global variable has no initializer.\n";
+						}
+						if (auto *C = dyn_cast<ConstantStruct>(Initializer)) {
+								for (unsigned i = 0; i < C->getNumOperands(); ++i) {
+										Type *OperandType = C->getOperand(i)->getType();
+										if (OperandType->isArrayTy()) {
+												if (auto *CA = dyn_cast<ConstantArray>(C->getOperand(i))) {
+														Type *ElementType = CA->getType()->getElementType();
+														//TODO: Make recursive
+														for (auto operand: CA->operand_values()) {
+																if (auto *bc = dyn_cast<CastInst>(operand)) {
+																		if (bc->getSrcTy()->isFunctionTy()) {
+																				while(1);
+																				//															class_virtual_funs[pair.first].push_back(vfun);
+																		}
+																} else if (auto *op = dyn_cast<Operator>(operand)) {
+																		if (auto vfun = dyn_cast<Function>(op->getOperand(0))) {
+																				//Vfuns
+																				class_virtual_funs[pair.first].push_back(vfun);
+																		}
+																}
+														}
+
+												}
+										}
 								}
 						}
-		     	   }
-			   }
-		   }
-	    }
+				}
+		}
 
 
 		for (auto pair: class_virtual_funs) {
@@ -1387,30 +1388,30 @@ int compartmentalize(char * argv[]) {
 
 
 		// Perform whole-program analysis to build module summary
-ModuleAnalysisManager AM;
+		ModuleAnalysisManager AM;
 
-//TODO: We need the information from LTO metadata, currently SVF doesn't seem to include everything. Look into it later.
+		//TODO: We need the information from LTO metadata, currently SVF doesn't seem to include everything. Look into it later.
 #if 0 
-	PassBuilder PB;
-	PB.registerModuleAnalyses(AM);
-//	AM.registerPass(RequireAnalysisPass<ProfileSummaryAnalysis, *ll_mod>());
-	ModuleSummaryIndexAnalysis MSIA;
-    auto Index = MSIA.run(*ll_mod, AM);
+		PassBuilder PB;
+		PB.registerModuleAnalyses(AM);
+		//	AM.registerPass(RequireAnalysisPass<ProfileSummaryAnalysis, *ll_mod>());
+		ModuleSummaryIndexAnalysis MSIA;
+		auto Index = MSIA.run(*ll_mod, AM);
 
-    // Iterate through functions in the module
-    for (auto &F : *ll_mod) {
-        // Get function summary from the module summary index
-		Index.dump();
+		// Iterate through functions in the module
+		for (auto &F : *ll_mod) {
+				// Get function summary from the module summary index
+				Index.dump();
 #if 0
-        FunctionSummary *FS = Index.getFunctionSummary(F.getName());
-        if (FS) {
-            // Print function summary information
-            errs() << "Function: " << F.getName() << "\n";
-            errs() << "  NumCallEdges: " << FS->numCallEdges() << "\n";
-            // Print other relevant function summary information
-        }
+				FunctionSummary *FS = Index.getFunctionSummary(F.getName());
+				if (FS) {
+						// Print function summary information
+						errs() << "Function: " << F.getName() << "\n";
+						errs() << "  NumCallEdges: " << FS->numCallEdges() << "\n";
+						// Print other relevant function summary information
+				}
 #endif 
-    }
+		}
 #endif
 #endif
 
@@ -1425,8 +1426,10 @@ ModuleAnalysisManager AM;
 						compat_vec.push_back(fun);
 				}
 		}
+
 		ofstream reach;
 		map<Function *, SmallPtrSet<Function*, 16>> thread_reach;
+#if 01
 		reach.open("./rtmk.threadsreach");
 		for (auto thread :thread_vec) {
 				if (auto thread_fn =  dyn_cast<llvm::Function>(thread)) {
@@ -1439,16 +1442,35 @@ ModuleAnalysisManager AM;
 						thread_reach[thread_fn] = visitedFunctions;
 				}
 		}
+#endif 
+
+
+		ofstream histogram_file;
+		histogram_file.open("rtmk.hist");
+		map<Function *, map<string, int>> histogram;
+		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
+				auto fun = *F;
+					for (auto bb=fun->begin();bb!=fun->end();bb++) {
+    	                    for (auto stmt =bb->begin();stmt!=bb->end(); stmt++) {
+									histogram[fun][stmt->getOpcodeName()]++;
+							}
+					}
+		}
+
+		for (auto pair: histogram) {
+				histogram_file<<pair.first->getName().str()<<endl;
+				for (auto entry: pair.second) {
+					histogram_file<<"	"<<entry.first<<":"<<entry.second<<endl;
+				}
+		}
+
 
 		ofstream loopInfoFile;
 		loopInfoFile.open("./loop");
 		//Add loop analysis.
 		for (SVFModule::llvm_iterator F = svfModule->llvmFunBegin(), E = svfModule->llvmFunEnd(); F != E; ++F) {
 				Function *func = *F;
-				if (func->isIntrinsic()) {
-						continue;
-				}
-				if (!vContains(thread_vec, func)) {
+				if (func->isIntrinsic() || func->empty()) {
 						continue;
 				}
 				cerr<<"Ran once"<<endl;

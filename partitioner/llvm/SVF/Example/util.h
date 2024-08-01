@@ -27,7 +27,6 @@
 #include <ctime>
 #include <unistd.h>
 #include <queue>
-
 #define FREERTOS
 using namespace SVF;
 using namespace llvm;

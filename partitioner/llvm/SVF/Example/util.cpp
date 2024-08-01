@@ -299,6 +299,56 @@ void parseArguments(int argc, char ** argv) {
     }
 
 }
+SVFModule* build_module() {
+	return LLVMModuleSet::getLLVMModuleSet()->buildSVFModule(moduleNameVec);
+}
+
+PAG * build_pag(SVFModule* svfModule) {
+	PAGBuilder builder;
+    return builder.build(svfModule);
+}
+
+Type* getInnermostPointedToType(Type* type) {
+        while (type->isArrayTy() || type->isPointerTy()) {
+                if (type->isArrayTy()) {
+                        type = cast<ArrayType>(type)->getElementType();
+                } else if (type->isPointerTy()) {
+                        type = cast<PointerType>(type)->getElementType();
+                }
+        }
+        return type;
+}
+
+void buil_pta(PAG * pag) {
+	// Create Andersen's pointer analysis
+    //ander = AndersenWaveDiff::createAndersenWaveDiff(pag); TODO: This threw error will uncomment later
+    //Create FlowSensitiveTBHC
+    //FlowSensitiveTBHC fspta= FlowSensitiveTBHC(pag);
+  //  static FlowSensitive fsptal = FlowSensitive(pag);
+}
+PTACallGraph* build_pta_callgraph() {
+        /// ICFG
+  //  ICFG* icfg = pag->getICFG();
+	return fspta->getPTACallGraph();
+}
+VFG * build_vfg(PTACallGraph* callgraph) {
+	return new VFG(callgraph);
+}
+
+SVFG * build_svfg() {
+	/// Sparse value-flow graph (SVFG)
+    SVFGBuilder svfBuilder(true);
+    return svfBuilder.buildFullSVFG(fspta);
+}
+
+llvm::Module * getLLVM_Module(SVFModule * svfmodule) {
+	SVFModule::llvm_iterator F = svfModule->llvmFunBegin();
+    Function *fun = *F;
+    ll_mod = fun->getParent();
+	return ll_mod;
+}
+
+
 void buildPTA() {
 	svfModule = LLVMModuleSet::getLLVMModuleSet()->buildSVFModule(moduleNameVec);
     PAGBuilder builder;
@@ -307,26 +357,26 @@ void buildPTA() {
     //ander = AndersenWaveDiff::createAndersenWaveDiff(pag); TODO: This threw error will uncomment later
     //Create FlowSensitiveTBHC
     //FlowSensitiveTBHC fspta= FlowSensitiveTBHC(pag);
-    static FlowSensitive fsptal = FlowSensitive(pag);
-#if 01 // TODO: 
-    fsptal.initialize();
-    fsptal.analyze();
-	fspta = &fsptal;
+  //  static FlowSensitive fsptal = FlowSensitive(pag);
+#if 01  
+ //   fsptal.initialize();
+ //   fsptal.analyze();
+//	fspta = &fsptal;
 #endif 
 
 #if 01
-	PTACallGraph* callgraph = fspta->getPTACallGraph();
+//	PTACallGraph* callgraph = fspta->getPTACallGraph();
 	    /// ICFG
-    ICFG* icfg = pag->getICFG();
+  //  ICFG* icfg = pag->getICFG();
     //icfg->dump("icfg");
 
     /// Value-Flow Graph (VFG)
-    VFG* vfg = new VFG(callgraph);
-	vfg->dump("vfg");
+//    VFG* vfg = new VFG(callgraph);
+//	vfg->dump("vfg");
 
     /// Sparse value-flow graph (SVFG)
-    SVFGBuilder svfBuilder(true);
-    SVFG* svfg = svfBuilder.buildFullSVFG(fspta);
+ //   SVFGBuilder svfBuilder(true);
+ //   SVFG* svfg = svfBuilder.buildFullSVFG(fspta);
 
 	//svfg->dump("svfg");
 
