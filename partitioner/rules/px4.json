@@ -1,0 +1,15 @@
+{
+    "firmware": {
+			"bc" : "/home/arslan/projects/PX4-Autopilot/build/px4_sitl_default-clang/px4.bc",
+			"symex_bc": "/home/arslan/projects/PX4-Autopilot/build/px4_sitl_default-clang/px4.bc",
+			"background_policy" : "blob",
+			"platform": "STMicro",
+            "svd": "STM32F46_79x.svd",
+			"os": "ardu_chibi",
+			"relaxed_pins": "True",
+			"fronted_flags": "-flto=thin --target=arm-none-eabi -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O0 -g -DSTM32F4xx -DFREERTOSCONFIG -DCRTC -O2 -I/home/arslan/projects/SecRTOS/FreeRTOS/FreeRTOS/Source/include -I/home/arslan/projects/SecRTOS/FreeRTOS/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Common/include/ -I./ -I ./Libraries/CMSIS/Device/ST/STM32F4xx/Include/ -I ./Libraries/CMSIS/Include/ -I./Libraries/STM32F4xx_StdPeriph_Driver/inc/ -I./board/ -I /usr/lib/gcc/arm-none-eabi/9.2.1/include -I /usr/lib/gcc/arm-none-eabi/9.2.1/../../../arm-none-eabi/include/ -I /home/arslan/projects/LBC/checkedC-12/src/package/lib/clang/12.0.0/include/ -I /home/arslan/projects/Pieces/partitioner/monitor/include/",
+			"project_root": "/home/arslan/projects/ardupilot/ardupilot/",
+			"cliques": {
+			}
+	}
+}

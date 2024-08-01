@@ -35,7 +35,7 @@ symex = symex.SymEx()
 #fun = "_ZN6AC_PID8update_iEfb"
 #fun = "_ZN6AC_PID10update_allEfffbf"
 fun = "pid_calculate"
-summaries = symex.generate_summary(firmware, fun)
+summaries = symex.get_old_summary("klee-last")
 
 math_q = symex.filter_queries_with_math(summaries)
 

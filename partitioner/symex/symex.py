@@ -135,7 +135,41 @@ class SymEx:
 
 
 		#simplify negative
-		ret_val = ret_val.replace("+ 4294967295 *", "-") 
+		ret_val = ret_val.replace("+ 4294967295 *", "-")
+		ret_val = ret_val.replace("4294967295 *", "-")
+
+#Breakdown If conditions
+		pattern = r'If\((.*?),(.*?),(.*)\)'
+
+		arguments = []
+		if "If(" in ret_val:
+			start_idx = ret_val.index("If(") + 3
+			end_idx = start_idx
+			arg_idx = start_idx
+			open_parens = 1
+		
+			while open_parens > 0 and end_idx < len(ret_val):
+				if ret_val[end_idx] == '(':
+					open_parens += 1
+				elif ret_val[end_idx] == ')':
+					open_parens -= 1
+				elif ret_val[end_idx] == ',' and open_parens == 1:
+					if ret_val[end_idx-1] == ')':
+						arguments.append(ret_val[arg_idx: end_idx-1])
+					else:
+						arguments.append(ret_val[arg_idx: end_idx])
+					arg_idx = end_idx+1
+				end_idx += 1
+
+			if arg_idx != end_idx:
+				arguments.append(ret_val[arg_idx: end_idx-1])
+
+			[cond,then,el] = arguments
+			ifclause = ret_val[start_idx-3:end_idx]
+			then_variant = ret_val.replace(ifclause, "(" + then + ")")
+			el_variant = ret_val.replace(ifclause, "(" + el + ")")
+			ret_val = [then_variant, el_variant]
+
 		return ret_val
 
 
@@ -240,10 +274,17 @@ class SymEx:
 		with open(os.environ["P_OUT_DIR"] +"klee-last/test000001.smt2", 'r') as file:
 			summary = file.read()
 
-		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/test*.smt2")
+		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/return_query_*")
 		summaries = []
 		for file in matching_files:
 			with open(file, 'r') as query: 
+				summary = query.read()
+				summaries.append(z3.parse_smt2_string(summary))
+
+#TODO: Hack to consider side effects, this needs to be better
+		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/global_*")
+		for file in matching_files:
+			with open(file, 'r') as query:
 				summary = query.read()
 				summaries.append(z3.parse_smt2_string(summary))
 
@@ -254,8 +295,15 @@ class SymEx:
 		with open(os.environ["P_OUT_DIR"] + id + "/test000001.smt2", 'r') as file:
 			summary = file.read()
 
-		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/test*.smt2")
+		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/return_query_*")
 		summaries = []
+		for file in matching_files:
+			with open(file, 'r') as query:
+				summary = query.read()
+				summaries.append(z3.parse_smt2_string(summary))
+
+		#TODO: Hack to consider side effects, this needs to be better
+		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/global_*")
 		for file in matching_files:
 			with open(file, 'r') as query:
 				summary = query.read()
@@ -282,8 +330,3 @@ class SymEx:
 		if current:
 			addends.append(current)
 		return addends
-
-	
-			
-			
-
