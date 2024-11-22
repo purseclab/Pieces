@@ -41,7 +41,7 @@
 /* Entry point for the function */
 llvm::cl::opt<std::string> entry_point(cl::Positional, llvm::cl::desc("Entry Point"), llvm::cl::init("-"), cl::Required);
 llvm::cl::opt<std::string> symbolics_file("symbolics", llvm::cl::desc("Global Variables you want to be symbolic, symex will recusrively make everything symbolic. For polymorphic pointers, you need annotations."), llvm::cl::init(""), cl::Optional);
-
+Type* getInnermostPointedToType(Type* type);
 vector <string> global_symbolics;
 Function * mk_sym;
 ConstantPointerNull* null_ptr;
@@ -127,6 +127,12 @@ int make_symbolic(IRBuilder<> &Builder, Value * symbol, string name) {
 		Value * sizeInt;
 		auto local_copy = false;
 		PointerType *Int8PtrTy = Type::getInt8PtrTy(Builder.getContext());
+		//Crude way to control recursion, no one making this long of a name
+		if (name.length() > 80) {
+				cerr<<"Ending nesting:"<<endl;
+				cerr<<name<<" will not be symbolic"<<endl;
+				return 0;
+		} 
 		if (symbol->getType()->isSized()) {
 				auto type = symbol->getType();
 				auto ty = type;
@@ -149,8 +155,20 @@ int make_symbolic(IRBuilder<> &Builder, Value * symbol, string name) {
 							v = LocalVar;
 #endif
 						} else {
+							if (getInnermostPointedToType(ptr)->isFunctionTy()) {
+									cerr<< "Function Pointer requested, I will not make it symbolic"<<endl;
+									ptr->dump();
+									return 0;
+							}
 							if (isa<PointerType>(ptr->getElementType())) {
 									cerr<<"Experimental Nested pointers support"<<endl;
+									//If Function 
+									if (getInnermostPointedToType(ptr->getElementType())->isFunctionTy()) {
+											cerr<< "Function Pointer requested while nesting, I will not make it symbolic"<<endl;
+											
+		                                    ptr->dump();
+											return 0;
+									}
 									//Allocate memory for the pointee as well.
 									auto pointee_alloca = 
 											Builder.CreateAlloca((cast<PointerType>(ptr->getElementType()))->getElementType(), nullptr, "pointee_mem");
@@ -205,6 +223,11 @@ int make_symbolic(IRBuilder<> &Builder, Value * symbol, string name) {
 	                                                    Builder.getInt32(i)  // field index
 	                                        };
 											if (auto field_ptr = dyn_cast<PointerType>(FieldType)) {
+												if ((getInnermostPointedToType(field_ptr))->isFunctionTy()) {
+														cerr<<"Skipping Functino Pointer Field"<<endl;
+														symbol->dump();
+														return 0;
+												}
 												auto pointee_alloca =
 	                 	                        Builder.CreateAlloca(field_ptr->getElementType(), nullptr, "pointee_mem");
 												make_symbolic(Builder, pointee_alloca, name + "_field_" + std::to_string(i));
@@ -488,6 +511,12 @@ void symex_create_global_symbolics (IRBuilder<> &builder) {
 		for (auto G = svfModule->global_begin(), E = svfModule->global_end(); G != E; ++G) {
 				auto glob = *G;
 				if (vContains(global_symbolics,  glob->getName().str())) {
+								if (glob->isConstant() && glob->hasInitializer()) {
+										//probably a hardcoded string
+										cerr<<"Skipping Global Var"<<endl;
+										glob->dump();
+										continue;
+								}
 								make_symbolic(builder, glob, "global_var" + glob->getName().str());	
 				}
 		}
@@ -775,8 +804,8 @@ void symex_create_args_symbolics(IRBuilder<> &builder) {
 		}
 }
 
-#define THRESHOLD 100
-#define VOID_INLINE true
+#define THRESHOLD 10
+#define VOID_INLINE false
 void symex_inline_funcs(IRBuilder<> &builder) {
 		vector<CallInst *> calls;
         for (auto bb=entry_fn->begin();bb!=entry_fn->end(); bb++) {

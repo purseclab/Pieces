@@ -30,11 +30,11 @@ compiler.analyze(input["firmware"])
 
 firmware = ec_loader.Firmware(input["firmware"])
 
-print("Here")
 symex = symex.SymEx()
-#fun = "_ZN6AC_PID8update_iEfb"
-#fun = "_ZN6AC_PID10update_allEfffbf"
-fun = "pid_calculate"
+fun = "_ZN6AC_PID8update_iEfb"
+fun = "_ZN6AC_PID10update_allEfffbf"
+#fun = "pid_calculate"
+fun = "_ZN7NavEKF312UpdateFilterEv"
 summaries = symex.generate_summary(firmware, fun)
 
 math_q = symex.filter_queries_with_math(summaries)
@@ -43,13 +43,15 @@ only_math_q = []
 for q in math_q:
 	only_math_q = only_math_q + symex.filter_math(q)
 
+
 sir = []
 for q in only_math_q:
-	sir.append(symex.super_simple(q))
+	if not "..."  in str(q):
+		sir.append(symex.super_simple(q))
 
 for path in sir:
 	if len(symex.get_addends(path)) ==3:
-		print(path)
+		print(symex.get_addends(path))
 		break
 
 		
