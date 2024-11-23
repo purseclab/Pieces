@@ -274,6 +274,7 @@ class SymEx:
 		with open(os.environ["P_OUT_DIR"] +"klee-last/test000001.smt2", 'r') as file:
 			summary = file.read()
 
+		set_option(max_args=10000000, max_lines=1000000, max_depth=10000000, max_visited=1000000)
 		matching_files = glob.glob(os.environ["P_OUT_DIR"] +"klee-last/return_query_*")
 		summaries = []
 		for file in matching_files:
