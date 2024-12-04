@@ -41,6 +41,9 @@
 /* Entry point for the function */
 llvm::cl::opt<std::string> entry_point(cl::Positional, llvm::cl::desc("Entry Point"), llvm::cl::init("-"), cl::Required);
 llvm::cl::opt<std::string> symbolics_file("symbolics", llvm::cl::desc("Global Variables you want to be symbolic, symex will recusrively make everything symbolic. For polymorphic pointers, you need annotations."), llvm::cl::init(""), cl::Optional);
+llvm::cl::opt<unsigned int> THRESHOLD("threshold", llvm::cl::desc("Number to control accuracy of semantics, higher number means more modeled but will be slower"), llvm::cl::init(10), cl::Required);
+llvm::cl::opt<bool> VOID_INLINE("void_inline", llvm::cl::desc("Consider void functions for semantics. Void function might not be pure, so can result in better semantics"), llvm::cl::init(false));
+
 Type* getInnermostPointedToType(Type* type);
 vector <string> global_symbolics;
 Function * mk_sym;
@@ -804,8 +807,6 @@ void symex_create_args_symbolics(IRBuilder<> &builder) {
 		}
 }
 
-#define THRESHOLD 10
-#define VOID_INLINE false
 void symex_inline_funcs(IRBuilder<> &builder) {
 		vector<CallInst *> calls;
         for (auto bb=entry_fn->begin();bb!=entry_fn->end(); bb++) {
