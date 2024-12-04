@@ -17,6 +17,8 @@ class SymEx:
 	bv_math_funs = ["bvmul", "bvadd", "bvsub", "bvudiv", "bvurem", "bvsdiv", "bvsrem", "bvsmod", "bvneg", "bvabs"]
 	debug_info = {}
 	ardu_config_types = ["class.AP_ParamT", "struct.ardupilot_indication_SafetyState"]
+	threshold = 10
+	void_inline = True
 
 	def filter_queries_with_math(self, summaries):
 		math_q = []
@@ -270,7 +272,9 @@ class SymEx:
 			for obj in firmware.pdg[function]:
 				file.write(obj + "\n")
 
-		run_cmd([os.environ["SYMEX"], "--symbolics=obj_list", function , firmware.symex_bc])
+		args = [os.environ["SYMEX"], "--symbolics=obj_list", function , "--threshold", str(self.threshold), ("--void_inline" if self.void_inline else ""),  firmware.symex_bc]
+		args[:] = [s for s in args if s]
+		run_cmd(args)
 		with open(os.environ["P_OUT_DIR"] +"klee-last/test000001.smt2", 'r') as file:
 			summary = file.read()
 

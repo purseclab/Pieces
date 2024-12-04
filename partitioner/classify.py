@@ -31,8 +31,10 @@ compiler.analyze(input["firmware"])
 firmware = ec_loader.Firmware(input["firmware"])
 
 symex = symex.SymEx()
+symex.void_inline = True
+symex.threshold = 10000
 fun = "_ZN6AC_PID8update_iEfb"
-fun = "_ZN6AC_PID10update_allEfffbf"
+#fun = "_ZN6AC_PID10update_allEfffbf"
 #fun = "pid_calculate"
 #fun = "_ZN7NavEKF312UpdateFilterEv"
 summaries = symex.generate_summary(firmware, fun)
