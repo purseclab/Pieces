@@ -31,8 +31,8 @@ compiler.analyze(input["firmware"])
 firmware = ec_loader.Firmware(input["firmware"])
 
 symex = symex.SymEx()
-symex.void_inline = True
-symex.threshold = 10000
+symex.void_inline = True #True means slower
+symex.threshold = 10000 # Higher means better accuracy, but slower
 fun = "_ZN6AC_PID8update_iEfb"
 #fun = "_ZN6AC_PID10update_allEfffbf"
 #fun = "pid_calculate"

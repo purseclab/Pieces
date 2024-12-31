@@ -5,37 +5,12 @@ from llvmlite import ir, binding
 
 class Firmware:
 	printDevUsage = False
-	def load_bitcode(self, filename):
-		# Load the LLVM shared object
-		binding.initialize()
-		binding.initialize_native_target()
-		binding.initialize_native_asmprinter()
-
-		# Create a new LLVM context and module
-		context = ir.Context()
-		module = ir.Module(context=context)
-
-		# Read bitcode from file
-		with open(filename, 'rb') as f:
-				bitcode = f.read()
-
-		# Parse bitcode into module
-		module = binding.parse_bitcode(bitcode)
-
-		return module
-
-	def get_fun_llir(self, name):
-		return self.module.get_function(name)
-
-	def get_fun_sir(self, path, name):
-		pass 
 
 	def __init__(self, config, llvm_data_dir=None):
 		if llvm_data_dir is None:
 			llvm_data_dir = os.environ["P_OUT_DIR"]
 		self.config = config
 		self.bitcode = config["bc"]
-		self.module = self.load_bitcode(self.bitcode)
 		self.symex_bc = config["symex_bc"]
 		self.platform = config["platform"]
 		self.svd = config["svd"]
