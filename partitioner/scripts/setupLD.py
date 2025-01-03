@@ -12,10 +12,19 @@ def writeCodeSections(cpatch, num):
 			cpatch.write("	  *(.csection"+str(i)+")\n")
 			cpatch.write("	  . = ALIGN(4);\n")
 			cpatch.write("_ecsection"+str(i)+" = .;\n")
+			cpatch.write("_szcsection"+str(i)+" = _ecsection" +str(i) +" - _scsection" +str(i) +";")
 			cpatch.write("  } > FLASH \n")
 
 def writeDataSections(dpatch, num):
 	for i in range(num):
+			dpatch.write("  .osection"+str(i) +"data : /* AT ( _sidata ) */\n")
+			dpatch.write("  { . = ALIGN(4); \n")
+			dpatch.write("		_sosection"+str(i) +"data = .; \n")
+			dpatch.write("  *(.osection" +str(i)+"data)		   /* .data sections. */\n")
+			dpatch.write("  . = ALIGN(4); \n")
+			dpatch.write("  _eosection"+str(i) + "data = .;\n")
+			dpatch.write("} > RAM AT > FLASH\n")
+			dpatch.write("_sosection" +str(i)+"datal = LOADADDR(.osection" +str(i)+"data);\n")
 			dpatch.write("  .osection"+str(i) +" : AT ( _sidata  + compartLMA)\n")
 			dpatch.write("  {\n")
 			dpatch.write("	  . = ALIGN(4);\n")
@@ -23,7 +32,7 @@ def writeDataSections(dpatch, num):
 			dpatch.write("	  *(.osection"+str(i)+")\n")
 			dpatch.write("	  . = ALIGN(4);\n")
 			dpatch.write("	  _eosection" +str(i) +" = .;\n")
-#			dpatch.write("  }  > RAM AT > FLASH \n")
+			dpatch.write("_szosection" +str(i) +" = _eosection" +str(i) +" - _sosection" +str(i) +"data;")
 			dpatch.write("  }  > RAM \n")
 			dpatch.write("compartLMA = compartLMA + SIZEOF(.osection"+str(i) +"); \n")
 
@@ -65,24 +74,43 @@ def main(argv):
 					outFile.write(line)
 
 	prologue_string  = "#include <monitor.h> \n"
-	if arch=="armv7m":
-		prologue_string += "#include <arch/armv7m/arch.h> \n"
-	prologue_string += "RTMK_DATA \n SEC_INFO comp_info[] = {"
 	#CodeStart,CodeSize,DataStart,DataSize
-	endstring = "};"
+	endstring = "};\n"
 	f = open(configFile, "w")
 	f.write(prologue_string)
 	for i in range(num):
-			f.write("{0,0,0,0,0,0,0,0}")#Offset
-			if i!= (num -1):
-					f.write(",")
-	f.write(endstring)
-	f.write("int code_base;")
-	f.write("int code_size;")
-	f.write("int data_base;")
-	f.write("int data_size;")
+			f.write("LINKER_SYM(" +str(i) +");\n")
 
-	f.write("int total_secs = sizeof(comp_info) / sizeof(comp_info[0]);")
+	f.write("PRIVILEGED_DATA SEC_INFO comp_info[] = {")
+	for i in range(num):
+			f.write("{(int)&_scsection" +str(i) +",(int) &_szcsection" +str(i) +",(int) &_sosection" +str(i) +"data, (int) &_szosection" +str(i) +", 0,0,0,0,0}" ) 
+			if i!= (num -1):
+					f.write(",\n")
+	f.write(endstring)
+	f.write("PRIVILEGED_DATA unsigned long section_loads[] = {\n") 
+
+	for i in range(num):
+		f.write("(long)&_sosection" +str(i) +"datal")
+		if i!= (num -1):
+					f.write(",\n")
+
+	f.write(endstring)
+
+	f.write("PRIVILEGED_DATA unsigned long end_loads[] = {\n") 
+
+	for i in range(num):
+		f.write("(long)&_eosection" +str(i) +"data")
+		if i!= (num -1):
+					f.write(",\n")
+
+	f.write(endstring)
+
+	f.write("PRIVILEGED_DATA int code_base;")
+	f.write("PRIVILEGED_DATA int code_size;")
+	f.write("PRIVILEGED_DATA int data_base;")
+	f.write("PRIVILEGED_DATA int data_size;")
+
+	f.write("PRIVILEGED_DATA int total_secs = sizeof(comp_info) / sizeof(comp_info[0]);")
 
 	if not heapConfig:
 		return

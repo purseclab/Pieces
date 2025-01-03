@@ -53,7 +53,25 @@ def writeCodeSections(cpatch, csections):
 def writeDataSections(dpatch, dsections):
 	i =0
 	os = ".osection"
+'''
+		.osection0data : /* AT ( _sidata ) */
+    {
+        . = ALIGN(4);
+        *(.osection0data)           /* .data sections. */
+        . = ALIGN(4);
+        _eosection0data = .;
+    } > RAM AT > FLASH
+
+    _sosection0data = LOADADDR(.osection0data);
+'''
 	for section in range(len(dsections)):
+				dpatch.write("  .osection"+str(i) +"data : /* AT ( _sidata ) */\n")
+				dpatch.write("  { . = ALIGN(4); \n")
+				dpatch.write("  *(.osection" +str(i)+"data)           /* .data sections. */\n")
+				dpatch.write("  . = ALIGN(4); \n")
+				dpatch.write("  _eosection"+str(i) + "data = .;\n")
+				dpatch.write("} > RAM AT > FLASH\n")
+				dpatch.write("_sosection"+str(i) + "data = LOADADDR(.osection"+str(i) + "data);\n")
 				dpatch.write("  .osection"+str(i) +" : AT ( _sidata  + compartLMA)\n")
 				dpatch.write("  {\n")
 				dpatch.write("	. = "+ str(dsections[os + str(section)][1])+";\n")
