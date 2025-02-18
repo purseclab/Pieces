@@ -1,0 +1,10 @@
+mkdir out
+touch ./out/ffmap
+touch ./out/fdirmap
+touch ./out/dfmap
+touch ./out/fdmap
+touch ./out/rtmk.threadsreach
+touch ./out/rtmk.hist
+touch ./out/dg
+touch ./out/rtmk.ignore
+touch ./out/threads
