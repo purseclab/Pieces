@@ -17,7 +17,7 @@ sudo ln -s asm-generic/ asm
 ### LLVM 12
 
 LLVM-12 is recommended as the version of KLEE and SVF we will 
-were tested on 12.
+use were tested on LLVM 12.
 
 You can use build_llvm12.sh
 
