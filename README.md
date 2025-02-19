@@ -9,9 +9,17 @@ Following may be necessary on Ubuntu systems:
 
 ```sh
 sudo apt-get install libsqlite3-dev
-
+sudo apt install python3-clang
 cd /usr/include
 sudo ln -s asm-generic/ asm
+```
+
+The following python packages are also required:
+```
+kiwisolver
+llvmlite
+cmsis-svd
+cycler
 ```
 
 ### LLVM 12
@@ -60,6 +68,7 @@ Set the following environment variables:
 export PATH=$(realpath klee/build/bin):$PATH
 export SYMEX=$(realpath ArduSVF/Debug-build/bin/symex)
 export SVF=$(realpath ArduSVF/Debug-build/bin/svf-ex)
+export NO_RUN=1 # optional SVF analysis, disabled by default
 ```
 
 
