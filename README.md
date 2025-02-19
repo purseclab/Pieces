@@ -1,105 +1,100 @@
-# Pieces
-**Pieces** is a highly programmable language-agnostic automatic program compartmentalization framework. Pieces can be programmed to partition programs based on various criteria, including methods of isolation between compartments. For queries, either use GitHub issues (preferred method) or email the authors ([Arslan Khan](mailto:khan253@purdue.edu?subject=[GitHub]%20Source%20Han%20Sans)).
 
+# BIND Semantic Signature Generator
 
-## Dependencies
-Pieces is written on top of the following tools:
-1. SVF v2.2+
-1. Checked-C 12 (Also provided as builtin binary)
+## Prerequisites Setup
 
-Please see the corresponding projects for installation details. Feel free to ask any questions about the installation of any of the projects.
+### Ubuntu Specific
 
-## Source Code Details
-The source code is organized into three big submodules:
+Following may be necessary on Ubuntu systems:
 
-1. Partitioner: The main static analyzer that converts a monolithic firmware to a partitioned firmware.
-2. Bridge: libBridge that helps efficient communication between different compartments.
-3. Monitors: Runtime to support isolation during compartments. 
-4. Compiler: Example compiler with frontend changes required for Pieces.
-
-## How to run
-1. First install the listed dependencies. The installation is standard except for SVF, which will require adding a new SVF tool, which is provided at  ```./partitioner/llvm/SVF/Example/```. Either create a new tool or simply replace the base example tool.
-2. After installation you should tell the partitioner about the path of SVF in ```./partitioner/.env```
-3. Set environment if you plan to use Pieces frontend keywords, as described in CRT-C and EC papers. ```source set_environment.sh```
-4. Build your project to bitcode. (Please ping the authors if you require any help on this). Alternatively, we provide bitcode for FreeRTOS for running purposes.
-5. Invoke the run utility.
+```sh
+sudo apt-get install libsqlite3-dev
+sudo apt install python3-clang
+cd /usr/include
+sudo ln -s asm-generic/ asm
 ```
+
+The following python packages are also required:
+```
+kiwisolver
+llvmlite
+cmsis-svd
+cycler
+```
+
+### LLVM 12
+
+LLVM-12 is recommended as the version of KLEE and SVF we will 
+use were tested on LLVM 12.
+
+You can use build_llvm12.sh
+
+Set to path for convenience:
+```sh
+export PATH=$(realpath llvm_12/llvm-12.0.0.obj/bin):$PATH
+```
+
+### Looper KLEE
+
+You will need this custom version of KLEE:
+
+```sh
+git clone git@github.com:akulpillai/klee.git --branch looper
+```
+When building use llvm 12:
+```sh
+cd klee
+mkdir build 
+cd build
+cmake -DLLVM_LIBS=$(realpath ../../llvm_12/llvm-12.0.0.obj/lib/libLLVM-12.so) -DCMAKE_BUILD_TYPE=Release ..
+make -j12
+```
+
+### Build SVF Analysis
+```sh
+git clone git@github.com:purs3lab/ArduSVF.git
+export LLVM_DIR=$(realpath llvm_12/llvm-12.0.0.obj)
+cd ArduSVF
+./build.sh debug
+```
+
+## Partitioner Setup
+
+You will need the bitcode file of the firmware you want to generate signatures for.
+
+
+Set the following environment variables:
+```sh
+export PATH=$(realpath klee/build/bin):$PATH
+export SYMEX=$(realpath ArduSVF/Debug-build/bin/symex)
+export SVF=$(realpath ArduSVF/Debug-build/bin/svf-ex)
+export NO_RUN=1 # optional SVF analysis, disabled by default
+```
+
+
+## Run Partitioner
+
+
+Make sure to update the bitcode file path and SVD file path in the following.
+```sh
 cd partitioner
-./run.py ./rules/lwip.json
-```
-The output should look like:
-```bash
-WARN:Merging for shared data:pxCurrentTCB
-WARN:Users:
-WARN:	Clique: background_clique
-WARN:	test_etsan
-WARN:	Clique: background_clique
-WARN:	vTaskSwitchContext
-WARN:Merging for shared data:xSchedulerRunning
-WARN:Users:
-WARN:	Clique: background_clique
-WARN:	vTaskEndScheduler
-WARN:	Clique: background_clique
-WARN:	prvAddNewTaskToReadyList
-WARN:Merging for shared data:uxCriticalNesting
-WARN:Users:
-WARN:	Clique: background_clique
-WARN:	vPortEnterCritical
-WARN:	Clique: background_clique
-WARN:	prvTaskExitError
-WARN:Merging for shared data:SystemCoreClock
-WARN:Users:
-WARN:	Clique: background_clique
-WARN:	SystemCoreClockUpdate
-WARN:	Clique: background_clique
-WARN:	vPortSetupTimerInterrupt
-Number of compartments: 17
-Instrumenting firmware.
-Dissassembling ./out/temp.bc
-```
-run.py can give you an overview of how to use pieces programmatically as well. Pieces provide various program analyses, including symbolic execution, which can be used for analyzing firmware, compartmentalization, and much more. A simple Python script is shown below:
-```python 
-from llvm import Compiler
-import ec_loader
-compiler = Compiler()
-compiler.analyze(input["firmware"])
-firmware = ec_loader.Firmware(input["firmware"])
-```
 
-## Supporting a new project:
-TODO: Will add this soon too. 
+cat << 'EOF' > conf.json
+{
+  "firmware": {
+    "bc": "/home/akul/arducopter.bc",
+    "symex_bc": "/home/akul/arducopter.bc",
+    "platform": "stm32f4",
+    "svd_file": "/workdisk/akul/fire2/Pieces/partitioner/cmsis-svd-data/data/STMicro/STM32F401.svd",
+    "svd": "STM32F401",
+    "os": "unknown"
+  }
+}
+EOF
 
-## Citing this work.
-Pieces is built using a bunch of existing work and many more are on the way...
+./init_files.sh
 
-If you like or use our work. Please cite us using:
-1. [EC](https://ieeexplore.ieee.org/document/10179285)
-```@INPROCEEDINGS{10179285,
-  author={Khan, Arslan and Xu, Dongyan and Tian, Dave Jing},
-  booktitle={2023 IEEE Symposium on Security and Privacy (SP)}, 
-  title={EC: Embedded Systems Compartmentalization via Intra-Kernel Isolation}, 
-  year={2023},
-  volume={},
-  number={},
-  pages={2990-3007},
-  doi={10.1109/SP46215.2023.10179285}}
-
-```
-2. [CRT-C](https://ieeexplore.ieee.org/document/10179388)
-```
-@INPROCEEDINGS{10179388,
-  author={Khan, Arslan and Xu, Dongyan and Tian, Dave Jing},
-  booktitle={2023 IEEE Symposium on Security and Privacy (SP)}, 
-  title={Low-Cost Privilege Separation with Compile Time Compartmentalization for Embedded Systems}, 
-  year={2023},
-  volume={},
-  number={},
-  pages={3008-3025},
-  doi={10.1109/SP46215.2023.10179388}}
-
+python3 classify.py conf.json <mangled_function_name>
 ```
 
 
-
-
-Note: I am working on pushing code in the following few weeks.
