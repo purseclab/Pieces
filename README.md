@@ -94,7 +94,7 @@ EOF
 
 ./init_files.sh
 
-python3 classify.py conf.json
+python3 classify.py conf.json <mangled_function_name>
 ```
 
 
