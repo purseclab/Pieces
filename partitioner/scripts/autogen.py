@@ -2,8 +2,17 @@
 import subprocess
 import buildutils
 import os
-env = buildutils.load_project_meta()
+import sys
+
 NUM_DEFAULT_COMPARMENTS = 20
+if len(sys.argv) > 1:
+	print("Command-line arguments provided:", sys.argv[1:])
+	env = {}
+	env["LD_OVERLAY"] = sys.argv[1]
+	buildutils.save_project_meta(env)
+else:
+	env = buildutils.load_project_meta()
+
 
 
 directory = "autogen"
