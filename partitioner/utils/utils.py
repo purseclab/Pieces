@@ -6,7 +6,7 @@ import json
 import click
 from   cmsis_svd.parser import SVDParser
 
-DEBUG_ON = True
+DEBUG_ON = False
 class bcolors:
 	HEADER = '\033[95m'
 	OKBLUE = '\033[94m'

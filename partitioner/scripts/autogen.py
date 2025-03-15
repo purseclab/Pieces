@@ -5,6 +5,7 @@ import os
 import sys
 
 NUM_DEFAULT_COMPARMENTS = 20
+PHASE =0
 if len(sys.argv) > 1:
 	print("Command-line arguments provided:", sys.argv[1:])
 	env = {}
