@@ -9,10 +9,6 @@ def load_project_meta():
 		with open(env_file, "rb") as pickle_file:
 			env = pickle.load(pickle_file)
 		print("Loaded existing overlay map:", env)
-	else:
-		print("Project not initialized, please specify the overlay file")
-		print("autogen.py ./scripts/mps2_m3.ld.overlay")
-		exit()
 	return env
 
 def get_val(env, key):
