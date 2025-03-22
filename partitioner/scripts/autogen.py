@@ -1,12 +1,15 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.8
 import subprocess
 import buildutils
 import os
 import sys
 import re
+import math
 from pathlib import Path
 
+DEBUG_FLAG = False
 NUM_DEFAULT_COMPARMENTS = 20
+
 def find_sizeinfo_file():
 	return [str(file) for file in Path(".").rglob("sizeinfo")]
 
@@ -59,6 +62,9 @@ def find_phase(env):
 	sizeinfo = parse_sizeinfo(files[0])
 
 	total_partitioned_code =0
+	if DEBUG_FLAG:
+		print(sizeinfo)
+
 	for section in sizeinfo["sections"].keys():
 		if "csection" in section:
 			total_partitioned_code += sizeinfo["sections"][section]["size"]
@@ -80,17 +86,124 @@ def run_setupld(env, num_comps):
 	# Run the command
 	try:
 		result = subprocess.run(command, check=True, text=True, capture_output=True)
+		
+		if DEBUG_FLAG:
+			print("STDOUT:", result.stdout)
+			print("STDERR:", result.stderr)
 	except subprocess.CalledProcessError as e:
 		print("Error occurred while running the command:")
 		print(e.stderr)
 
-	
-	
+def next_power_of_2(n):
+    return 1 if n == 0 else 2**math.ceil(math.log2(n))
+
+def get_sections_line_index(lines):
+    for index, line in enumerate(lines):
+        if "SECTIONS" in line:
+            return index
+    return -1  # Return -1 if SECTIONS is not found
+
+def Log2(x):
+	return (math.log10(x) /
+			math.log10(2))
+
+def isPowerOfTwo(n):
+    return (math.ceil(Log2(n)) == math.floor(Log2(n)))
+
+def adjust_sections(linker_script, section_info):
+
+	prev_sec_end_addr = 0
+	new_file_lines = []
+
+	with open(linker_script, 'r') as file:
+		lines = file.readlines()
+    
+	sections_start = get_sections_line_index(lines)
+    
+	index = 0
+	while index < len(lines):
+
+		# Phase 1: Copy everything until sections start
+		line = lines[index]
+		new_file_lines.append(line)
+		
+		if index <= sections_start:
+			index += 1
+			continue
+		
+		# Phase 2: This means that we are inside SECTIONS
+		if  "csection" in line or "osection" in line and ":" in line: 
+			# Handle MPU address constraints logic
+			text = lines[index]
+			if ":" in text:
+				extracted_section_text = text.split(":")[0].split()[0]
+
+			if "{" in lines[index+1] :
+				index = index+1
+				new_file_lines.append(lines[index])
+
+            # This is where we should handle our location counter logic
+			size = section_info[extracted_section_text]["size"]
+			addr = section_info[extracted_section_text]["addr"]
+			orig_addr = addr
+
+			if addr < prev_sec_end_addr:
+				addr = prev_sec_end_addr
+
+			if size != 0:
+                # Ensure size is a power of 2 and at least 32 bytes (Constraint 1 and 2)
+				if size < 32 or not isPowerOfTwo(size):
+					new_size = max(next_power_of_2(size), 32)
+					if DEBUG_FLAG:
+						print(f"Adjusting size of {extracted_section_text}: {size} -> {new_size}")
+					size = new_size
+            
+                # Ensure base address is a multiple of the new size (Constraint 3)
+				if addr % size != 0:
+					new_addr = ((addr // size)+1) * size
+					if DEBUG_FLAG:
+						print(f"Adjusting address of {extracted_section_text}: {addr} -> {new_addr}")
+					addr = new_addr
+        
+			start_location_counter = "\t\t. = " + str(addr) + " ;\n"
+			new_file_lines.append(start_location_counter)
+
+			end_addr = addr + size
+			end_location_counter = "\t\t. = " + str(end_addr) + " ;\n"
+            
+			if DEBUG_FLAG:
+				print(f"section: {extracted_section_text}")
+				print(f"orig_address: {orig_addr}")
+				print(f"new_addr: {addr}")
+				print(f"end_addr: {end_addr}")
+				print(f"prev_sec_end_addr: {prev_sec_end_addr}")
+
+			prev_sec_end_addr = end_addr
+			while("}" not in lines[index]):
+				index = index +1
+				new_file_lines.append(lines[index])
+            
+			new_file_lines.insert(len(new_file_lines) - 2, end_location_counter)
+
+		index += 1
+
+	with open(linker_script, 'w') as new_file:
+		new_file.writelines(new_file_lines)
+
+def fix_mpu_reqs(env):
+
+	size_info_file = find_sizeinfo_file()[0] # Fix find_sizeinfo_file func to return the file path
+	sizeinfo = parse_sizeinfo(size_info_file)
+	linker_file = env["LD_OVERLAY"].replace("overlay","ld")  #Fix ld file path
+
+	adjust_sections(linker_file, sizeinfo["sections"])
+
 
 directory = "autogen"
 env = buildutils.load_project_meta()
 phase = find_phase(env)
 print("We are in phase:" + str(phase))
+
 
 if phase ==0:
 	if len(sys.argv) > 1:
@@ -112,8 +225,7 @@ if phase ==2:
 	run_setupld(env, get_num_compartments())
 
 if phase ==3:
-	#TODO: Run setup LD with fixup.
-	print("Errrrrr")
+	fix_mpu_reqs(env)
 	
 
 
