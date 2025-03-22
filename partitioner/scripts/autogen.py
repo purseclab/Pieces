@@ -207,7 +207,6 @@ def adjust_sections(linker_script, section_info):
 		new_file.writelines(new_file_lines)
 
 def fix_mpu_reqs(env):
-
 	size_info_file = find_sizeinfo_file()[0] # Fix find_sizeinfo_file func to return the file path
 	sizeinfo = parse_sizeinfo(size_info_file)
 	linker_file = env["LD_OVERLAY"].replace("overlay","ld")  #Fix ld file path
@@ -241,7 +240,21 @@ if phase ==2:
 	run_setupld(env, get_num_compartments())
 
 if phase ==3:
+	linker_file = env["LD_OVERLAY"].replace("overlay","ld")
+	if 'LD_MOD_TIME' in env:
+		current_mod_time = os.path.getmtime(linker_file)
+		if env["LD_MOD_TIME"] == current_mod_time:
+			print("Linker script has not been modified!!!")
+		else:
+			print("Linker script has been modified after phase 3. Run from start again.")
+		exit()
+
 	fix_mpu_reqs(env)
+	env["LD_MOD_TIME"] = current_mod_time = os.path.getmtime(linker_file)
+	print("Generated new linkerscript.")
+	print("Changed metadata: ", env)
+	buildutils.save_project_meta(env)
+
 	
 
 
