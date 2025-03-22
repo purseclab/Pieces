@@ -4,8 +4,11 @@ import sys, getopt
 
 def writeCodeSections(cpatch, num):
 	print("Number of compartments:" +str(num))
+	#Write prefix
+	cpatch.write(f"CODE_SECTIONS_START = LOADADDR(.osection{num-1}data) + SIZEOF(.osection{num-1}data);")
+	cpatch.write(f"COMPARTMENT_CODE_COUNTER = 0;")
 	for i in range(num):
-			cpatch.write("  .csection"+str(i) +" : \n")
+			cpatch.write("  .csection"+str(i) +" : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER)\n")
 			cpatch.write("  {\n")
 			cpatch.write("_scsection"+str(i)+" = .;\n")
 			cpatch.write("	  . = ALIGN(4);\n")
@@ -14,18 +17,23 @@ def writeCodeSections(cpatch, num):
 			cpatch.write("_ecsection"+str(i)+" = .;\n")
 			cpatch.write("_szcsection"+str(i)+" = _ecsection" +str(i) +" - _scsection" +str(i) +";")
 			cpatch.write("  } > FLASH \n")
+			cpatch.write(f"COMPARTMENT_CODE_COUNTER = COMPARTMENT_CODE_COUNTER + SIZEOF(.csection{i}); \n")
 
 def writeDataSections(dpatch, num):
+	#Write prefix
+	dpatch.write(f"COMPARTMENT_DATA_START = LOADADDR(.data) + SIZEOF(.data);")
+	dpatch.write(f"COMPARTMENT_DATA_COUNTER = 0;")
 	for i in range(num):
-			dpatch.write("  .osection"+str(i) +"data : /* AT ( _sidata ) */\n")
+			dpatch.write("  .osection"+str(i) +"data : AT (COMPARTMENT_DATA_START + COMPARTMENT_DATA_COUNTER) \n")
 			dpatch.write("  { . = ALIGN(4); \n")
 			dpatch.write("		_sosection"+str(i) +"data = .; \n")
 			dpatch.write("  *(.osection" +str(i)+"data)		   /* .data sections. */\n")
 			dpatch.write("  . = ALIGN(4); \n")
 			dpatch.write("  _eosection"+str(i) + "data = .;\n")
-			dpatch.write("} > RAM AT > FLASH\n")
+			dpatch.write("} > RAM \n")
+			dpatch.write(f"COMPARTMENT_DATA_COUNTER = COMPARTMENT_DATA_COUNTER + SIZEOF(.osection{i}data); \n")
 			dpatch.write("_sosection" +str(i)+"datal = LOADADDR(.osection" +str(i)+"data);\n")
-			dpatch.write("  .osection"+str(i) +" : AT ( _sidata  + compartLMA)\n")
+			dpatch.write("  .osection"+str(i) +" :\n")
 			dpatch.write("  {\n")
 			dpatch.write("	  . = ALIGN(4);\n")
 			dpatch.write("	  _sosection" +str(i) +" = .;\n")
@@ -34,7 +42,6 @@ def writeDataSections(dpatch, num):
 			dpatch.write("	  _eosection" +str(i) +" = .;\n")
 			dpatch.write("_szosection" +str(i) +" = _eosection" +str(i) +" - _sosection" +str(i) +"data;")
 			dpatch.write("  }  > RAM \n")
-			dpatch.write("compartLMA = compartLMA + SIZEOF(.osection"+str(i) +"); \n")
 
 def main(argv):
 	num = 0

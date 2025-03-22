@@ -215,7 +215,7 @@ if phase ==0:
 			os.makedirs(directory)
 	else:
 		print("Project not initialized, please specify the overlay file")
-		print("autogen.py ./scripts/mps2_m3.ld.overlay")
+		print("autogen.py ./scripts/mps2_m3.overlay")
 		exit()
 
 if phase ==1:
