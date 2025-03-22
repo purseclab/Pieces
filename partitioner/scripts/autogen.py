@@ -71,8 +71,6 @@ def find_phase(env):
 		if "csection" in section:
 			total_partitioned_code += sizeinfo["sections"][section]["size"]
 
-	print(sizeinfo["sections"])
-	print(total_partitioned_code)
 	if total_partitioned_code == 0:
 		return 2
 	else:
@@ -116,7 +114,8 @@ def isPowerOfTwo(n):
 
 def adjust_sections(linker_script, section_info):
 
-	prev_sec_end_addr = 0
+	cprev_sec_end_addr = 0
+	oprev_sec_end_addr = 0
 	new_file_lines = []
 
 	with open(linker_script, 'r') as file:
@@ -154,8 +153,13 @@ def adjust_sections(linker_script, section_info):
 			addr = section_info[extracted_section_text]["addr"]
 			orig_addr = addr
 
-			if addr < prev_sec_end_addr:
-				addr = prev_sec_end_addr
+			if "csection" in line:
+				if addr < cprev_sec_end_addr:
+					addr = cprev_sec_end_addr
+			elif "osection" in line:
+				if addr < oprev_sec_end_addr:
+					addr = oprev_sec_end_addr
+
 
 			if size != 0:
                 # Ensure size is a power of 2 and at least 32 bytes (Constraint 1 and 2)
@@ -183,9 +187,14 @@ def adjust_sections(linker_script, section_info):
 				print(f"orig_address: {orig_addr}")
 				print(f"new_addr: {addr}")
 				print(f"end_addr: {end_addr}")
-				print(f"prev_sec_end_addr: {prev_sec_end_addr}")
+				print(f"cprev_sec_end_addr: {cprev_sec_end_addr}")
+				print(f"oprev_sec_end_addr: {oprev_sec_end_addr}")
 
-			prev_sec_end_addr = end_addr
+			if "csection" in line:
+				cprev_sec_end_addr = end_addr
+			elif "osection" in line:
+				oprev_sec_end_addr = end_addr
+
 			while("}" not in lines[index]):
 				index = index +1
 				new_file_lines.append(lines[index])
@@ -198,7 +207,6 @@ def adjust_sections(linker_script, section_info):
 		new_file.writelines(new_file_lines)
 
 def fix_mpu_reqs(env):
-
 	size_info_file = find_sizeinfo_file()[0] # Fix find_sizeinfo_file func to return the file path
 	sizeinfo = parse_sizeinfo(size_info_file)
 	linker_file = env["LD_OVERLAY"].replace("overlay","ld")  #Fix ld file path
@@ -232,7 +240,21 @@ if phase ==2:
 	run_setupld(env, get_num_compartments())
 
 if phase ==3:
+	linker_file = env["LD_OVERLAY"].replace("overlay","ld")
+	if 'LD_MOD_TIME' in env:
+		current_mod_time = os.path.getmtime(linker_file)
+		if env["LD_MOD_TIME"] == current_mod_time:
+			print("Linker script has not been modified!!!")
+		else:
+			print("Linker script has been modified after phase 3. Run from start again.")
+		exit()
+
 	fix_mpu_reqs(env)
+	env["LD_MOD_TIME"] = current_mod_time = os.path.getmtime(linker_file)
+	print("Generated new linkerscript.")
+	print("Changed metadata: ", env)
+	buildutils.save_project_meta(env)
+
 	
 
 
