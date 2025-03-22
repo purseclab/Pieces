@@ -5,7 +5,7 @@
 ## Dependencies
 Pieces is written on top of the following tools:
 1. SVF v2.2+
-1. Checked-C 12 (Also provided as builtin binary)
+2. Checked-C 12 (Also provided as builtin binary)
 
 Please see the corresponding projects for installation details. Feel free to ask any questions about the installation of any of the projects.
 
