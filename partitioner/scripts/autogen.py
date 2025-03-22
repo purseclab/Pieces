@@ -71,8 +71,6 @@ def find_phase(env):
 		if "csection" in section:
 			total_partitioned_code += sizeinfo["sections"][section]["size"]
 
-	print(sizeinfo["sections"])
-	print(total_partitioned_code)
 	if total_partitioned_code == 0:
 		return 2
 	else:
@@ -116,7 +114,8 @@ def isPowerOfTwo(n):
 
 def adjust_sections(linker_script, section_info):
 
-	prev_sec_end_addr = 0
+	cprev_sec_end_addr = 0
+	oprev_sec_end_addr = 0
 	new_file_lines = []
 
 	with open(linker_script, 'r') as file:
@@ -154,8 +153,13 @@ def adjust_sections(linker_script, section_info):
 			addr = section_info[extracted_section_text]["addr"]
 			orig_addr = addr
 
-			if addr < prev_sec_end_addr:
-				addr = prev_sec_end_addr
+			if "csection" in line:
+				if addr < cprev_sec_end_addr:
+					addr = cprev_sec_end_addr
+			elif "osection" in line:
+				if addr < oprev_sec_end_addr:
+					addr = oprev_sec_end_addr
+
 
 			if size != 0:
                 # Ensure size is a power of 2 and at least 32 bytes (Constraint 1 and 2)
@@ -183,9 +187,14 @@ def adjust_sections(linker_script, section_info):
 				print(f"orig_address: {orig_addr}")
 				print(f"new_addr: {addr}")
 				print(f"end_addr: {end_addr}")
-				print(f"prev_sec_end_addr: {prev_sec_end_addr}")
+				print(f"cprev_sec_end_addr: {cprev_sec_end_addr}")
+				print(f"oprev_sec_end_addr: {oprev_sec_end_addr}")
 
-			prev_sec_end_addr = end_addr
+			if "csection" in line:
+				cprev_sec_end_addr = end_addr
+			elif "osection" in line:
+				oprev_sec_end_addr = end_addr
+
 			while("}" not in lines[index]):
 				index = index +1
 				new_file_lines.append(lines[index])
