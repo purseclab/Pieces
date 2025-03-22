@@ -71,6 +71,8 @@ def find_phase(env):
 		if "csection" in section:
 			total_partitioned_code += sizeinfo["sections"][section]["size"]
 
+	print(sizeinfo["sections"])
+	print(total_partitioned_code)
 	if total_partitioned_code == 0:
 		return 2
 	else:
@@ -139,6 +141,9 @@ def adjust_sections(linker_script, section_info):
 			text = lines[index]
 			if ":" in text:
 				extracted_section_text = text.split(":")[0].split()[0]
+			else:
+				index += 1
+				continue
 
 			if "{" in lines[index+1] :
 				index = index+1
