@@ -5,8 +5,8 @@ import sys, getopt
 def writeCodeSections(cpatch, num):
 	print("Number of compartments:" +str(num))
 	#Write prefix
-	cpatch.write(f"CODE_SECTIONS_START = LOADADDR(.osection{num-1}data) + SIZEOF(.osection{num-1}data);")
-	cpatch.write(f"COMPARTMENT_CODE_COUNTER = 0;")
+	cpatch.write(f"CODE_SECTIONS_START = LOADADDR(.osection{num-1}data) + SIZEOF(.osection{num-1}data);\n")
+	cpatch.write(f"COMPARTMENT_CODE_COUNTER = 0;\n")
 	for i in range(num):
 			cpatch.write("  .csection"+str(i) +" : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER)\n")
 			cpatch.write("  {\n")
@@ -21,8 +21,8 @@ def writeCodeSections(cpatch, num):
 
 def writeDataSections(dpatch, num):
 	#Write prefix
-	dpatch.write(f"COMPARTMENT_DATA_START = LOADADDR(.data) + SIZEOF(.data);")
-	dpatch.write(f"COMPARTMENT_DATA_COUNTER = 0;")
+	dpatch.write(f"COMPARTMENT_DATA_START = LOADADDR(.data) + SIZEOF(.data); \n")
+	dpatch.write(f"COMPARTMENT_DATA_COUNTER = 0;\n")
 	for i in range(num):
 			dpatch.write("  .osection"+str(i) +"data : AT (COMPARTMENT_DATA_START + COMPARTMENT_DATA_COUNTER) \n")
 			dpatch.write("  { . = ALIGN(4); \n")

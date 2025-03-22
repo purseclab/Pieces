@@ -59,6 +59,8 @@ def find_phase(env):
 	#Firmware objects no instrumented
 	#TODO: What if more files?
 	files = find_sizeinfo_file()
+	if (len(files) == 0):
+		return 1
 	sizeinfo = parse_sizeinfo(files[0])
 
 	total_partitioned_code =0
