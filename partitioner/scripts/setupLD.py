@@ -8,7 +8,7 @@ def writeCodeSections(cpatch, num):
 	cpatch.write(f"CODE_SECTIONS_START = LOADADDR(.osection{num-1}data) + SIZEOF(.osection{num-1}data);\n")
 	cpatch.write(f"COMPARTMENT_CODE_COUNTER = 0;\n")
 	for i in range(num):
-			cpatch.write("  .csection"+str(i) +" : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER)\n")
+			cpatch.write("  .csection"+str(i) + " (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER) : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER)\n")
 			cpatch.write("  {\n")
 			cpatch.write("_scsection"+str(i)+" = .;\n")
 			cpatch.write("	  . = ALIGN(4);\n")

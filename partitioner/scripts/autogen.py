@@ -241,6 +241,7 @@ if phase ==2:
 
 if phase ==3:
 	linker_file = env["LD_OVERLAY"].replace("overlay","ld")
+	fix_mpu_reqs(env)
 	if 'LD_MOD_TIME' in env:
 		current_mod_time = os.path.getmtime(linker_file)
 		if env["LD_MOD_TIME"] == current_mod_time:
