@@ -10,6 +10,53 @@ from pathlib import Path
 DEBUG_FLAG = False
 NUM_DEFAULT_COMPARMENTS = 20
 
+def get_lma_vma_from_objdump(elf_file):  #ToDo: Move this to binutils
+	# Check if the file exists
+	if not os.path.isfile(elf_file):
+		raise FileNotFoundError(f"The file '{elf_file}' does not exist.")
+
+	# Run arm-none-eabi-objdump to get section headers
+	try:
+		result = subprocess.run(
+			['arm-none-eabi-objdump', '-h', elf_file],
+			stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True
+		)
+	except subprocess.CalledProcessError as e:
+		raise RuntimeError(f"Error running objdump: {e.stderr}")
+
+	# Dictionary to store sections' LMA and VMA
+	sections = {}
+
+	# Parse the objdump output
+	lines = result.stdout.splitlines()
+
+	# Flag to indicate whether we are parsing a section header
+	parsing_section = False
+
+
+	for line in lines:
+		# Look for section header lines (those starting with space and not starting with a number or "Idx")
+
+		if line.strip() and line.strip()[0].isdigit():
+			# Extract the section's name, VMA, and LMA
+			parts = line.split()
+			if len(parts) == 7:  # Ensure there's enough data in the line
+				section_name = parts[1]
+				vma = parts[3]  # VMA is in the 4th column
+				lma = parts[4]  # LMA is in the 5th column
+				sections[section_name] = {'VMA': vma, 'LMA': lma}
+
+		# Skip section attribute lines (those that don't start with numbers and are indented)
+		# These lines describe section flags like CONTENTS, ALLOC, LOAD, etc.
+		elif line.strip() and not line[0].isdigit():
+			continue
+
+	# If no sections found, raise an error
+	if not sections:
+		raise ValueError("No sections found in the ELF file.")
+
+	return sections
+
 def find_sizeinfo_file():
 	return [str(file) for file in Path(".").rglob("sizeinfo")]
 
@@ -112,11 +159,42 @@ def Log2(x):
 def isPowerOfTwo(n):
     return (math.ceil(Log2(n)) == math.floor(Log2(n)))
 
-def adjust_sections(linker_script, section_info):
+def fixLMAAndVMA(size, vma, lma):    
+	if size != 0:
+		# Ensure size is a power of 2 and at least 32 bytes (Constraint 1 and 2)
+		if size < 32 or not isPowerOfTwo(size):
+			new_size = max(next_power_of_2(size), 32)
+			if DEBUG_FLAG:
+				print(f"Adjusting size of : {size} -> {new_size}")
+			size = new_size
 
+		# Ensure base address is a multiple of the new size (Constraint 3)
+		if vma % size != 0:
+			new_vma = ((vma // size)+1) * size
+			if DEBUG_FLAG:
+				print(f"Adjusting address of : {vma} -> {new_vma}")
+			vma = new_vma
+		
+		# Ensure base address is a multiple of the new size (Constraint 3)
+		if lma % size != 0:
+			new_lma = ((lma // size)+1) * size
+			if DEBUG_FLAG:
+				print(f"Adjusting address of : {lma} -> {new_lma}")
+			lma = new_lma
+	return size, vma, lma
+
+def adjust_sections(linker_script, section_info, project_binary_path):
+
+	lma_vma_addr_secs = get_lma_vma_from_objdump(project_binary_path)
+
+	code_sections_start = 0
+	compartment_code_counter = 0 
 	cprev_sec_end_addr = 0
-	oprev_sec_end_addr = 0
+	oprev_vma_end_addr = 0
 	new_file_lines = []
+
+	ram_location_counter=0
+	flash_location_counter=0
 
 	with open(linker_script, 'r') as file:
 		lines = file.readlines()
@@ -134,8 +212,9 @@ def adjust_sections(linker_script, section_info):
 			index += 1
 			continue
 		
-		# Phase 2: This means that we are inside SECTIONS
-		if  "csection" in line or "osection" in line and ":" in line: 
+		
+		# Phase 2: This means that we are inside data section in SECTIONS
+		if  "osection" in line and ":" in line: #ToDo: Use Regex
 			# Handle MPU address constraints logic
 			text = lines[index]
 			if ":" in text:
@@ -144,62 +223,85 @@ def adjust_sections(linker_script, section_info):
 				index += 1
 				continue
 
+			# Load flash_location_counter with end of flash address of .data 
+			# i.e. LOADADDR(.data) + SIZEOF(.data)
+			if extracted_section_text == ".osection0data":
+				flash_location_counter = int(lma_vma_addr_secs['.data']['LMA'], 16) + section_info['.data']['size']
+				ram_location_counter = int(lma_vma_addr_secs['.data']['VMA'], 16) + section_info['.data']['size']
+				lma = flash_location_counter
+
 			if "{" in lines[index+1] :
 				index = index+1
 				new_file_lines.append(lines[index])
 
             # This is where we should handle our location counter logic
-			size = section_info[extracted_section_text]["size"]
-			addr = section_info[extracted_section_text]["addr"]
-			orig_addr = addr
+			osection = re.search(r"\.osection\d+", extracted_section_text).group()
 
-			if "csection" in line:
-				if addr < cprev_sec_end_addr:
-					addr = cprev_sec_end_addr
-			elif "osection" in line:
-				if addr < oprev_sec_end_addr:
-					addr = oprev_sec_end_addr
+			size_1 = section_info[extracted_section_text]["size"]
+			size_2 = section_info[osection]["size"]
+			size = size_1 + size_2
+			vma = section_info[extracted_section_text]["addr"]
 
+			if vma < oprev_vma_end_addr:
+				vma = oprev_vma_end_addr
 
-			if size != 0:
-                # Ensure size is a power of 2 and at least 32 bytes (Constraint 1 and 2)
-				if size < 32 or not isPowerOfTwo(size):
-					new_size = max(next_power_of_2(size), 32)
-					if DEBUG_FLAG:
-						print(f"Adjusting size of {extracted_section_text}: {size} -> {new_size}")
-					size = new_size
-            
-                # Ensure base address is a multiple of the new size (Constraint 3)
-				if addr % size != 0:
-					new_addr = ((addr // size)+1) * size
-					if DEBUG_FLAG:
-						print(f"Adjusting address of {extracted_section_text}: {addr} -> {new_addr}")
-					addr = new_addr
+			fixed_size, fixed_vma, fixed_lma = fixLMAAndVMA(size, vma, lma)
+
+			ram_padding = fixed_vma - vma
+			flash_location_counter=flash_location_counter+fixed_size+ram_padding
         
-			start_location_counter = "\t\t. = " + str(addr) + " ;\n"
+			start_location_counter = "\t\t. = " + str(fixed_vma) + " ;\n"
 			new_file_lines.append(start_location_counter)
 
-			end_addr = addr + size
-			end_location_counter = "\t\t. = " + str(end_addr) + " ;\n"
-            
-			if DEBUG_FLAG:
-				print(f"section: {extracted_section_text}")
-				print(f"orig_address: {orig_addr}")
-				print(f"new_addr: {addr}")
-				print(f"end_addr: {end_addr}")
-				print(f"cprev_sec_end_addr: {cprev_sec_end_addr}")
-				print(f"oprev_sec_end_addr: {oprev_sec_end_addr}")
+			while("}" not in lines[index]):
+				index = index +1
+				new_file_lines.append(lines[index])
+			
+			index = index+1
+			new_file_lines.append(lines[index])
 
-			if "csection" in line:
-				cprev_sec_end_addr = end_addr
-			elif "osection" in line:
-				oprev_sec_end_addr = end_addr
+			while("}" not in lines[index]):
+				index = index +1
+				new_file_lines.append(lines[index])
+			
+			vma_end_addr = fixed_vma + size
+			end_location_counter = "\t\t. = " + str(vma_end_addr) + " ;\n"
+			new_file_lines.insert(len(new_file_lines) - 2, end_location_counter)
+			oprev_vma_end_addr = vma_end_addr
+            
+			code_sections_start = flash_location_counter
+
+		# Phase 3: This means that we are inside code section in SECTIONS
+		if  "csection" in line and "CODE_SECTIONS_START" in line and ":" in line:  #ToDo: Use Regex 
+
+			
+			location_counter_base=code_sections_start+compartment_code_counter
+			location_counter = location_counter_base
+
+			# Check it it is the first section
+			# Handle MPU address constraints logic
+			text = lines[index]
+			first_item_line = text.split()[0]
+
+			size = section_info[first_item_line]["size"]
+			clma = location_counter
+			cvma = location_counter
+
+			fixed_csize, fixed_cvma, fixed_clma = fixLMAAndVMA(size, vma, lma)
+
+			offset = fixed_clma-lma
+			line = first_item_line + f" (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} ) : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} )\n"
+			
+			new_file_lines[-1] = line
+
+			end_location_counter = f"\t\t . =  (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} ) + {hex(fixed_csize)};\n"
 
 			while("}" not in lines[index]):
 				index = index +1
 				new_file_lines.append(lines[index])
             
 			new_file_lines.insert(len(new_file_lines) - 2, end_location_counter)
+			compartment_code_counter = compartment_code_counter + offset + fixed_csize
 
 		index += 1
 
@@ -210,8 +312,9 @@ def fix_mpu_reqs(env):
 	size_info_file = find_sizeinfo_file()[0] # Fix find_sizeinfo_file func to return the file path
 	sizeinfo = parse_sizeinfo(size_info_file)
 	linker_file = env["LD_OVERLAY"].replace("overlay","ld")  #Fix ld file path
+	project_binary_path = env["PHASE2_BINARY"]
 
-	adjust_sections(linker_file, sizeinfo["sections"])
+	adjust_sections(linker_file, sizeinfo["sections"], project_binary_path)
 
 
 directory = "autogen"
@@ -240,6 +343,18 @@ if phase ==2:
 	run_setupld(env, get_num_compartments())
 
 if phase ==3:
+	if "PHASE2_BINARY" not in env:
+		if len(sys.argv) > 1:
+			print("Command-line arguments provided:", sys.argv[1:])
+			env["PHASE2_BINARY"] = sys.argv[1]
+			buildutils.save_project_meta(env)
+			if not os.path.exists(directory):
+				os.makedirs(directory)
+		else:
+			print("Phase 2 project binary not provided, please specify the phase 2 project binary")
+			print("autogen.py ./build/RTOSDemo.axf")
+			exit()
+
 	linker_file = env["LD_OVERLAY"].replace("overlay","ld")
 	fix_mpu_reqs(env)
 	if 'LD_MOD_TIME' in env:
