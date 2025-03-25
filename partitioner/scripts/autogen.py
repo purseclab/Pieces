@@ -57,6 +57,25 @@ def get_lma_vma_from_objdump(elf_file):  #ToDo: Move this to binutils
 
 	return sections
 
+def check_mpu_constraints(size, address):
+	flag = True
+	if size != 0:
+		# Ensure size is a power of 2 and at least 32 bytes (Constraint 1 and 2)
+		if size < 32 or not isPowerOfTwo(size):
+			flag = False
+
+		# Ensure base address is a multiple of the new size (Constraint 3)
+		if address % size != 0:
+			flag = False
+	
+	if flag:
+		print(f"size: {size}, addr: {address} follow MPU constraints")
+	else:
+		print(f"size: {size}, addr: {address} do not follow MPU constraints")
+
+	return flag
+
+
 def find_sizeinfo_file():
 	return [str(file) for file in Path(".").rglob("sizeinfo")]
 
@@ -212,7 +231,6 @@ def adjust_sections(linker_script, section_info, project_binary_path):
 			index += 1
 			continue
 		
-		
 		# Phase 2: This means that we are inside data section in SECTIONS
 		if  "osection" in line and ":" in line: #ToDo: Use Regex
 			# Handle MPU address constraints logic
@@ -229,10 +247,14 @@ def adjust_sections(linker_script, section_info, project_binary_path):
 				flash_location_counter = int(lma_vma_addr_secs['.data']['LMA'], 16) + section_info['.data']['size']
 				ram_location_counter = int(lma_vma_addr_secs['.data']['VMA'], 16) + section_info['.data']['size']
 				lma = flash_location_counter
-
-			if "{" in lines[index+1] :
-				index = index+1
-				new_file_lines.append(lines[index])
+				if (DEBUG_FLAG):
+					print(f"flash_location_counter: {flash_location_counter}")
+					lma_osection0data = int(lma_vma_addr_secs['.osection0data']['LMA'], 16)
+					print(f"lma_osection0data:{lma_osection0data}")
+					lma_osection0 = int(lma_vma_addr_secs['.osection0']['LMA'], 16)
+					print(f"lma_osection0:{lma_osection0}")
+					lma_csection0 = int(lma_vma_addr_secs['.csection0']['LMA'], 16)
+					print(f"lma_csection0data:{lma_csection0}")
 
             # This is where we should handle our location counter logic
 			osection = re.search(r"\.osection\d+", extracted_section_text).group()
@@ -244,39 +266,54 @@ def adjust_sections(linker_script, section_info, project_binary_path):
 
 			if vma < oprev_vma_end_addr:
 				vma = oprev_vma_end_addr
+			lma=lma+size
 
 			fixed_size, fixed_vma, fixed_lma = fixLMAAndVMA(size, vma, lma)
+			if (DEBUG_FLAG):
+				print(f"extracted_section_text: {extracted_section_text}, osection: {osection}")
+				print(f"size, vma, lma {size}, {vma}, {lma}")
+				print(f"fixed_size, fixed_vma, fixed_lma {fixed_size}, {fixed_vma}, {fixed_lma}")
 
-			ram_padding = fixed_vma - vma
-			flash_location_counter=flash_location_counter+fixed_size+ram_padding
-        
-			start_location_counter = "\t\t. = " + str(fixed_vma) + " ;\n"
-			new_file_lines.append(start_location_counter)
+			ram_padding = fixed_vma - vma + fixed_size - size
+			flash_location_counter=flash_location_counter+size#+ram_padding
 
-			while("}" not in lines[index]):
-				index = index +1
-				new_file_lines.append(lines[index])
-			
+			osectionNdata = f"\t {extracted_section_text} ({fixed_vma}) : AT (COMPARTMENT_DATA_START + COMPARTMENT_DATA_COUNTER)\n"
+			new_file_lines[-1] = osectionNdata
+
 			index = index+1
 			new_file_lines.append(lines[index])
 
+			while(":" not in lines[index]): #ToDo: Use Regex
+				index = index +1
+				new_file_lines.append(lines[index])
+
+			osectionN = f"\t{osection} : AT ({fixed_vma} + SIZEOF({extracted_section_text}))"
+			new_file_lines[-1] = osectionN
+
 			while("}" not in lines[index]):
 				index = index +1
 				new_file_lines.append(lines[index])
 			
-			vma_end_addr = fixed_vma + size
+			vma_end_addr = fixed_vma + fixed_size
+			if (DEBUG_FLAG):
+				print(f"vma_end_addr, fixed_vma, size: {vma_end_addr}, {fixed_vma}, {fixed_size}")
 			end_location_counter = "\t\t. = " + str(vma_end_addr) + " ;\n"
 			new_file_lines.insert(len(new_file_lines) - 2, end_location_counter)
 			oprev_vma_end_addr = vma_end_addr
             
 			code_sections_start = flash_location_counter
+			if (DEBUG_FLAG):
+				print(f"flash_location_counter {flash_location_counter}")
+				print(f"osection: {osection} vma_end_addr {vma_end_addr}")
+				print(f"lma: {lma}, size: {size}, total: {lma+size}")
 
 		# Phase 3: This means that we are inside code section in SECTIONS
 		if  "csection" in line and "CODE_SECTIONS_START" in line and ":" in line:  #ToDo: Use Regex 
 
-			
 			location_counter_base=code_sections_start+compartment_code_counter
 			location_counter = location_counter_base
+			if (DEBUG_FLAG):
+				print(f"location_counter: {location_counter}")
 
 			# Check it it is the first section
 			# Handle MPU address constraints logic
@@ -287,9 +324,15 @@ def adjust_sections(linker_script, section_info, project_binary_path):
 			clma = location_counter
 			cvma = location_counter
 
-			fixed_csize, fixed_cvma, fixed_clma = fixLMAAndVMA(size, vma, lma)
+			fixed_csize, fixed_cvma, fixed_clma = fixLMAAndVMA(size, cvma, clma)
+			if (DEBUG_FLAG):
+				print(f"section {first_item_line}")
+				print(f"size, cvma, clma: {size}, {cvma}, {clma}")
+				print(f"fixed_csize, fixed_cvma, fixed_clma: {fixed_csize}, {fixed_cvma}, {fixed_clma}")
+				el_addr = int(lma_vma_addr_secs['.osection2data']['LMA'], 16) + section_info['.osection2data']['size']
+				print(f"lma from bin: {el_addr}")
 
-			offset = fixed_clma-lma
+			offset = fixed_clma-clma
 			line = first_item_line + f" (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} ) : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} )\n"
 			
 			new_file_lines[-1] = line
@@ -339,8 +382,12 @@ if phase ==0:
 if phase ==1:
 	run_setupld(env, 20)
 
+	if 'LD_MOD_TIME' in env:
+		buildutils.remove_key_from_pickle('LD_MOD_TIME')
+
 if phase ==2:
 	run_setupld(env, get_num_compartments())
+	print("Heap config is updated after this step. Rebuild the bitcode and run the analysis again.")
 
 if phase ==3:
 	if "PHASE2_BINARY" not in env:
@@ -356,7 +403,6 @@ if phase ==3:
 			exit()
 
 	linker_file = env["LD_OVERLAY"].replace("overlay","ld")
-	fix_mpu_reqs(env)
 	if 'LD_MOD_TIME' in env:
 		current_mod_time = os.path.getmtime(linker_file)
 		if env["LD_MOD_TIME"] == current_mod_time:
