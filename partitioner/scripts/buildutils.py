@@ -19,3 +19,14 @@ def get_val(env, key):
 def save_project_meta(env):
 	with open(env_file, "wb") as pickle_file:
 		pickle.dump(env, pickle_file)
+
+def remove_key_from_pickle(key):
+    env = load_project_meta()  # Load current data
+
+    if key in env:
+        del env[key]  # Remove the key
+        with open(env_file, "wb") as pickle_file:
+            pickle.dump(env, pickle_file)  # Save updated dictionary
+        print(f"Key '{key}' removed successfully!")
+    else:
+        print(f"Key '{key}' not found.")
