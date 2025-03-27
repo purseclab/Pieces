@@ -7,7 +7,7 @@ import re
 import math
 from pathlib import Path
 
-DEBUG_FLAG = False
+DEBUG_FLAG = True
 NUM_DEFAULT_COMPARMENTS = 20
 
 def get_lma_vma_from_objdump(elf_file):  #ToDo: Move this to binutils
@@ -208,6 +208,7 @@ def adjust_sections(linker_script, section_info, project_binary_path):
 
 	code_sections_start = 0
 	compartment_code_counter = 0 
+	compartment_code_offset = 0
 	cprev_sec_end_addr = 0
 	oprev_vma_end_addr = 0
 	new_file_lines = []
@@ -333,11 +334,12 @@ def adjust_sections(linker_script, section_info, project_binary_path):
 				print(f"lma from bin: {el_addr}")
 
 			offset = fixed_clma-clma
-			line = first_item_line + f" (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} ) : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} )\n"
+			compartment_code_offset = compartment_code_offset + offset
+			line = first_item_line + f" (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(compartment_code_offset)} ) : AT(CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(compartment_code_offset)} )\n"
 			
 			new_file_lines[-1] = line
 
-			end_location_counter = f"\t\t . =  (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(offset)} ) + {hex(fixed_csize)};\n"
+			end_location_counter = f"\t\t . =  (CODE_SECTIONS_START + COMPARTMENT_CODE_COUNTER + {hex(compartment_code_offset)} ) + {hex(fixed_csize)};\n"
 
 			while("}" not in lines[index]):
 				index = index +1
@@ -390,6 +392,7 @@ if phase ==2:
 	print("Heap config is updated after this step. Rebuild the bitcode and run the analysis again.")
 
 if phase ==3:
+	
 	if "PHASE2_BINARY" not in env:
 		if len(sys.argv) > 1:
 			print("Command-line arguments provided:", sys.argv[1:])
