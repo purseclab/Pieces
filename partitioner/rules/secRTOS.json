@@ -4,12 +4,30 @@
 			"symex_bc": "/home/arslan/projects/SecRTOS/workdir/FreeRTOS/FreeRTOS/Demo/CORTEX_MPU_M3_MPS2_QEMU_CLANG/build/RTOSDemo.axf.bc",
 			"background_policy" : "freertos_mpu",
 			"os": "freertos",
-			"platform": "ARM",
-			"svd": "MPS2.svd",
+			"platform": "Nordic",
+			"svd": "nrf52.svd",
 			"relaxed_pins": "True",
 			"frontend_flags": "-c",
 			"project_root": "/home/arslan/projects/SecRTOS/workdir/FreeRTOS/",
 			"cliques": {
+					"LwIP" :{
+					  "name": "Mbed Misc",
+                      "policy": "priv",
+                      "dir": "mbed-os/",
+					  "isolation": "monitor",
+					  "pins" : {
+
+					  }
+                    },
+					"Libc" :{
+					  "name": "Mbed Misc",
+                      "policy": "priv",
+                      "dir": "gcc-arm-none-eabi-10.3-2021.10/",
+					  "isolation": "monitor",
+					  "pins" : {
+
+					  }
+                    }
 			}
 	}
 }

@@ -6,7 +6,7 @@ import ec_loader
 import click
 import utils
 import sys
-from cpp_demangle import demangle
+#from cpp_demangle import demangle
 from utils import debug, print_help_msg
 from dotenv import load_dotenv
 from llvm import Compiler
@@ -35,8 +35,8 @@ symex = symex.SymEx()
 symex.threshold = 10
 symex.void_inline = False
 
-# fun = "_ZN6AC_PID8update_iEfb"
-fun = sys.argv[2]
+fun = "_ZN6AC_PID8update_iEfb"
+#fun = sys.argv[2]
 
 # fun = "_ZN6AC_PID10update_allEfffbf"
 summaries = symex.generate_summary(firmware, fun)

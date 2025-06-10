@@ -10,6 +10,7 @@ class Firmware:
 		if llvm_data_dir is None:
 			llvm_data_dir = os.environ["P_OUT_DIR"]
 		self.config = config
+		self.priv = self.create_compartment()
 		self.bitcode = config["bc"]
 		self.symex_bc = config["symex_bc"]
 		self.platform = config["platform"]
@@ -353,6 +354,8 @@ class Firmware:
 
 	def write_partitions(self):
 		with open(os.environ["P_OUT_DIR"] + ".policy", 'w') as f:
+			if len(self.priv) == 0:
+				f.write("[]" + "\n")
 			for compartment in self.compartments:
 				f.write(str(compartment) + "\n")
 

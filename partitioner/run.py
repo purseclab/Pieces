@@ -1,5 +1,4 @@
-#!/usr/bin/python3
-import frontend
+#import frontend
 import shutil
 import ec_loader
 import click
@@ -27,7 +26,8 @@ debug("Loading input firmware.")
 compiler = Compiler()
 compiler.analyze(input["firmware"])
 firmware = ec_loader.Firmware(input["firmware"])
-
+#from IPython import embed; embed()
+print(firmware.threads)
 firmware.generate_cliques(input["firmware"])
 firmware.merge_shared_compartments()
 firmware.generate_dev_info()
